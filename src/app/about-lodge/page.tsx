@@ -5,7 +5,7 @@ import { siteConfig } from '@/config/site'
 export const metadata: Metadata = {
   title: 'About Walled Lake Lodge #528',
   description:
-    'Learn about Walled Lake Lodge #528 F&AM — our history, traditions, and community in Oakland County, Michigan since 1949.',
+    'Learn about Walled Lake Lodge #528 F&AM — our history, traditions, and community in Oakland County, Michigan since 1924.',
 }
 
 const OFFICERS = [
@@ -28,7 +28,7 @@ export default function AboutLodgePage() {
         </h1>
         <p className="text-xl text-stone-600 leading-relaxed max-w-2xl">
           Chartered under the Grand Lodge of Michigan, Free and Accepted Masons,
-          Walled Lake Lodge #528 has served Oakland County since 1949.
+          Walled Lake Lodge #528 has served Oakland County since 1924.
         </p>
       </header>
 
@@ -39,13 +39,18 @@ export default function AboutLodgePage() {
         </h2>
         <div className="prose-mason">
           <p>
-            Walled Lake Lodge #528 was established in 1949 under the jurisdiction of the
+            Walled Lake Lodge #528 was established in 1924 under the jurisdiction of the
             Grand Lodge of Michigan, F&amp;AM. The lodge has grown alongside the communities
             it serves — welcoming men from Walled Lake, Commerce Township, Novi, Milford,
             and the broader Oakland and Livingston County area.
           </p>
           <p>
-            Over more than seventy-five years, the lodge has conferred hundreds of degrees,
+            In 2024, the lodge proudly marked its 100-year anniversary — a century of
+            Brotherly Love, Relief, and Truth in service to Oakland County and the
+            surrounding communities.
+          </p>
+          <p>
+            Over more than one hundred years, the lodge has conferred hundreds of degrees,
             supported local families in need, contributed to community organizations, and
             maintained a place for men of good character to gather in fellowship.
           </p>
@@ -65,9 +70,9 @@ export default function AboutLodgePage() {
           <div>
             <h3 className="font-semibold text-navy-700 mb-2">Regular Stated Meetings</h3>
             <p className="text-stone-600 text-sm leading-relaxed">
-              The lodge meets regularly throughout the year. Dates and times are
-              available to members through the member portal. Visitors are welcome
-              with proper Masonic credentials.
+              The lodge holds its stated meeting on the <strong>first Wednesday of each
+              month</strong>. The lodge goes dark in <strong>July and August</strong>.
+              Masonic visitors are always welcome with proper credentials.
             </p>
           </div>
           <div>

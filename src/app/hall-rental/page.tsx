@@ -41,9 +41,7 @@ export default async function HallRentalPage() {
     'Fully equipped kitchen',
     'Tables and chairs included',
     'Ample parking',
-    'Accessible entrances',
     'Air conditioning and heat',
-    'Audio/visual equipment available',
     'Outdoor space available',
   ]
 

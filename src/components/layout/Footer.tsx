@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { siteConfig } from '@/config/site'
 
 const QUICK_LINKS = [
@@ -31,20 +32,15 @@ export function Footer() {
 
           {/* ── Identity ─────────────────────────────────────────────────── */}
           <div>
-            {/* Logo mark */}
+            {/* Logo */}
             <Link href="/" className="flex items-center gap-3 mb-5 group w-fit">
-              <div
-                className="w-10 h-10 rounded-full flex items-center justify-center shrink-0
-                           bg-gradient-to-br from-gold-400 to-gold-600 shadow-sm"
-                aria-hidden="true"
-              >
-                <svg viewBox="0 0 40 40" className="w-6 h-6 text-navy-950" fill="currentColor">
-                  <path d="M20 4 L32 30 H8 Z" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round"/>
-                  <circle cx="20" cy="20" r="2.5"/>
-                  <path d="M14 28 Q20 18 26 28" fill="none" stroke="currentColor" strokeWidth="2"/>
-                  <text x="20" y="23" textAnchor="middle" fontSize="7" fontFamily="Georgia,serif" fontWeight="bold" fill="currentColor">G</text>
-                </svg>
-              </div>
+              <Image
+                src="/mason-logo.gif"
+                alt="Walled Lake Lodge #528 seal"
+                width={48}
+                height={48}
+                className="shrink-0 object-contain"
+              />
               <div className="leading-tight">
                 <div className="font-serif font-bold text-white text-base group-hover:text-gold-300 transition-colors">
                   Walled Lake Lodge #528
@@ -64,6 +60,13 @@ export function Footer() {
                 {siteConfig.phone}
               </a>
             )}
+
+            <a
+              href={`mailto:${siteConfig.email}`}
+              className="block mt-1 text-sm text-stone-500 hover:text-gold-400 transition-colors"
+            >
+              {siteConfig.email}
+            </a>
 
             <p className="mt-5 font-serif italic text-gold-500/70 text-sm leading-relaxed">
               &ldquo;To be one, ask one.&rdquo;
@@ -149,7 +152,7 @@ export function Footer() {
             &copy; {year} {siteConfig.name}. All rights reserved.
           </p>
           <p className="text-xs text-stone-700 italic">
-            Established {siteConfig.established} &middot; Oakland County, Michigan
+            Established {siteConfig.established} &middot; Celebrating 100 years &middot; Oakland County, Michigan
           </p>
         </div>
       </div>

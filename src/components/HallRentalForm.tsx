@@ -114,7 +114,10 @@ export function HallRentalForm() {
 
       {status === 'error' && (
         <p className="text-red-600 text-sm">
-          Something went wrong. Please try again or contact us directly.
+          Unable to submit. Please email us directly at{' '}
+          <a href="mailto:TEMPLEBOARD528@gmail.com" className="underline font-medium">
+            TEMPLEBOARD528@gmail.com
+          </a>.
         </p>
       )}
 

@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
   // Best-effort email notification (SMTP may not be configured)
   try {
     await sendEmail({
-      to: process.env.ADMIN_EMAIL ?? '',
+      to: process.env.ADMIN_EMAIL ?? 'TEMPLEBOARD528@gmail.com',
       subject: `Contact Form: ${subject}`,
       html: `
         <h2>Contact Form Submission</h2>

@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
   // Send email notification
   try {
     await sendEmail({
-      to: process.env.HALL_RENTAL_EMAIL ?? process.env.ADMIN_EMAIL ?? '',
+      to: process.env.HALL_RENTAL_EMAIL ?? process.env.ADMIN_EMAIL ?? 'TEMPLEBOARD528@gmail.com',
       subject: `Hall Rental Inquiry from ${data.name}`,
       html: hallRentalEmailHtml({
         ...data,

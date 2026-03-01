@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
 import { ContactForm } from '@/components/ContactForm'
+import { siteConfig } from '@/config/site'
 
 export const metadata: Metadata = {
   title: 'Contact Us',
   description:
-    'Contact Walled Lake Lodge #528 F&AM with questions about Freemasonry, events, or hall rental. We\'re happy to respond.',
+    "Contact Walled Lake Lodge #528 F&AM with questions about Freemasonry, events, or hall rental. We're happy to respond.",
 }
 
 export default function ContactPage() {
@@ -33,9 +34,19 @@ export default function ContactPage() {
             <h2 className="font-semibold text-navy-800 mb-2">Lodge Address</h2>
             <address className="text-stone-600 text-sm not-italic leading-relaxed">
               Walled Lake Lodge #528 F&amp;AM<br />
-              1499 N Pontiac Trail<br />
-              Walled Lake, MI 48390
+              {siteConfig.address.street}<br />
+              {siteConfig.address.city}, {siteConfig.address.state} {siteConfig.address.zip}
             </address>
+          </div>
+
+          <div>
+            <h2 className="font-semibold text-navy-800 mb-2">Email</h2>
+            <a
+              href={`mailto:${siteConfig.email}`}
+              className="text-navy-700 text-sm hover:text-navy-900 underline"
+            >
+              {siteConfig.email}
+            </a>
           </div>
 
           <div>

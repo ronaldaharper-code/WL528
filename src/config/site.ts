@@ -8,7 +8,7 @@ export const siteConfig = {
   shortName: 'Lodge #528',
   tagline: 'Brotherly Love, Relief, and Truth',
   description:
-    'Walled Lake Lodge #528 Free and Accepted Masons — serving Oakland County, Michigan since 1949.',
+    'Walled Lake Lodge #528 Free and Accepted Masons — serving Oakland County, Michigan since 1924.',
   url:
     process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.walledlakemasons.com',
 
@@ -31,9 +31,9 @@ export const siteConfig = {
 
   // ── Contact ──────────────────────────────────────────────────────────────
   phone: '',   // TODO: Confirm lodge phone number
-  email: 'secretary@walledlakemasons.com',
-  hallRentalEmail: process.env.HALL_RENTAL_EMAIL ?? 'rental@walledlakemasons.com',
-  adminEmail: process.env.ADMIN_EMAIL ?? 'secretary@walledlakemasons.com',
+  email: 'TEMPLEBOARD528@gmail.com',
+  hallRentalEmail: process.env.HALL_RENTAL_EMAIL ?? 'TEMPLEBOARD528@gmail.com',
+  adminEmail: process.env.ADMIN_EMAIL ?? 'TEMPLEBOARD528@gmail.com',
 
   // ── Social ───────────────────────────────────────────────────────────────
   social: {
@@ -46,7 +46,7 @@ export const siteConfig = {
   grandLodgeUrl: 'https://michiganmasons.org/',
 
   // ── Lodge Details ────────────────────────────────────────────────────────
-  established: 1949,
+  established: 1924,
   lodgeNumber: 528,
   jurisdiction: 'Grand Lodge of Michigan, F&AM',
 

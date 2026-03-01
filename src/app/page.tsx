@@ -160,7 +160,7 @@ export default async function HomePage() {
               </h2>
               <p className="lead mb-5">
                 Walled Lake Lodge #528 was chartered under the Grand Lodge of Michigan,
-                Free and Accepted Masons, and has served Oakland County since 1949.
+                Free and Accepted Masons, and has served Oakland County since 1924.
               </p>
               <p className="text-stone-600 leading-relaxed mb-4">
                 We meet regularly throughout the year to conduct lodge business, confer
