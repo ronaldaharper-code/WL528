@@ -10,50 +10,55 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Brand palette — warm, civic, dignified
+        // Deep navy — authoritative civic institution tone
         navy: {
-          50: '#f0f4f9',
-          100: '#d9e4f0',
-          200: '#b3c9e1',
-          300: '#8daed2',
-          400: '#6793c3',
-          500: '#4178b4',
-          600: '#2d5a8e',
-          700: '#1e3d61',
-          800: '#14293f',
-          900: '#0a1520',
-          950: '#050b10',
+          50:  '#f0f3f9',
+          100: '#dce4f2',
+          200: '#b9c9e6',
+          300: '#8ea9d5',
+          400: '#6285c0',
+          500: '#4267ac',
+          600: '#324e91',
+          700: '#243972',
+          800: '#182853',
+          900: '#0f1a36',
+          950: '#080e1e',
         },
+        // Warm gold — tradition, dignity
         gold: {
-          50: '#fdf9ed',
-          100: '#faf0cc',
-          200: '#f5e099',
-          300: '#efcf66',
-          400: '#e9be33',
-          500: '#c9a227',
-          600: '#a07e1a',
-          700: '#785d12',
-          800: '#503d0c',
-          900: '#281e06',
+          50:  '#fdf8ed',
+          100: '#f9efd0',
+          200: '#f2d99e',
+          300: '#e8be65',
+          400: '#dc9f33',
+          500: '#c9891f',
+          600: '#a86d17',
+          700: '#885415',
+          800: '#6d4015',
+          900: '#593414',
         },
+        // Warm stone neutrals
         stone: {
-          50: '#fafaf9',
-          100: '#f5f5f4',
-          200: '#e7e5e4',
-          300: '#d6d3d1',
-          400: '#a8a29e',
-          500: '#78716c',
-          600: '#57534e',
-          700: '#44403c',
-          800: '#292524',
-          900: '#1c1917',
-          950: '#0c0a09',
+          50:  '#fafaf9',
+          100: '#f5f5f3',
+          200: '#e8e6e3',
+          300: '#d4d0cb',
+          400: '#a8a19a',
+          500: '#797169',
+          600: '#5a5249',
+          700: '#443d37',
+          800: '#2d2824',
+          900: '#1c1916',
+          950: '#0d0b09',
         },
+        // Warm cream backgrounds
+        cream: '#fdf9f2',
       },
+
       fontFamily: {
-        serif: ['Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
         sans: [
           'Inter',
+          'ui-sans-serif',
           'system-ui',
           '-apple-system',
           'BlinkMacSystemFont',
@@ -61,12 +66,39 @@ const config: Config = {
           'Roboto',
           'sans-serif',
         ],
+        serif: [
+          'Georgia',
+          'Cambria',
+          '"Times New Roman"',
+          'Times',
+          'serif',
+        ],
       },
+
+      spacing: {
+        '18': '4.5rem',
+        '22': '5.5rem',
+      },
+
+      borderRadius: {
+        '2xl': '1rem',
+        '3xl': '1.5rem',
+      },
+
+      boxShadow: {
+        'card':    '0 1px 3px 0 rgb(0 0 0 / 0.07), 0 1px 2px -1px rgb(0 0 0 / 0.05)',
+        'card-md': '0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05)',
+        'card-lg': '0 10px 20px -4px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04)',
+        'card-hover': '0 16px 32px -8px rgb(0 0 0 / 0.12), 0 6px 12px -4px rgb(0 0 0 / 0.06)',
+        'inner-sm': 'inset 0 1px 2px 0 rgb(0 0 0 / 0.05)',
+        'gold-glow': '0 0 0 3px rgb(201 137 31 / 0.20)',
+      },
+
       typography: {
         DEFAULT: {
           css: {
-            color: '#292524',
-            a: { color: '#2d5a8e', textDecoration: 'underline' },
+            color: '#2d2824',
+            a: { color: '#243972', textDecoration: 'underline' },
           },
         },
       },

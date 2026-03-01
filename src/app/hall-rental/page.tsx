@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { sanityClient, QUERIES, urlFor } from '@/lib/sanity'
 import { HallRentalForm } from '@/components/HallRentalForm'
 import { PortableText } from '@portabletext/react'
+import { siteConfig } from '@/config/site'
 
 export const metadata: Metadata = {
   title: 'Hall Rental',
@@ -15,11 +16,11 @@ const hallSchema = {
   name: 'Walled Lake Lodge #528 Hall',
   address: {
     '@type': 'PostalAddress',
-    streetAddress: '1499 N Pontiac Trail',
-    addressLocality: 'Walled Lake',
-    addressRegion: 'MI',
-    postalCode: '48390',
-    addressCountry: 'US',
+    streetAddress: siteConfig.address.street,
+    addressLocality: siteConfig.address.city,
+    addressRegion: siteConfig.address.state,
+    postalCode: siteConfig.address.zip,
+    addressCountry: siteConfig.address.country,
   },
   maximumAttendeeCapacity: 125,
 }
@@ -139,7 +140,7 @@ export default async function HallRentalPage() {
               <div className="rounded-lg overflow-hidden border border-stone-200 aspect-video">
                 <iframe
                   title="Walled Lake Lodge #528 map"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2941.3!2d-83.48!3d42.54!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sWalled+Lake+Lodge+%23528!5e0!3m2!1sen!2sus!4v1"
+                  src={siteConfig.mapEmbedUrl}
                   className="w-full h-full border-0"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
@@ -147,7 +148,7 @@ export default async function HallRentalPage() {
                 />
               </div>
               <address className="mt-3 text-stone-600 text-sm not-italic">
-                1499 N Pontiac Trail, Walled Lake, MI 48390
+                {siteConfig.address.full}
               </address>
             </section>
           </div>

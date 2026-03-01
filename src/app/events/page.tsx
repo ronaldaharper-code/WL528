@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { sanityClient, QUERIES } from '@/lib/sanity'
-import { EventCard } from '@/components/events/EventCard'
+import { siteConfig } from '@/config/site'
+import { EventsViewToggle } from '@/components/events/EventsViewToggle'
 
 export const metadata: Metadata = {
   title: 'Upcoming Events',
@@ -21,14 +22,14 @@ const eventSchema = (events: any[]) => ({
       endDate: e.endAt,
       location: {
         '@type': 'Place',
-        name: e.location ?? 'Walled Lake Lodge #528',
-        address: e.address ?? '1499 N Pontiac Trail, Walled Lake, MI 48390',
+        name: e.location ?? siteConfig.name,
+        address: e.address ?? siteConfig.address.full,
       },
       description: e.seoDescription,
       organizer: {
         '@type': 'Organization',
-        name: 'Walled Lake Lodge #528 F&AM',
-        url: 'https://www.walledlakemasons.com',
+        name: siteConfig.name,
+        url: siteConfig.url,
       },
     },
   })),
@@ -54,32 +55,36 @@ export default async function EventsPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <header className="mb-10">
-          <p className="text-gold-600 text-sm font-semibold tracking-widest uppercase mb-3">
-            Community Calendar
-          </p>
-          <h1 className="font-serif text-4xl font-bold text-navy-900 mb-4">Upcoming Events</h1>
-          <p className="text-xl text-stone-600 max-w-2xl">
+          <p className="eyebrow mb-3">Community Calendar</p>
+          <h1 className="heading-lg mb-4">Upcoming Events</h1>
+          <p className="lead max-w-2xl">
             Public events open to the community hosted at or by Walled Lake Lodge #528.
           </p>
           <p className="mt-2 text-stone-500 text-sm">
-            Lodge members: log in to view the full member calendar including stated meetings.
+            Lodge members:{' '}
+            <a href="/auth/signin" className="text-navy-700 underline">log in</a>{' '}
+            to view the full member calendar including stated meetings.
           </p>
         </header>
 
         {events.length === 0 ? (
-          <div className="text-center py-24 text-stone-400">
-            <p className="text-lg">No upcoming public events at this time.</p>
-            <p className="text-sm mt-2">Check back soon, or{' '}
+          <div className="text-center py-24">
+            <div className="w-16 h-16 rounded-full bg-stone-100 flex items-center justify-center mx-auto mb-5">
+              <svg className="w-8 h-8 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+              </svg>
+            </div>
+            <p className="font-serif text-lg font-semibold text-navy-800 mb-2">
+              No upcoming public events
+            </p>
+            <p className="text-stone-500 text-sm">
+              Check back soon, or{' '}
               <a href="/contact" className="text-navy-700 underline">contact the lodge</a>{' '}
               for meeting information.
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {events.map((event: any) => (
-              <EventCard key={event._id} event={event} />
-            ))}
-          </div>
+          <EventsViewToggle events={events} />
         )}
       </div>
     </>

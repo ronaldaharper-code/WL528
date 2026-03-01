@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { siteConfig } from '@/config/site'
 
 export const metadata: Metadata = {
   title: 'About Walled Lake Lodge #528',
@@ -73,8 +74,8 @@ export default function AboutLodgePage() {
             <h3 className="font-semibold text-navy-700 mb-2">Location</h3>
             <address className="text-stone-600 text-sm not-italic leading-relaxed">
               Walled Lake Lodge #528<br />
-              1499 N Pontiac Trail<br />
-              Walled Lake, MI 48390
+              {siteConfig.address.street}<br />
+              {siteConfig.address.city}, {siteConfig.address.state} {siteConfig.address.zip}
             </address>
           </div>
         </div>
