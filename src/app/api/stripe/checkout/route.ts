@@ -14,13 +14,23 @@ const schema = z.object({
 
 export async function POST(req: NextRequest) {
   const ip = req.headers.get('x-forwarded-for') ?? 'unknown'
+
   if (!rateLimit({ key: `stripe:${ip}`, limit: 10, windowMs: 60_000 })) {
     return NextResponse.json({ error: 'Too many requests' }, { status: 429 })
+  }
+
+  // If Stripe is not configured, fail gracefully
+  if (!stripe) {
+    return NextResponse.json(
+      { error: 'Donations are not enabled yet.' },
+      { status: 501 }
+    )
   }
 
   const session = await auth()
   const body = await req.json().catch(() => null)
   const parsed = schema.safeParse(body)
+
   if (!parsed.success) {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
   }
@@ -36,7 +46,9 @@ export async function POST(req: NextRequest) {
           currency: 'usd',
           product_data: {
             name: 'Donation — Walled Lake Lodge #528 F&AM',
-            description: message || 'Supporting lodge operations and community charitable work.',
+            description:
+              message ||
+              'Supporting lodge operations and community charitable work.',
           },
           unit_amount: amount,
         },
@@ -53,12 +65,11 @@ export async function POST(req: NextRequest) {
     },
   })
 
-  // Create pending donation record
   await prisma.donation.create({
     data: {
       stripeSessionId: checkoutSession.id,
       amount,
-      donorName: donorName,
+      donorName,
       donorEmail: donorEmail || undefined,
       message,
       userId: session?.user?.id,
