@@ -303,7 +303,7 @@ npm run db:generate   # Regenerate Prisma client
 
 This website educates. It does not recruit. No calls-to-action soliciting membership
 are permitted anywhere on this site.
-
+ 
 ---
 
 *Walled Lake Lodge #528 F&AM — Established 1949 — Oakland County, Michigan*
