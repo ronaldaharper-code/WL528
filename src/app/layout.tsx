@@ -6,48 +6,55 @@ import { Footer } from '@/components/layout/Footer'
 import { StagingBanner } from '@/components/ui/StagingBanner'
 import { Analytics } from '@/components/Analytics'
 import { SessionProvider } from '@/components/SessionProvider'
+import { siteConfig } from '@/config/site'
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.walledlakemasons.com'),
+  metadataBase: new URL(siteConfig.url),
   title: {
-    default: 'Walled Lake Lodge #528 F&AM — Freemasonry in Walled Lake, Michigan',
-    template: '%s | Walled Lake Lodge #528',
+    default: `${siteConfig.name} — Freemasonry in Walled Lake, Michigan`,
+    template: `%s | ${siteConfig.shortName}`,
   },
-  description:
-    'Walled Lake Lodge #528 Free and Accepted Masons — serving the Walled Lake community in Oakland County, Michigan since 1949.',
-  keywords: ['Freemasonry', 'Masons', 'Walled Lake', 'Michigan', 'Lodge 528', 'Masonic Lodge'],
+  description: siteConfig.description,
+  keywords: [
+    'Freemasonry', 'Masons', 'Walled Lake', 'Michigan',
+    'Lodge 528', 'Masonic Lodge', 'Oakland County', 'F&AM',
+  ],
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    siteName: 'Walled Lake Lodge #528 F&AM',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630 }],
+    siteName: siteConfig.name,
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: `${siteConfig.name} — Walled Lake, Michigan` }],
   },
+  twitter: { card: 'summary_large_image' },
   robots:
     process.env.STAGING === 'true'
       ? { index: false, follow: false }
       : { index: true, follow: true },
 }
 
+// Correct address: 374 W. Walled Lake Drive, Walled Lake, MI 48390
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'Walled Lake Lodge #528 F&AM',
-  url: 'https://www.walledlakemasons.com',
-  logo: 'https://www.walledlakemasons.com/logo.png',
+  name: siteConfig.name,
+  url: siteConfig.url,
+  logo: `${siteConfig.url}/logo.png`,
   address: {
     '@type': 'PostalAddress',
-    streetAddress: '1499 N Pontiac Trail',
-    addressLocality: 'Walled Lake',
-    addressRegion: 'MI',
-    postalCode: '48390',
-    addressCountry: 'US',
+    streetAddress: siteConfig.address.street,
+    addressLocality: siteConfig.address.city,
+    addressRegion: siteConfig.address.state,
+    postalCode: siteConfig.address.zip,
+    addressCountry: siteConfig.address.country,
   },
-  telephone: '',
-  sameAs: [
-    'https://www.facebook.com/walledlakemasons',
-  ],
+  ...(siteConfig.phone ? { telephone: siteConfig.phone } : {}),
+  sameAs: Object.values(siteConfig.social).filter(Boolean),
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

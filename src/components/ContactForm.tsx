@@ -80,7 +80,10 @@ export function ContactForm() {
       </div>
 
       {status === 'error' && (
-        <p className="form-error">Failed to send. Please try again or email us directly.</p>
+        <p className="form-error">
+          Unable to submit. Please email us directly at{' '}
+          <a href="mailto:TEMPLEBOARD528@gmail.com" className="underline">TEMPLEBOARD528@gmail.com</a>.
+        </p>
       )}
 
       <button type="submit" disabled={status === 'submitting'} className="btn-primary w-full">

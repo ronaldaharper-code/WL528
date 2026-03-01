@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
+import { prisma } from '@/lib/prisma'
 import { sendEmail } from '@/lib/email'
 import { rateLimit } from '@/lib/rate-limit'
 
@@ -25,9 +26,22 @@ export async function POST(req: NextRequest) {
 
   const { name, email, subject, message } = parsed.data
 
+  // Save to DB first — always, regardless of email availability
+  try {
+    await prisma.auditLog.create({
+      data: {
+        action: 'CONTACT_MESSAGE',
+        meta: { name, email, subject, message },
+      },
+    })
+  } catch (err) {
+    console.error('Failed to save contact message to DB:', err)
+  }
+
+  // Best-effort email notification (SMTP may not be configured)
   try {
     await sendEmail({
-      to: process.env.ADMIN_EMAIL ?? '',
+      to: process.env.ADMIN_EMAIL ?? 'TEMPLEBOARD528@gmail.com',
       subject: `Contact Form: ${subject}`,
       html: `
         <h2>Contact Form Submission</h2>
@@ -39,8 +53,8 @@ export async function POST(req: NextRequest) {
       replyTo: email,
     })
   } catch (err) {
-    console.error('Contact email error:', err)
-    return NextResponse.json({ error: 'Failed to send message' }, { status: 500 })
+    console.error('Contact email error (message saved to DB):', err)
+    // Do NOT fail the response — message is persisted in the audit log
   }
 
   return NextResponse.json({ success: true })

@@ -6,7 +6,7 @@ import { prisma } from './prisma'
 import { Role } from '@prisma/client'
 import { z } from 'zod'
 
-// Extend session type to include role and id
+// ── Type Augmentation ─────────────────────────────────────────────────────────
 declare module 'next-auth' {
   interface Session {
     user: {
@@ -18,14 +18,16 @@ declare module 'next-auth' {
   interface User {
     role: Role
     approved: boolean
+    pendingApproval?: boolean
   }
 }
 
 const loginSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(8),
+  password: z.string().min(1),
 })
 
+// ── Auth Configuration ────────────────────────────────────────────────────────
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: { strategy: 'jwt' },
@@ -37,25 +39,54 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     Credentials({
       name: 'credentials',
       credentials: {
-        email: { label: 'Email', type: 'email' },
+        email:    { label: 'Email',    type: 'email' },
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
+        // 1. Validate input shape
         const parsed = loginSchema.safeParse(credentials)
         if (!parsed.success) return null
 
         const { email, password } = parsed.data
 
-        const user = await prisma.user.findUnique({
-          where: { email },
-        })
+        // 2. Look up user — always select passwordHash explicitly
+        let user: {
+          id: string; email: string; name: string | null; image: string | null
+          passwordHash: string | null; role: Role; approved: boolean
+        } | null = null
 
+        try {
+          user = await prisma.user.findUnique({
+            where: { email: email.toLowerCase().trim() },
+            select: {
+              id: true, email: true, name: true, image: true,
+              passwordHash: true, role: true, approved: true,
+            },
+          })
+        } catch (dbErr) {
+          // DB unavailable — throw so NextAuth shows a server error, not credential error
+          console.error('[auth] DB lookup failed:', dbErr)
+          throw new Error('ServerError')
+        }
+
+        // 3. User not found — return null (no info leak about existence)
         if (!user || !user.passwordHash) return null
-        if (!user.approved) return null
 
-        const passwordValid = await bcrypt.compare(password, user.passwordHash)
+        // 4. Password check first (do this even for unapproved — timing consistency)
+        let passwordValid = false
+        try {
+          passwordValid = await bcrypt.compare(password, user.passwordHash)
+        } catch {
+          throw new Error('ServerError')
+        }
+
         if (!passwordValid) return null
 
+        // 5. Account pending approval — return null but encode state in token
+        //    The SignInForm calls /api/auth/check-account separately to surface this.
+        if (!user.approved) return null
+
+        // 6. All checks passed
         return {
           id: user.id,
           email: user.email,
@@ -70,16 +101,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id
-        token.role = user.role
+        token.id       = user.id
+        token.role     = user.role
         token.approved = user.approved
       }
       return token
     },
     async session({ session, token }) {
       if (token && session.user) {
-        session.user.id = token.id as string
-        session.user.role = token.role as Role
+        session.user.id       = token.id as string
+        session.user.role     = token.role as Role
         session.user.approved = token.approved as boolean
       }
       return session
@@ -87,15 +118,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
 })
 
-// Helper: get session and require member role
+// ── Route Helpers ─────────────────────────────────────────────────────────────
 export async function requireMember() {
   const session = await auth()
   if (!session?.user?.id) return null
-  if (!session.user.approved) return null
+  if (!session.user.approved)  return null
   return session
 }
 
-// Helper: get session and require admin role
 export async function requireAdmin() {
   const session = await auth()
   if (!session?.user?.id) return null
