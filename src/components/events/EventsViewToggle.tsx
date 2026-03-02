@@ -1,5 +1,7 @@
 'use client'
 
+import 'react-calendar/dist/Calendar.css'
+
 import { useState } from 'react'
 import { EventCard } from './EventCard'
 import { CalendarView } from './CalendarView'
@@ -31,6 +33,7 @@ export function EventsViewToggle({ events }: EventsViewToggleProps) {
           </svg>
           List
         </button>
+
         <button
           onClick={() => setView('calendar')}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-150 ${
@@ -48,7 +51,9 @@ export function EventsViewToggle({ events }: EventsViewToggleProps) {
       </div>
 
       {view === 'calendar' ? (
-        <CalendarView events={events} />
+        <div className="flex justify-center">
+          <CalendarView events={events} />
+        </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {events.map((event: any) => (
