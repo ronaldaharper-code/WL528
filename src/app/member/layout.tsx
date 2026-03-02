@@ -2,6 +2,8 @@ import { redirect } from 'next/navigation'
 import { requireMember } from '@/lib/auth'
 import { MemberNav } from '@/components/member/MemberNav'
 
+export const dynamic = 'force-dynamic'
+
 export default async function MemberLayout({ children }: { children: React.ReactNode }) {
   const session = await requireMember()
   if (!session) {

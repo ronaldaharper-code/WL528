@@ -4,6 +4,10 @@ import Link from 'next/link'
 import { sanityClient, QUERIES } from '@/lib/sanity'
 import { formatDateTime } from '@/lib/utils'
 import { PortableText } from '@portabletext/react'
+import { siteConfig } from '@/config/site'
+
+// Render at request time only — never prerender, requires Sanity credentials
+export const dynamic = 'force-dynamic'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -11,23 +15,31 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const event = await sanityClient.fetch(QUERIES.eventBySlug(slug))
-  if (!event) return { title: 'Event Not Found' }
-
-  return {
-    title: event.title,
-    description: event.seoDescription ?? `${event.title} — Walled Lake Lodge #528`,
-    openGraph: {
+  try {
+    const event = await sanityClient.fetch(QUERIES.eventBySlug(slug))
+    if (!event) return { title: 'Event Not Found' }
+    return {
       title: event.title,
-      description: event.seoDescription,
-      images: event.imageUrl ? [{ url: event.imageUrl }] : [],
-    },
+      description: event.seoDescription ?? `${event.title} — ${siteConfig.name}`,
+      openGraph: {
+        title: event.title,
+        description: event.seoDescription,
+        images: event.imageUrl ? [{ url: event.imageUrl }] : [],
+      },
+    }
+  } catch {
+    return { title: 'Event' }
   }
 }
 
 export default async function EventDetailPage({ params }: Props) {
   const { slug } = await params
-  const event = await sanityClient.fetch(QUERIES.eventBySlug(slug))
+  let event: any
+  try {
+    event = await sanityClient.fetch(QUERIES.eventBySlug(slug))
+  } catch {
+    notFound()
+  }
   if (!event) notFound()
 
   const eventSchema = {
@@ -38,14 +50,14 @@ export default async function EventDetailPage({ params }: Props) {
     endDate: event.endAt,
     location: {
       '@type': 'Place',
-      name: event.location ?? 'Walled Lake Lodge #528',
-      address: event.address ?? '1499 N Pontiac Trail, Walled Lake, MI 48390',
+      name: event.location ?? siteConfig.name,
+      address: event.address ?? siteConfig.address.full,
     },
     description: event.seoDescription,
     organizer: {
       '@type': 'Organization',
-      name: 'Walled Lake Lodge #528 F&AM',
-      url: 'https://www.walledlakemasons.com',
+      name: siteConfig.name,
+      url: siteConfig.url,
     },
   }
 
@@ -66,7 +78,7 @@ export default async function EventDetailPage({ params }: Props) {
         </nav>
 
         {event.imageUrl && (
-          <div className="rounded-lg overflow-hidden mb-8 aspect-video">
+          <div className="rounded-2xl overflow-hidden mb-8 aspect-video">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={event.imageUrl}
@@ -110,7 +122,6 @@ export default async function EventDetailPage({ params }: Props) {
           </div>
         )}
 
-        {/* ICS download */}
         <div className="flex flex-wrap gap-4 pt-6 border-t border-stone-200">
           <a
             href={`/api/events/${event._id}/ics`}
