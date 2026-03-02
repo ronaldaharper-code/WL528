@@ -97,4 +97,26 @@ export const QUERIES = {
     "imageUrl": image.asset->url,
     "imageAlt": image.alt
   }`,
+
+  announcements: `*[
+    _type == "announcement"
+  ] | order(pinned desc, publishedAt desc) [0...20] {
+    _id,
+    title,
+    slug,
+    pinned,
+    publishedAt,
+    excerpt
+  }`,
+
+  documents: `*[
+    _type == "document"
+  ] | order(publishedAt desc) {
+    _id,
+    title,
+    description,
+    publishedAt,
+    category,
+    "fileUrl": file.asset->url
+  }`,
 } as const

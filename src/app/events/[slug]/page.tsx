@@ -1,12 +1,11 @@
-export const dynamic = 'force-dynamic'
-
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import Link from 'next/link'
 import { sanityClient, QUERIES } from '@/lib/sanity'
 import { formatDateTime } from '@/lib/utils'
 import { PortableText } from '@portabletext/react'
 import { siteConfig } from '@/config/site'
 
-// Render at request time only — never prerender, requires Sanity credentials
 export const dynamic = 'force-dynamic'
 
 interface Props {
@@ -16,7 +15,7 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   try {
-    const event = await sanityClient.fetch(QUERIES.eventBySlug(slug))
+    const event = await sanityClient.fetch(QUERIES.eventBySlug, { slug })
     if (!event) return { title: 'Event Not Found' }
     return {
       title: event.title,
@@ -36,7 +35,7 @@ export default async function EventDetailPage({ params }: Props) {
   const { slug } = await params
   let event: any
   try {
-    event = await sanityClient.fetch(QUERIES.eventBySlug(slug))
+    event = await sanityClient.fetch(QUERIES.eventBySlug, { slug })
   } catch {
     notFound()
   }
