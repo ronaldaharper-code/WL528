@@ -21,7 +21,7 @@ export function urlFor(source: SanityImageSource) {
 // ============================================================
 
 export const QUERIES = {
-  publicEvents: `*[_type == "event" && visibility == "public" && startAt >= now()] | order(startAt asc) [0...20] {
+  publicEvents: `*[_type == "event" && visibility == "public"] | order(startAt asc) [0...20] {
     _id, title, slug, startAt, endAt, location, address, visibility,
     "imageUrl": image.asset->url,
     "imageAlt": image.alt,
