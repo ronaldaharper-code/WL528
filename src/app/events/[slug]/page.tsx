@@ -1,6 +1,6 @@
-import type { Metadata } from 'next'
+export const dynamic = 'force-dynamic'
+
 import { notFound } from 'next/navigation'
-import Link from 'next/link'
 import { sanityClient, QUERIES } from '@/lib/sanity'
 import { formatDateTime } from '@/lib/utils'
 import { PortableText } from '@portabletext/react'

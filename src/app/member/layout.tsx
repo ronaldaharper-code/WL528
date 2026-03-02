@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { redirect } from 'next/navigation'
 import { requireMember } from '@/lib/auth'
 import { MemberNav } from '@/components/member/MemberNav'

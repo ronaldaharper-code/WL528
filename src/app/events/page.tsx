@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { sanityClient, QUERIES } from '@/lib/sanity'
+import { siteConfig } from '@/config/site'
 import { EventsViewToggle } from '@/components/events/EventsViewToggle'
 import { siteConfig } from '@/config/site'
 import Link from 'next/link'
@@ -12,6 +13,46 @@ export const metadata: Metadata = {
   description:
     'Upcoming public events at Walled Lake Lodge #528 — open to the community in Walled Lake, Michigan.',
 }
+
+async function getEvents() {
+  try {
+    return await sanityClient.fetch(QUERIES.publicEvents)
+  } catch {
+    return []
+  }
+}
+
+export const metadata: Metadata = {
+  title: 'Upcoming Events',
+  description:
+    'Upcoming public events at Walled Lake Lodge #528 — open to the community in Walled Lake, Michigan.',
+}
+
+const eventSchema = (events: any[]) => ({
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  itemListElement: events.map((e, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: {
+      '@type': 'Event',
+      name: e.title,
+      startDate: e.startAt,
+      endDate: e.endAt,
+      location: {
+        '@type': 'Place',
+        name: e.location ?? siteConfig.name,
+        address: e.address ?? siteConfig.address.full,
+      },
+      description: e.seoDescription,
+      organizer: {
+        '@type': 'Organization',
+        name: siteConfig.name,
+        url: siteConfig.url,
+      },
+    },
+  })),
+})
 
 async function getEvents() {
   try {
