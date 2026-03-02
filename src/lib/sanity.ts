@@ -44,6 +44,26 @@ export const QUERIES = {
     "imageAlt": image.alt
   }`,
 
+  // memberEvents: all events (public + member-only) from the last 7 days forward.
+  // Currently mirrors allEvents with a time filter; no separate member visibility
+  // model exists yet in Sanity, so members see everything.
+  memberEvents: `*[
+    _type == "event" &&
+    startAt >= dateTime(now()) - 60*60*24*7
+  ] | order(startAt asc) [0...100] {
+    _id,
+    title,
+    "slug": slug.current,
+    startAt,
+    endAt,
+    location,
+    address,
+    visibility,
+    seoDescription,
+    "imageUrl": image.asset->url,
+    "imageAlt": image.alt
+  }`,
+
   allEvents: `*[
     _type == "event"
   ] | order(startAt asc) {
