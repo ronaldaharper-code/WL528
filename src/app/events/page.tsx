@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import { sanityClient, QUERIES } from '@/lib/sanity'
 import { EventsViewToggle } from '@/components/events/EventsViewToggle'
 
