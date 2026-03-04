@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic'
-
 import { redirect } from 'next/navigation'
 import { requireMember } from '@/lib/auth'
 import { MemberNav } from '@/components/member/MemberNav'
@@ -8,6 +6,7 @@ export const dynamic = 'force-dynamic'
 
 export default async function MemberLayout({ children }: { children: React.ReactNode }) {
   const session = await requireMember()
+
   if (!session) {
     redirect('/auth/signin?callbackUrl=/member/dashboard')
   }
@@ -18,6 +17,7 @@ export default async function MemberLayout({ children }: { children: React.React
         <aside className="lg:w-56 flex-shrink-0">
           <MemberNav role={session.user.role} />
         </aside>
+
         <div className="flex-1 min-w-0">
           {children}
         </div>
