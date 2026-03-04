@@ -1,9 +1,8 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { sanityClient, QUERIES } from '@/lib/sanity'
 import { siteConfig } from '@/config/site'
 import { EventsViewToggle } from '@/components/events/EventsViewToggle'
-import { siteConfig } from '@/config/site'
-import Link from 'next/link'
 
 // Never prerender — Sanity fetch requires runtime credentials, not available at build time
 export const dynamic = 'force-dynamic'
@@ -20,12 +19,6 @@ async function getEvents() {
   } catch {
     return []
   }
-}
-
-export const metadata: Metadata = {
-  title: 'Upcoming Events',
-  description:
-    'Upcoming public events at Walled Lake Lodge #528 — open to the community in Walled Lake, Michigan.',
 }
 
 const eventSchema = (events: any[]) => ({
@@ -54,14 +47,6 @@ const eventSchema = (events: any[]) => ({
   })),
 })
 
-async function getEvents() {
-  try {
-    return await sanityClient.fetch(QUERIES.publicEvents)
-  } catch {
-    return []
-  }
-}
-
 export default async function EventsPage() {
   const events = await getEvents()
 
@@ -81,6 +66,15 @@ export default async function EventsPage() {
           to view the full member calendar including stated meetings.
         </p>
       </header>
+
+      {/* Optional SEO structured data */}
+      {events?.length > 0 ? (
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(eventSchema(events)) }}
+        />
+      ) : null}
 
       {events.length === 0 ? (
         <div className="text-center py-24">
