@@ -21,6 +21,8 @@ export function urlFor(source: any) {
 }
 
 export const QUERIES = {
+
+  // Public events shown on /events
   publicEvents: `*[
     _type == "event" &&
     visibility == "Public"
@@ -38,9 +40,7 @@ export const QUERIES = {
     "imageAlt": image.alt
   }`,
 
-  // memberEvents: all events (public + member-only) from the last 7 days forward.
-  // Currently mirrors allEvents with a time filter; no separate member visibility
-  // model exists yet in Sanity, so members see everything.
+  // Member events
   memberEvents: `*[
     _type == "event" &&
     startAt >= dateTime(now()) - 60*60*24*7
@@ -58,6 +58,7 @@ export const QUERIES = {
     "imageAlt": image.alt
   }`,
 
+  // All events
   allEvents: `*[
     _type == "event"
   ] | order(startAt asc) {
@@ -74,6 +75,7 @@ export const QUERIES = {
     "imageAlt": image.alt
   }`,
 
+  // Event detail
   eventBySlug: `*[
     _type == "event" &&
     slug.current == $slug
@@ -90,5 +92,16 @@ export const QUERIES = {
     body,
     "imageUrl": image.asset->url,
     "imageAlt": image.alt
+  }`,
+
+  // Member dashboard announcements
+  announcements: `*[
+    _type == "announcement"
+  ] | order(publishedAt desc) [0...20] {
+    _id,
+    title,
+    publishedAt,
+    visibility,
+    body
   }`,
 } as const
