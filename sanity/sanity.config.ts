@@ -7,8 +7,8 @@ export default defineConfig({
   name: 'walled-lake-masons',
   title: 'Walled Lake Lodge #528',
 
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? 'production',
+  projectId: 'dahxezmh',
+dataset: 'production',
 
   plugins: [
     structureTool({
