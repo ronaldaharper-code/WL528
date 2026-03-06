@@ -5,32 +5,157 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
   <title>Drogath's Forge</title>
-  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ============================================================
+       HOTSPOT POSITION — edit these four values to move/resize
+       the clickable area over the anvil.
+
+       All values are PERCENTAGES of the image area (not the
+       full viewport — the image is contained with letterboxing).
+
+         --hs-left   : horizontal center of the anvil strike point
+         --hs-top    : vertical center of the anvil strike point
+         --hs-width  : width of the clickable area
+         --hs-height : height of the clickable area
+
+       The hotspot uses transform: translate(-50%, -50%) so these
+       values point to the CENTER of the hotspot, not the top-left.
+       ============================================================ */
+    :root {
+      --hs-left:   31%;   /* anvil strike point, from left edge of image */
+      --hs-top:    72%;   /* anvil strike point, from top edge of image  */
+      --hs-width:  12%;   /* width of clickable area                     */
+      --hs-height: 10%;   /* height of clickable area                    */
+    }
+
+    /* ── Reset & base ─────────────────────────────────────────── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    /* ── Full-screen scene ────────────────────────────────────── */
+    .scene {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+
+      background-image: url("0D36AF25-88AC-46EC-975D-4750ED364046.PNG");
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: black;
+    }
+
+    /* ── Anvil hotspot ────────────────────────────────────────── */
+    .anvil-hotspot {
+      position: absolute;
+
+      left:   var(--hs-left);
+      top:    var(--hs-top);
+      width:  var(--hs-width);
+      height: var(--hs-height);
+
+      /* Centers the box on the anchor point rather than offset from it */
+      transform: translate(-50%, -50%);
+
+      /* Softened rectangle matches anvil footprint */
+      border-radius: 20%;
+
+      background: transparent;
+      cursor: pointer;
+      text-decoration: none;
+
+      /* Idle forge glow */
+      animation: forge-flicker 3s ease-in-out infinite;
+    }
+
+    /* Hotter, faster flicker on hover */
+    .anvil-hotspot:hover {
+      animation: forge-flicker-hot 1s ease-in-out infinite;
+    }
+
+    /* ── Forge flicker keyframes ──────────────────────────────── */
+
+    /*
+      Idle: irregular timing mimics a low forge fire — deep orange/red
+      warming to amber. Glow stays tight to the anvil surface.
+    */
+    @keyframes forge-flicker {
+      0%   { box-shadow: 0 0  6px  2px rgba(200,  50,  0, 0.20); }
+      12%  { box-shadow: 0 0 14px  5px rgba(255, 100, 10, 0.50); }
+      25%  { box-shadow: 0 0  8px  3px rgba(210,  60,  0, 0.25); }
+      40%  { box-shadow: 0 0 18px  7px rgba(255, 140, 20, 0.60); }
+      55%  { box-shadow: 0 0  9px  3px rgba(220,  70,  0, 0.28); }
+      70%  { box-shadow: 0 0 16px  6px rgba(255, 120, 15, 0.52); }
+      85%  { box-shadow: 0 0  7px  2px rgba(200,  50,  0, 0.20); }
+      100% { box-shadow: 0 0  6px  2px rgba(200,  50,  0, 0.20); }
+    }
+
+    /*
+      Hover: hotter — yellow-white core, faster irregular flicker.
+    */
+    @keyframes forge-flicker-hot {
+      0%   { box-shadow: 0 0 14px  6px rgba(255, 160, 30, 0.65); }
+      20%  { box-shadow: 0 0 22px 10px rgba(255, 210, 80, 0.90); }
+      40%  { box-shadow: 0 0 16px  7px rgba(255, 170, 40, 0.70); }
+      60%  { box-shadow: 0 0 26px 12px rgba(255, 220, 90, 1.00); }
+      80%  { box-shadow: 0 0 18px  8px rgba(255, 180, 50, 0.75); }
+      100% { box-shadow: 0 0 14px  6px rgba(255, 160, 30, 0.65); }
+    }
+
+    /* ── Helper hint text ─────────────────────────────────────── */
+    .hint {
+      position: absolute;
+      bottom: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.75rem, 2vw, 1rem);
+      letter-spacing: 0.08em;
+      color: rgba(255, 220, 140, 0.85);
+      text-shadow:
+        0 1px 4px rgba(0, 0, 0, 0.8),
+        0 0 12px rgba(200, 100, 0, 0.5);
+
+      white-space: nowrap;
+      pointer-events: none;
+
+      animation: hint-fade 3s ease-in-out infinite;
+    }
+
+    @keyframes hint-fade {
+      0%, 100% { opacity: 0.6; }
+      50%       { opacity: 1.0; }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Full-screen image container -->
   <div class="scene">
 
     <!--
-      HOTSPOT — clickable area positioned over the anvil.
+      HOTSPOT — clickable area centered on the anvil strike point.
 
-      HOW TO ADJUST THE HOTSPOT POSITION:
-      ─────────────────────────────────────────────────────────
-      The hotspot uses percentage-based values so it scales
-      correctly on every screen size. All four values below
-      are percentages of the image/viewport dimensions.
-
-        --hs-left   : distance from the LEFT edge of the image
-        --hs-top    : distance from the TOP edge of the image
+      HOW TO ADJUST:
+      ─────────────────────────────────────────────────────────────
+      Find the :root block in the <style> tag above and update:
+        --hs-left   : horizontal center of the anvil (% from left)
+        --hs-top    : vertical center of the anvil   (% from top)
         --hs-width  : width of the clickable area
         --hs-height : height of the clickable area
 
-      Open styles.css and find the ":root" block to change them.
-      ─────────────────────────────────────────────────────────
-
-      The destination URL is set on the <a> tag below.
-      Do NOT display it on the page — it stays hidden in the HTML.
+      All values are percentages. transform: translate(-50%, -50%)
+      means these values point to the CENTER of the hotspot.
+      ─────────────────────────────────────────────────────────────
     -->
     <a
       class="anvil-hotspot"
@@ -38,11 +163,8 @@
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Enter Drogath's shop on TCGplayer"
-    >
-      <!-- No visible text inside the hotspot; tooltip handled via CSS -->
-    </a>
+    ></a>
 
-    <!-- Optional helper text — remove or comment out if not wanted -->
     <p class="hint">Tap the anvil to enter the shop</p>
 
   </div>
