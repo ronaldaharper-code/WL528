@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Drogath's Forge</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Full-screen image container -->
+  <div class="scene">
+
+    <!--
+      HOTSPOT — clickable area positioned over the anvil.
+
+      HOW TO ADJUST THE HOTSPOT POSITION:
+      ─────────────────────────────────────────────────────────
+      The hotspot uses percentage-based values so it scales
+      correctly on every screen size. All four values below
+      are percentages of the image/viewport dimensions.
+
+        --hs-left   : distance from the LEFT edge of the image
+        --hs-top    : distance from the TOP edge of the image
+        --hs-width  : width of the clickable area
+        --hs-height : height of the clickable area
+
+      Open styles.css and find the ":root" block to change them.
+      ─────────────────────────────────────────────────────────
+
+      The destination URL is set on the <a> tag below.
+      Do NOT display it on the page — it stays hidden in the HTML.
+    -->
+    <a
+      class="anvil-hotspot"
+      href="https://www.tcgplayer.com/search/all/product?seller=169de1d6&view=grid"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Enter Drogath's shop on TCGplayer"
+    >
+      <!-- No visible text inside the hotspot; tooltip handled via CSS -->
+    </a>
+
+    <!-- Optional helper text — remove or comment out if not wanted -->
+    <p class="hint">Tap the anvil to enter the shop</p>
+
+  </div>
+
+</body>
+</html>

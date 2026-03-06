@@ -1,0 +1,132 @@
+/* ============================================================
+   HOTSPOT POSITION — edit these four values to move/resize
+   the clickable area over the anvil.
+
+   All values are PERCENTAGES of the viewport:
+     --hs-left   : how far from the left edge (0% = far left, 100% = far right)
+     --hs-top    : how far from the top edge  (0% = very top, 100% = bottom)
+     --hs-width  : width of the hotspot
+     --hs-height : height of the hotspot
+
+   Tip: Open DevTools (F12), inspect .anvil-hotspot, and tweak
+   left/top/width/height live before copying the values here.
+   ============================================================ */
+:root {
+  --hs-left:   42%;   /* horizontal center of anvil */
+  --hs-top:    62%;   /* vertical center of anvil   */
+  --hs-width:  16%;   /* width of clickable area    */
+  --hs-height: 14%;   /* height of clickable area   */
+}
+
+/* ── Reset & base ─────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* no scrolling */
+}
+
+/* ── Full-screen scene ────────────────────────────────────── */
+.scene {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+
+  /* Replace the filename below if you rename your image */
+  background-image: url("0D36AF25-88AC-46EC-975D-4750ED364046.PNG");
+  background-size: cover;          /* fill the screen */
+  background-position: center;    /* keep the image centered */
+  background-repeat: no-repeat;
+}
+
+/* ── Anvil hotspot ────────────────────────────────────────── */
+.anvil-hotspot {
+  position: absolute;
+
+  /* Position and size come from the :root variables above */
+  left:   var(--hs-left);
+  top:    var(--hs-top);
+  width:  var(--hs-width);
+  height: var(--hs-height);
+
+  /* Center the hotspot on its own anchor point */
+  transform: translate(-50%, -50%);
+
+  /* Rounded hit area — increase border-radius for a more circular target */
+  border-radius: 50%;
+
+  /* No visible background — only the glow animation shows */
+  background: transparent;
+
+  /* Show pointer on hover to signal clickability */
+  cursor: pointer;
+
+  /* Remove default link underline */
+  text-decoration: none;
+
+  /* Pulse / glow animation */
+  animation: anvil-glow 2s ease-in-out infinite;
+}
+
+/* Glow on hover (extra feedback) */
+.anvil-hotspot:hover {
+  animation: anvil-glow-hover 0.8s ease-in-out infinite;
+}
+
+/* ── Glow keyframes ───────────────────────────────────────── */
+
+/* Idle pulse — subtle amber glow matching a forge theme */
+@keyframes anvil-glow {
+  0%   { box-shadow: 0 0 10px 4px rgba(255, 160, 30, 0.0); }
+  50%  { box-shadow: 0 0 22px 8px rgba(255, 160, 30, 0.55); }
+  100% { box-shadow: 0 0 10px 4px rgba(255, 160, 30, 0.0); }
+}
+
+/* Hover pulse — brighter, faster */
+@keyframes anvil-glow-hover {
+  0%   { box-shadow: 0 0 18px 8px  rgba(255, 200, 60, 0.7); }
+  50%  { box-shadow: 0 0 32px 14px rgba(255, 200, 60, 1.0); }
+  100% { box-shadow: 0 0 18px 8px  rgba(255, 200, 60, 0.7); }
+}
+
+/* ── Helper hint text ─────────────────────────────────────── */
+.hint {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  /* Typography */
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(0.75rem, 2vw, 1rem);
+  letter-spacing: 0.08em;
+  color: rgba(255, 220, 140, 0.85);
+  text-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.8),
+    0 0 12px rgba(200, 100, 0, 0.5);
+
+  white-space: nowrap;
+  pointer-events: none; /* hint doesn't interfere with clicks */
+
+  /* Gentle fade in */
+  animation: hint-fade 3s ease-in-out infinite;
+}
+
+@keyframes hint-fade {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1.0; }
+}
+
+/* ── Mobile adjustments ───────────────────────────────────── */
+@media (max-width: 600px) {
+  /* On very small screens ensure background covers without distortion */
+  .scene {
+    background-size: cover;
+    background-position: center center;
+  }
+}
