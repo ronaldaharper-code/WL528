@@ -16,15 +16,13 @@ export default async function HallRentalPage() {
         <h1 className="font-serif text-4xl font-bold text-navy-900 mb-4">Hall Rental</h1>
 
         <p className="text-stone-600 leading-relaxed mb-8">
-          At Walled Lake Masonic Lodge No. 528, our Fellowship Hall is available for private
+          At Walled Lake Masonic Lodge No. 528, our hall is available for private
           rentals and community events.
         </p>
 
-        {/* Fellowship Hall section */}
         <section className="mb-8">
-          <h2 className="font-serif text-2xl font-bold text-navy-800 mb-3">Fellowship Hall</h2>
           <p className="text-stone-600 leading-relaxed mb-4">
-            Our spacious Fellowship Hall accommodates up to approximately 125 guests and is ideal
+            Our spacious hall accommodates up to approximately 125 guests and is ideal
             for graduation parties, birthday celebrations, retirement parties, baby or bridal
             showers, family gatherings, business meetings, and community events.
           </p>
@@ -51,7 +49,7 @@ export default async function HallRentalPage() {
           </ul>
 
           <p className="text-stone-600 leading-relaxed">
-            The Fellowship Hall combines historic character with a welcoming atmosphere, making it
+            The hall combines historic character with a welcoming atmosphere, making it
             a unique and affordable venue for both casual and formal gatherings.
           </p>
         </section>
