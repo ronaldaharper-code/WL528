@@ -1,7 +1,5 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { sanityClient, QUERIES } from '@/lib/sanity'
-import { EventCard } from '@/components/events/EventCard'
 import { siteConfig } from '@/config/site'
 
 export const metadata: Metadata = {
@@ -39,17 +37,7 @@ const PILLARS = [
   },
 ]
 
-async function getUpcomingPublicEvents() {
-  try {
-    return await sanityClient.fetch(QUERIES.publicEvents)
-  } catch {
-    return []
-  }
-}
-
 export default async function HomePage() {
-  const events = await getUpcomingPublicEvents()
-
   return (
     <>
       {/* ══════════════════════════════════════════════════════════════
@@ -219,41 +207,26 @@ export default async function HomePage() {
       ══════════════════════════════════════════════════════════════ */}
       <section aria-labelledby="events-heading" className="section bg-stone-50">
         <div className="container-wide">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div>
               <span className="eyebrow mb-2 block">Community Calendar</span>
               <h2 id="events-heading" className="heading-md">Upcoming Events</h2>
             </div>
-            <Link
-              href="/events"
-              className="text-navy-700 hover:text-navy-900 text-sm font-semibold
-                         flex items-center gap-1.5 transition-colors shrink-0"
-            >
-              View Full Calendar
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+          </div>
+          <div className="text-center py-16 bg-white rounded-2xl border border-stone-200">
+            <div className="w-14 h-14 rounded-2xl bg-navy-50 flex items-center justify-center mx-auto mb-4">
+              <svg className="w-7 h-7 text-navy-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
               </svg>
+            </div>
+            <p className="font-serif text-lg font-semibold text-navy-800 mb-2">View Our Events Calendar</p>
+            <p className="text-stone-500 text-sm mb-6 max-w-sm mx-auto">
+              See all upcoming public events hosted at or by {siteConfig.name}.
+            </p>
+            <Link href="/events" className="btn btn-primary">
+              Open Events Calendar
             </Link>
           </div>
-
-          {events.length === 0 ? (
-            <div className="text-center py-16 bg-white rounded-2xl border border-stone-200">
-              <div className="w-14 h-14 rounded-2xl bg-stone-100 flex items-center justify-center mx-auto mb-4">
-                <svg className="w-7 h-7 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 9h18" />
-                </svg>
-              </div>
-              <p className="font-medium text-stone-700 mb-1">No upcoming public events</p>
-              <p className="text-stone-400 text-sm">Check back soon, or contact the lodge for meeting information.</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {events.slice(0, 3).map((event: any) => (
-                <EventCard key={event._id} event={event} />
-              ))}
-            </div>
-          )}
         </div>
       </section>
 
