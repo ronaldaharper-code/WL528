@@ -1,7 +1,11 @@
+import { fromZonedTime } from 'date-fns-tz'
+
 const MEMBER_CAL_ID =
   '181fcb41172eb217e13e8d7d621c7ef8ac08f142e70b95404f92073e2c7cfeba@group.calendar.google.com'
 
 const ICAL_URL = `https://calendar.google.com/calendar/ical/${encodeURIComponent(MEMBER_CAL_ID)}/public/basic.ics`
+
+const LODGE_TZ = 'America/Detroit'
 
 export interface CalEvent {
   title: string
@@ -32,14 +36,13 @@ function parseICalDate(value: string, params: string): Date {
       `${value.slice(9, 11)}:${value.slice(11, 13)}:${value.slice(13, 15)}Z`,
     )
   }
-  // Floating / TZID — treat as local
-  return new Date(
-    Number(value.slice(0, 4)),
-    Number(value.slice(4, 6)) - 1,
-    Number(value.slice(6, 8)),
-    Number(value.slice(9, 11)),
-    Number(value.slice(11, 13)),
-  )
+  // TZID-aware or floating — convert from the specified (or lodge) timezone to UTC
+  const tzidMatch = params.match(/TZID=([^;]+)/)
+  const tz = tzidMatch ? tzidMatch[1] : LODGE_TZ
+  const dateStr =
+    `${value.slice(0, 4)}-${value.slice(4, 6)}-${value.slice(6, 8)}T` +
+    `${value.slice(9, 11)}:${value.slice(11, 13)}:${value.slice(13, 15)}`
+  return fromZonedTime(dateStr, tz)
 }
 
 function parseIcal(text: string): CalEvent[] {
