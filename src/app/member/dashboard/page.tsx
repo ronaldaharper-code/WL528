@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { auth } from '@/lib/auth'
-import { sanityClient, QUERIES } from '@/lib/sanity'
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
 import { formatDate } from '@/lib/utils'
@@ -13,7 +12,7 @@ export const metadata: Metadata = {
 
 async function getDashboardData(userId: string) {
   const [announcements, calEvents, myRsvps] = await Promise.all([
-    sanityClient.fetch(QUERIES.announcements).catch(() => []),
+    prisma.announcement.findMany({ orderBy: [{ pinned: 'desc' }, { publishedAt: 'desc' }], take: 5 }),
     fetchMemberCalendarEvents(),
     prisma.rSVP.findMany({
       where: { userId, status: 'ATTENDING' },
@@ -50,10 +49,10 @@ export default async function MemberDashboardPage() {
             <p className="text-stone-400 text-sm">No announcements at this time.</p>
           ) : (
             <div className="space-y-3">
-              {announcements.slice(0, 5).map((a: any) => (
+              {announcements.map((a) => (
                 <Link
-                  key={a._id}
-                  href={`/member/announcements/${a.slug?.current}`}
+                  key={a.id}
+                  href={`/member/announcements/${a.id}`}
                   className="block card p-4 hover:shadow-md"
                 >
                   {a.pinned && (

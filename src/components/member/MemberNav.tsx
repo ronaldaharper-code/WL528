@@ -17,8 +17,10 @@ const MEMBER_LINKS = [
 ]
 
 const ADMIN_LINKS = [
-  { label: 'Manage Members', href: '/admin/members', icon: '◫' },
-  { label: 'Comment Queue', href: '/admin/moderation', icon: '◬' },
+  { label: 'Announcements', href: '/admin/announcements', icon: '◈' },
+  { label: 'Documents',     href: '/admin/documents',     icon: '◉' },
+  { label: 'Manage Members', href: '/admin/members',      icon: '◫' },
+  { label: 'Comment Queue', href: '/admin/moderation',    icon: '◬' },
 ]
 
 export function MemberNav({ role }: Props) {

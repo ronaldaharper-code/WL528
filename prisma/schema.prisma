@@ -251,6 +251,36 @@ model HallRentalInquiry {
 }
 
 // ============================================================
+// ANNOUNCEMENTS
+// ============================================================
+
+model Announcement {
+  id          String   @id @default(cuid())
+  title       String
+  excerpt     String?  @db.Text
+  body        String?  @db.Text
+  pinned      Boolean  @default(false)
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ============================================================
+// DOCUMENTS
+// ============================================================
+
+model LodgeDocument {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  category    String   @default("other")
+  fileUrl     String
+  fileName    String?
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+}
+
+// ============================================================
 // AUDIT LOG
 // ============================================================
 
