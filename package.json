@@ -38,6 +38,7 @@
     "react-calendar": "^6.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
+    "resend": "^6.12.3",
     "sanity": "^3.62.3",
     "stripe": "^17.3.1",
     "styled-components": "^6.3.11",
