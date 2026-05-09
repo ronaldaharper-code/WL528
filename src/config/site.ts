@@ -37,9 +37,9 @@ export const siteConfig = {
 
   // ── Social ───────────────────────────────────────────────────────────────
   social: {
-    facebook: 'https://www.facebook.com/walledlakemasons',
-    instagram: '', // TODO: Add Instagram URL when available
-    linkedin: '',  // TODO: Add LinkedIn URL when available
+    facebook:  'https://www.facebook.com/WalledLakeMasons/',
+    instagram: 'https://www.instagram.com/walledlakemasons528',
+    linkedin:  '',
   },
 
   // ── External Links ───────────────────────────────────────────────────────
