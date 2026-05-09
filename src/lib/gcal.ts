@@ -81,7 +81,7 @@ function parseIcal(text: string): CalEvent[] {
 
 export async function fetchMemberCalendarEvents(): Promise<CalEvent[]> {
   try {
-    const res = await fetch(ICAL_URL, { next: { revalidate: 1800 } })
+    const res = await fetch(ICAL_URL, { cache: 'no-store' })
     if (!res.ok) return []
     const text = await res.text()
     return parseIcal(text)
