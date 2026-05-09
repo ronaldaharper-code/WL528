@@ -1,60 +1,32 @@
 import type { Metadata } from 'next'
-import { prisma } from '@/lib/prisma'
-import { sanityClient, QUERIES } from '@/lib/sanity'
-import { auth } from '@/lib/auth'
-import { MemberCalendar } from '@/components/member/MemberCalendar'
 
 export const metadata: Metadata = {
   title: 'Member Calendar',
   robots: { index: false },
 }
 
-export default async function MemberCalendarPage() {
-  const session = await auth()
+const MEMBER_CALENDAR_URL =
+  'https://calendar.google.com/calendar/embed?src=181fcb41172eb217e13e8d7d621c7ef8ac08f142e70b95404f92073e2c7cfeba%40group.calendar.google.com&ctz=America%2FDetroit&showTitle=0&showPrint=0&showTabs=0&showCalendars=0'
 
-  const [dbEvents, sanityEvents] = await Promise.all([
-    prisma.event.findMany({
-      where: { startAt: { gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) } },
-      orderBy: { startAt: 'asc' },
-      include: {
-        rsvps: { where: { userId: session!.user.id } },
-      },
-    }),
-    sanityClient.fetch(QUERIES.memberEvents).catch(() => []),
-  ])
-
-  const events = [
-    ...dbEvents.map((e) => ({
-      id: e.id,
-      title: e.title,
-      startAt: e.startAt.toISOString(),
-      endAt: e.endAt?.toISOString(),
-      location: e.location,
-      visibility: e.visibility,
-      hasRSVP: e.rsvps.length > 0,
-      source: 'db' as const,
-    })),
-    ...sanityEvents.map((e: any) => ({
-      id: e._id,
-      title: e.title,
-      startAt: e.startAt,
-      endAt: e.endAt,
-      location: e.location,
-      visibility: 'MEMBER',
-      hasRSVP: false,
-      source: 'sanity' as const,
-    })),
-  ].sort((a, b) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime())
-
+export default function MemberCalendarPage() {
   return (
     <div className="space-y-6">
       <header>
         <h1 className="font-serif text-2xl font-bold text-navy-900">Lodge Calendar</h1>
         <p className="text-stone-500 text-sm mt-1">
-          All lodge meetings and member events. Public events also shown.
+          All lodge meetings, degree nights, and member events.
         </p>
       </header>
-      <MemberCalendar events={events} userId={session!.user.id} />
+
+      <div className="rounded-2xl overflow-hidden border border-stone-200 shadow-sm bg-white">
+        <iframe
+          src={MEMBER_CALENDAR_URL}
+          className="w-full"
+          style={{ height: '700px', border: 0 }}
+          title="Walled Lake Lodge #528 Member Calendar"
+          loading="lazy"
+        />
+      </div>
     </div>
   )
 }
