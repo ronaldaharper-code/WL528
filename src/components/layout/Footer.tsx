@@ -152,7 +152,7 @@ export function Footer() {
             &copy; {year} {siteConfig.name}. All rights reserved.
           </p>
           <p className="text-xs text-stone-700 italic">
-            Established {siteConfig.established} &middot; Celebrating 100 years &middot; Oakland County, Michigan
+            Established {siteConfig.established} &middot; Over 100 years of service &middot; Oakland County, Michigan
           </p>
         </div>
       </div>

@@ -77,7 +77,7 @@ export default async function HomePage() {
 
             <p className="text-lg text-stone-400 leading-relaxed mb-10 max-w-xl">
               A fraternal brotherhood dedicated to Brotherly Love, Relief, and Truth —
-              serving the Walled Lake community for over seventy-five years.
+              serving the Walled Lake community for over one hundred years.
             </p>
 
             <div className="flex flex-wrap gap-3">
