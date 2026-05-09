@@ -6,10 +6,13 @@ export const dynamic = 'force-dynamic'
 
 export default async function AdminVolunteerPage() {
   const events = await prisma.volunteerEvent.findMany({
-    orderBy: { eventDate: 'asc' },
+    orderBy: { startDate: 'asc' },
     include: {
-      _count: { select: { roles: true } },
-      roles: { include: { _count: { select: { signups: true } } } },
+      roles: {
+        include: {
+          shifts: { include: { _count: { select: { signups: true } } } },
+        },
+      },
     },
   })
 
@@ -18,7 +21,7 @@ export default async function AdminVolunteerPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-serif text-2xl font-bold text-navy-900">Volunteer Events</h1>
-          <p className="text-stone-500 text-sm mt-1">Create events and define volunteer roles for brothers to fill.</p>
+          <p className="text-stone-500 text-sm mt-1">Create events, define roles, and add shifts for brothers to fill.</p>
         </div>
         <Link href="/admin/volunteer/new" className="btn btn-primary">
           + New Event
@@ -34,9 +37,13 @@ export default async function AdminVolunteerPage() {
       ) : (
         <div className="space-y-3">
           {events.map((event) => {
-            const totalSlots   = event.roles.reduce((s, r) => s + r.slotsNeeded, 0)
-            const totalSignups = event.roles.reduce((s, r) => s + r._count.signups, 0)
+            const allShifts    = event.roles.flatMap(r => r.shifts)
+            const totalSlots   = allShifts.reduce((s, sh) => s + sh.slotsNeeded, 0)
+            const totalSignups = allShifts.reduce((s, sh) => s + sh._count.signups, 0)
             const open         = totalSlots - totalSignups
+            const dateRange    = event.endDate
+              ? `${formatDate(event.startDate)} – ${formatDate(event.endDate)}`
+              : formatDate(event.startDate)
 
             return (
               <Link
@@ -48,24 +55,20 @@ export default async function AdminVolunteerPage() {
                   <div className="flex items-center gap-2 flex-wrap">
                     <p className="font-semibold text-navy-800">{event.title}</p>
                     {event.isExternal && (
-                      <span className="text-xs bg-stone-100 text-stone-600 px-2 py-0.5 rounded font-medium">
-                        External
-                      </span>
+                      <span className="text-xs bg-stone-100 text-stone-600 px-2 py-0.5 rounded font-medium">External</span>
                     )}
                     {!event.published && (
-                      <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded font-medium">
-                        Draft
-                      </span>
+                      <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded font-medium">Draft</span>
                     )}
                   </div>
                   <p className="text-stone-500 text-sm mt-0.5">
-                    {formatDate(event.eventDate)}{event.location ? ` · ${event.location}` : ''}
+                    {dateRange}{event.location ? ` · ${event.location}` : ''}
                   </p>
                 </div>
                 <div className="flex items-center gap-6 text-sm flex-shrink-0">
                   <div className="text-center">
-                    <p className="font-bold text-navy-800">{event._count.roles}</p>
-                    <p className="text-stone-400 text-xs">Roles</p>
+                    <p className="font-bold text-navy-800">{allShifts.length}</p>
+                    <p className="text-stone-400 text-xs">Shifts</p>
                   </div>
                   <div className="text-center">
                     <p className="font-bold text-navy-800">{totalSignups}</p>

@@ -300,17 +300,18 @@ model Photo {
 // ============================================================
 
 model VolunteerEvent {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   title       String
-  description String?  @db.Text
-  eventDate   DateTime
+  description String?   @db.Text
+  startDate   DateTime
+  endDate     DateTime?
   location    String?
-  isExternal  Boolean  @default(false)
+  isExternal  Boolean   @default(false)
   hostOrg     String?
-  published   Boolean  @default(true)
+  published   Boolean   @default(true)
   createdById String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   roles     VolunteerRole[]
   createdBy User            @relation("VolunteerEventCreator", fields: [createdById], references: [id])
@@ -321,29 +322,39 @@ model VolunteerRole {
   eventId      String
   name         String
   description  String?  @db.Text
-  slotsNeeded  Int      @default(1)
-  shiftStart   String?
-  shiftEnd     String?
   instructions String?  @db.Text
   displayOrder Int      @default(0)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  event   VolunteerEvent  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  event  VolunteerEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  shifts VolunteerShift[]
+}
+
+model VolunteerShift {
+  id          String   @id @default(cuid())
+  roleId      String
+  date        DateTime
+  shiftStart  String?
+  shiftEnd    String?
+  slotsNeeded Int      @default(1)
+  createdAt   DateTime @default(now())
+
+  role    VolunteerRole     @relation(fields: [roleId], references: [id], onDelete: Cascade)
   signups VolunteerSignup[]
 }
 
 model VolunteerSignup {
   id        String   @id @default(cuid())
-  roleId    String
+  shiftId   String
   userId    String
   note      String?
   createdAt DateTime @default(now())
 
-  role VolunteerRole @relation(fields: [roleId], references: [id], onDelete: Cascade)
-  user User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  shift VolunteerShift @relation(fields: [shiftId], references: [id], onDelete: Cascade)
+  user  User           @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([roleId, userId])
+  @@unique([shiftId, userId])
 }
 
 // ============================================================

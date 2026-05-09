@@ -8,6 +8,7 @@ export function CreateEventForm() {
   const [loading, setLoading]       = useState(false)
   const [error, setError]           = useState<string | null>(null)
   const [isExternal, setIsExternal] = useState(false)
+  const [isMultiDay, setIsMultiDay] = useState(false)
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -17,11 +18,12 @@ export function CreateEventForm() {
     const body = {
       title:       fd.get('title') as string,
       description: fd.get('description') as string || undefined,
-      eventDate:   fd.get('eventDate') as string,
+      startDate:   fd.get('startDate') as string,
+      endDate:     isMultiDay ? (fd.get('endDate') as string || undefined) : undefined,
       location:    fd.get('location') as string || undefined,
       isExternal:  fd.get('isExternal') === 'on',
       hostOrg:     fd.get('hostOrg') as string || undefined,
-      published:   fd.get('published') !== 'off',
+      published:   fd.get('published') !== null,
     }
 
     setLoading(true)
@@ -51,18 +53,38 @@ export function CreateEventForm() {
           placeholder="e.g. Charity Poker Night" />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-stone-700 mb-1">
-            Event Date <span className="text-red-500">*</span>
+      {/* Date range */}
+      <div>
+        <div className="flex items-center gap-3 mb-3">
+          <input
+            id="isMultiDay" type="checkbox"
+            className="h-4 w-4 rounded border-stone-300 text-navy-600"
+            checked={isMultiDay} onChange={e => setIsMultiDay(e.target.checked)}
+          />
+          <label htmlFor="isMultiDay" className="text-sm text-stone-700">
+            This is a multi-day event
           </label>
-          <input name="eventDate" type="date" required className="input w-full" />
         </div>
-        <div>
-          <label className="block text-sm font-medium text-stone-700 mb-1">Location</label>
-          <input name="location" type="text" maxLength={200} className="input w-full"
-            placeholder="e.g. Lodge Hall" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-stone-700 mb-1">
+              {isMultiDay ? 'Start Date' : 'Event Date'} <span className="text-red-500">*</span>
+            </label>
+            <input name="startDate" type="date" required className="input w-full" />
+          </div>
+          {isMultiDay && (
+            <div>
+              <label className="block text-sm font-medium text-stone-700 mb-1">End Date</label>
+              <input name="endDate" type="date" className="input w-full" />
+            </div>
+          )}
         </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-stone-700 mb-1">Location</label>
+        <input name="location" type="text" maxLength={200} className="input w-full"
+          placeholder="e.g. Lodge Hall, Downtown Walled Lake" />
       </div>
 
       <div>
@@ -73,15 +95,12 @@ export function CreateEventForm() {
 
       <div className="flex items-center gap-3">
         <input
-          id="isExternal"
-          name="isExternal"
-          type="checkbox"
+          id="isExternal" name="isExternal" type="checkbox"
           className="h-4 w-4 rounded border-stone-300 text-navy-600"
-          checked={isExternal}
-          onChange={e => setIsExternal(e.target.checked)}
+          checked={isExternal} onChange={e => setIsExternal(e.target.checked)}
         />
         <label htmlFor="isExternal" className="text-sm text-stone-700">
-          This is an external event — the Lodge is providing volunteers only
+          External event — Lodge is providing volunteers only
         </label>
       </div>
 
@@ -95,10 +114,7 @@ export function CreateEventForm() {
 
       <div className="flex items-center gap-3">
         <input
-          id="published"
-          name="published"
-          type="checkbox"
-          defaultChecked
+          id="published" name="published" type="checkbox" defaultChecked
           className="h-4 w-4 rounded border-stone-300 text-navy-600"
         />
         <label htmlFor="published" className="text-sm text-stone-700">

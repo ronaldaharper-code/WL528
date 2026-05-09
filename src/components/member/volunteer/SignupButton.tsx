@@ -4,12 +4,12 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 interface Props {
-  roleId: string
+  shiftId: string
   signupId: string | null
   isFull: boolean
 }
 
-export function SignupButton({ roleId, signupId, isFull }: Props) {
+export function SignupButton({ shiftId, signupId, isFull }: Props) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError]     = useState<string | null>(null)
@@ -20,7 +20,7 @@ export function SignupButton({ roleId, signupId, isFull }: Props) {
       const res = await fetch('/api/member/volunteer/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ roleId }),
+        body: JSON.stringify({ shiftId }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Could not sign up')
@@ -44,11 +44,8 @@ export function SignupButton({ roleId, signupId, isFull }: Props) {
   if (signupId) {
     return (
       <div className="text-right">
-        <button
-          onClick={handleRemove}
-          disabled={loading}
-          className="text-xs text-stone-400 hover:text-red-600 underline underline-offset-2 disabled:opacity-60"
-        >
+        <button onClick={handleRemove} disabled={loading}
+          className="text-xs text-stone-400 hover:text-red-600 underline underline-offset-2 disabled:opacity-60">
           {loading ? 'Removing…' : 'Remove'}
         </button>
         {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
@@ -58,19 +55,14 @@ export function SignupButton({ roleId, signupId, isFull }: Props) {
 
   if (isFull) {
     return (
-      <span className="text-xs text-stone-400 font-medium px-3 py-1.5 rounded-lg bg-stone-100">
-        Full
-      </span>
+      <span className="text-xs text-stone-400 font-medium px-3 py-1.5 rounded-lg bg-stone-100">Full</span>
     )
   }
 
   return (
     <div className="text-right">
-      <button
-        onClick={handleSignup}
-        disabled={loading}
-        className="btn btn-primary text-sm disabled:opacity-60"
-      >
+      <button onClick={handleSignup} disabled={loading}
+        className="btn btn-primary text-sm disabled:opacity-60">
         {loading ? 'Signing Up…' : 'Sign Up'}
       </button>
       {error && <p className="text-red-500 text-xs mt-1 max-w-[160px]">{error}</p>}

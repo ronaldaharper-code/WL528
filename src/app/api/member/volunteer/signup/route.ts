@@ -4,8 +4,8 @@ import { prisma } from '@/lib/prisma'
 import { requireMember } from '@/lib/auth'
 
 const schema = z.object({
-  roleId: z.string().min(1),
-  note:   z.string().max(300).optional(),
+  shiftId: z.string().min(1),
+  note:    z.string().max(300).optional(),
 })
 
 export async function POST(req: NextRequest) {
@@ -15,20 +15,19 @@ export async function POST(req: NextRequest) {
   const parsed = schema.safeParse(await req.json().catch(() => null))
   if (!parsed.success) return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
 
-  const { roleId, note } = parsed.data
+  const { shiftId, note } = parsed.data
 
-  // Check the role exists and has open slots
-  const role = await prisma.volunteerRole.findUnique({
-    where: { id: roleId },
+  const shift = await prisma.volunteerShift.findUnique({
+    where: { id: shiftId },
     include: { _count: { select: { signups: true } } },
   })
-  if (!role) return NextResponse.json({ error: 'Role not found' }, { status: 404 })
-  if (role._count.signups >= role.slotsNeeded) {
-    return NextResponse.json({ error: 'This role is full.' }, { status: 409 })
+  if (!shift) return NextResponse.json({ error: 'Shift not found' }, { status: 404 })
+  if (shift._count.signups >= shift.slotsNeeded) {
+    return NextResponse.json({ error: 'This shift is full.' }, { status: 409 })
   }
 
   const signup = await prisma.volunteerSignup.create({
-    data: { roleId, userId: session.user.id, note },
+    data: { shiftId, userId: session.user.id, note },
   })
 
   return NextResponse.json({ signup }, { status: 201 })

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { requireAdmin } from '@/lib/auth'
+import { format } from 'date-fns'
 
 interface Params { params: Promise<{ id: string }> }
 
@@ -15,9 +16,14 @@ export async function GET(_req: NextRequest, { params }: Params) {
       roles: {
         orderBy: { displayOrder: 'asc' },
         include: {
-          signups: {
-            include: { user: { select: { name: true, email: true, phone: true } } },
-            orderBy: { createdAt: 'asc' },
+          shifts: {
+            orderBy: { date: 'asc' },
+            include: {
+              signups: {
+                include: { user: { select: { name: true, email: true, phone: true } } },
+                orderBy: { createdAt: 'asc' },
+              },
+            },
           },
         },
       },
@@ -26,34 +32,36 @@ export async function GET(_req: NextRequest, { params }: Params) {
 
   if (!event) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
-  // Build CSV
   const rows: string[][] = [
-    ['Role', 'Shift', 'Slots Needed', 'Open Spots', 'Member Name', 'Email', 'Phone', 'Signed Up'],
+    ['Role', 'Date', 'Shift', 'Slots Needed', 'Open Spots', 'Member Name', 'Email', 'Phone'],
   ]
 
   for (const role of event.roles) {
-    const open = Math.max(0, role.slotsNeeded - role.signups.length)
-    const shift = [role.shiftStart, role.shiftEnd].filter(Boolean).join(' – ')
+    for (const shift of role.shifts) {
+      const open      = Math.max(0, shift.slotsNeeded - shift.signups.length)
+      const dateStr   = format(new Date(shift.date), 'EEE MMM d yyyy')
+      const shiftTime = [shift.shiftStart, shift.shiftEnd].filter(Boolean).join(' - ')
 
-    if (role.signups.length === 0) {
-      rows.push([role.name, shift, String(role.slotsNeeded), String(open), '', '', '', ''])
-    } else {
-      for (const s of role.signups) {
-        rows.push([
-          role.name,
-          shift,
-          String(role.slotsNeeded),
-          String(open),
-          s.user.name ?? '',
-          s.user.email,
-          s.user.phone ?? '',
-          s.createdAt.toISOString(),
-        ])
+      if (shift.signups.length === 0) {
+        rows.push([role.name, dateStr, shiftTime, String(shift.slotsNeeded), String(open), '', '', ''])
+      } else {
+        for (const s of shift.signups) {
+          rows.push([
+            role.name,
+            dateStr,
+            shiftTime,
+            String(shift.slotsNeeded),
+            String(open),
+            s.user.name ?? '',
+            s.user.email,
+            s.user.phone ?? '',
+          ])
+        }
       }
     }
   }
 
-  const csv = rows.map(r => r.map(c => `"${c.replace(/"/g, '""')}"`).join(',')).join('\n')
+  const csv      = rows.map(r => r.map(c => `"${c.replace(/"/g, '""')}"`).join(',')).join('\n')
   const filename = `volunteers-${event.title.replace(/\s+/g, '-').toLowerCase()}.csv`
 
   return new NextResponse(csv, {

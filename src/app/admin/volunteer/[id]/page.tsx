@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { prisma } from '@/lib/prisma'
 import { formatDate } from '@/lib/utils'
+import { format } from 'date-fns'
 import { RoleManager } from '@/components/admin/volunteer/RoleManager'
 import { DeleteButton } from '@/components/admin/DeleteButton'
 
@@ -19,9 +20,14 @@ export default async function AdminVolunteerEventPage({ params }: Props) {
       roles: {
         orderBy: { displayOrder: 'asc' },
         include: {
-          signups: {
-            include: { user: { select: { id: true, name: true, email: true, phone: true } } },
-            orderBy: { createdAt: 'asc' },
+          shifts: {
+            orderBy: { date: 'asc' },
+            include: {
+              signups: {
+                include: { user: { select: { id: true, name: true, email: true, phone: true } } },
+                orderBy: { createdAt: 'asc' },
+              },
+            },
           },
         },
       },
@@ -30,9 +36,13 @@ export default async function AdminVolunteerEventPage({ params }: Props) {
 
   if (!event) notFound()
 
-  const totalSlots   = event.roles.reduce((s, r) => s + r.slotsNeeded, 0)
-  const totalSignups = event.roles.reduce((s, r) => s + r.signups.length, 0)
-  const gapRoles     = event.roles.filter(r => r.signups.length < r.slotsNeeded)
+  const allShifts    = event.roles.flatMap(r => r.shifts)
+  const totalSlots   = allShifts.reduce((s, sh) => s + sh.slotsNeeded, 0)
+  const totalSignups = allShifts.reduce((s, sh) => s + sh.signups.length, 0)
+  const gapShifts    = allShifts.filter(sh => sh.signups.length < sh.slotsNeeded)
+  const dateRange    = event.endDate
+    ? `${formatDate(event.startDate)} – ${formatDate(event.endDate)}`
+    : formatDate(event.startDate)
 
   return (
     <div className="space-y-8 max-w-4xl">
@@ -54,7 +64,7 @@ export default async function AdminVolunteerEventPage({ params }: Props) {
               )}
             </div>
             <p className="text-stone-500 text-sm mt-1">
-              {formatDate(event.eventDate)}
+              {dateRange}
               {event.location ? ` · ${event.location}` : ''}
               {event.isExternal && event.hostOrg ? ` · Hosted by ${event.hostOrg}` : ''}
             </p>
@@ -74,10 +84,10 @@ export default async function AdminVolunteerEventPage({ params }: Props) {
         )}
       </div>
 
-      {/* ── Summary stats ── */}
+      {/* ── Stats ── */}
       <div className="grid grid-cols-3 gap-4">
         {[
-          { label: 'Roles', value: event.roles.length },
+          { label: 'Total Shifts', value: allShifts.length },
           { label: 'Signed Up', value: totalSignups },
           { label: 'Open Spots', value: totalSlots - totalSignups, highlight: totalSlots - totalSignups > 0 },
         ].map(({ label, value, highlight }) => (
@@ -89,22 +99,40 @@ export default async function AdminVolunteerEventPage({ params }: Props) {
       </div>
 
       {/* ── Coverage gaps ── */}
-      {gapRoles.length > 0 && (
+      {gapShifts.length > 0 && (
         <section className="rounded-xl border border-amber-200 bg-amber-50 p-4">
           <p className="font-semibold text-amber-800 text-sm mb-2">Coverage Gaps</p>
           <ul className="space-y-1">
-            {gapRoles.map(r => (
-              <li key={r.id} className="text-amber-700 text-sm flex justify-between">
-                <span>{r.name}</span>
-                <span>{r.signups.length} / {r.slotsNeeded} filled</span>
-              </li>
-            ))}
+            {gapShifts.map(sh => {
+              const role = event.roles.find(r => r.shifts.some(s => s.id === sh.id))
+              const shiftLabel = [
+                format(new Date(sh.date), 'EEE, MMM d'),
+                sh.shiftStart && sh.shiftEnd ? `${sh.shiftStart} – ${sh.shiftEnd}` : sh.shiftStart,
+              ].filter(Boolean).join(' · ')
+              return (
+                <li key={sh.id} className="text-amber-700 text-sm flex justify-between">
+                  <span>{role?.name} — {shiftLabel}</span>
+                  <span>{sh.signups.length} / {sh.slotsNeeded} filled</span>
+                </li>
+              )
+            })}
           </ul>
         </section>
       )}
 
-      {/* ── Volunteer Needs + Role Manager (client) ── */}
-      <RoleManager eventId={event.id} initialRoles={event.roles} />
+      {/* ── Role + Shift Manager ── */}
+      <RoleManager
+        eventId={event.id}
+        eventStartDate={event.startDate.toISOString().split('T')[0]}
+        eventEndDate={event.endDate ? event.endDate.toISOString().split('T')[0] : undefined}
+        initialRoles={event.roles.map(role => ({
+          ...role,
+          shifts: role.shifts.map(sh => ({
+            ...sh,
+            date: sh.date.toISOString(),
+          })),
+        }))}
+      />
 
       {/* ── Roster ── */}
       <section>
@@ -117,27 +145,31 @@ export default async function AdminVolunteerEventPage({ params }: Props) {
               <thead className="bg-stone-50 border-b border-stone-200">
                 <tr>
                   <th className="text-left px-4 py-3 font-semibold text-stone-700">Role</th>
+                  <th className="text-left px-4 py-3 font-semibold text-stone-700">Date</th>
+                  <th className="text-left px-4 py-3 font-semibold text-stone-700">Shift</th>
                   <th className="text-left px-4 py-3 font-semibold text-stone-700">Brother</th>
                   <th className="text-left px-4 py-3 font-semibold text-stone-700">Email</th>
                   <th className="text-left px-4 py-3 font-semibold text-stone-700">Phone</th>
-                  <th className="text-left px-4 py-3 font-semibold text-stone-700">Shift</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-stone-100">
                 {event.roles.flatMap(role =>
-                  role.signups.map(signup => (
-                    <tr key={signup.id} className="hover:bg-stone-50">
-                      <td className="px-4 py-3 font-medium text-navy-800">{role.name}</td>
-                      <td className="px-4 py-3 text-stone-700">{signup.user.name ?? '—'}</td>
-                      <td className="px-4 py-3 text-stone-500">{signup.user.email}</td>
-                      <td className="px-4 py-3 text-stone-500">{signup.user.phone ?? '—'}</td>
-                      <td className="px-4 py-3 text-stone-500">
-                        {role.shiftStart && role.shiftEnd
-                          ? `${role.shiftStart} – ${role.shiftEnd}`
-                          : role.shiftStart ?? '—'}
-                      </td>
-                    </tr>
-                  ))
+                  role.shifts.flatMap(shift =>
+                    shift.signups.map(signup => (
+                      <tr key={signup.id} className="hover:bg-stone-50">
+                        <td className="px-4 py-3 font-medium text-navy-800">{role.name}</td>
+                        <td className="px-4 py-3 text-stone-600">{format(new Date(shift.date), 'EEE, MMM d')}</td>
+                        <td className="px-4 py-3 text-stone-500">
+                          {shift.shiftStart && shift.shiftEnd
+                            ? `${shift.shiftStart} – ${shift.shiftEnd}`
+                            : shift.shiftStart ?? '—'}
+                        </td>
+                        <td className="px-4 py-3 text-stone-700">{signup.user.name ?? '—'}</td>
+                        <td className="px-4 py-3 text-stone-500">{signup.user.email}</td>
+                        <td className="px-4 py-3 text-stone-500">{signup.user.phone ?? '—'}</td>
+                      </tr>
+                    ))
+                  )
                 )}
               </tbody>
             </table>

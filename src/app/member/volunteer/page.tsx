@@ -16,12 +16,16 @@ export default async function MemberVolunteerPage() {
 
   const events = await prisma.volunteerEvent.findMany({
     where: { published: true },
-    orderBy: { eventDate: 'asc' },
+    orderBy: { startDate: 'asc' },
     include: {
       roles: {
         include: {
-          _count: { select: { signups: true } },
-          signups: { where: { userId: session!.user.id }, select: { id: true } },
+          shifts: {
+            include: {
+              _count: { select: { signups: true } },
+              signups: { where: { userId: session!.user.id }, select: { id: true } },
+            },
+          },
         },
       },
     },
@@ -44,10 +48,14 @@ export default async function MemberVolunteerPage() {
       ) : (
         <div className="space-y-4">
           {events.map(event => {
-            const totalSlots   = event.roles.reduce((s, r) => s + r.slotsNeeded, 0)
-            const totalSignups = event.roles.reduce((s, r) => s + r._count.signups, 0)
+            const allShifts    = event.roles.flatMap(r => r.shifts)
+            const totalSlots   = allShifts.reduce((s, sh) => s + sh.slotsNeeded, 0)
+            const totalSignups = allShifts.reduce((s, sh) => s + sh._count.signups, 0)
             const open         = totalSlots - totalSignups
-            const mySignups    = event.roles.reduce((s, r) => s + r.signups.length, 0)
+            const mySignups    = allShifts.reduce((s, sh) => s + sh.signups.length, 0)
+            const dateRange    = event.endDate
+              ? `${formatDate(event.startDate)} – ${formatDate(event.endDate)}`
+              : formatDate(event.startDate)
 
             return (
               <Link
@@ -70,7 +78,7 @@ export default async function MemberVolunteerPage() {
                     )}
                   </div>
                   <p className="text-stone-500 text-sm mt-0.5">
-                    {formatDate(event.eventDate)}{event.location ? ` · ${event.location}` : ''}
+                    {dateRange}{event.location ? ` · ${event.location}` : ''}
                   </p>
                   {event.description && (
                     <p className="text-stone-500 text-sm mt-1 line-clamp-1">{event.description}</p>
@@ -78,8 +86,8 @@ export default async function MemberVolunteerPage() {
                 </div>
                 <div className="flex items-center gap-5 text-sm flex-shrink-0">
                   <div className="text-center">
-                    <p className="font-bold text-navy-800">{event.roles.length}</p>
-                    <p className="text-stone-400 text-xs">Roles</p>
+                    <p className="font-bold text-navy-800">{allShifts.length}</p>
+                    <p className="text-stone-400 text-xs">Shifts</p>
                   </div>
                   <div className="text-center">
                     <p className={`font-bold ${open > 0 ? 'text-amber-600' : 'text-green-600'}`}>{open}</p>

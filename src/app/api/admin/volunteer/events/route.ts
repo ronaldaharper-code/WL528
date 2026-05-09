@@ -6,7 +6,8 @@ import { requireAdmin } from '@/lib/auth'
 const schema = z.object({
   title:       z.string().min(2).max(200),
   description: z.string().max(2000).optional(),
-  eventDate:   z.string().min(1),
+  startDate:   z.string().min(1),
+  endDate:     z.string().optional(),
   location:    z.string().max(200).optional(),
   isExternal:  z.boolean().optional(),
   hostOrg:     z.string().max(200).optional(),
@@ -20,9 +21,14 @@ export async function POST(req: NextRequest) {
   const parsed = schema.safeParse(await req.json().catch(() => null))
   if (!parsed.success) return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
 
-  const { eventDate, ...rest } = parsed.data
+  const { startDate, endDate, ...rest } = parsed.data
   const event = await prisma.volunteerEvent.create({
-    data: { ...rest, eventDate: new Date(eventDate), createdById: session.user.id },
+    data: {
+      ...rest,
+      startDate: new Date(startDate),
+      endDate:   endDate ? new Date(endDate) : null,
+      createdById: session.user.id,
+    },
   })
 
   return NextResponse.json({ event }, { status: 201 })
