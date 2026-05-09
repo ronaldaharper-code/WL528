@@ -3,6 +3,7 @@ import { z } from 'zod'
 import bcrypt from 'bcryptjs'
 import { prisma } from '@/lib/prisma'
 import { rateLimit } from '@/lib/rate-limit'
+import { sendEmail, newMemberSignupHtml } from '@/lib/email'
 
 const schema = z.object({
   name: z.string().min(2).max(100),
@@ -40,6 +41,11 @@ export async function POST(req: NextRequest) {
       commentApproved: false,
     },
   })
+
+  sendEmail({
+    subject: `New member request: ${name}`,
+    html: newMemberSignupHtml(name, email),
+  }).catch(() => {})
 
   return NextResponse.json({ success: true })
 }

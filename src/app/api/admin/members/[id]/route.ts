@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 import { requireAdmin } from '@/lib/auth'
 import { Role } from '@prisma/client'
-import { sendEmail, approvalEmailHtml } from '@/lib/email'
+import { sendEmail, memberApprovedHtml } from '@/lib/email'
 
 const schema = z.object({
   approved: z.boolean().optional(),
@@ -31,13 +31,12 @@ export async function PATCH(req: NextRequest, { params }: Params) {
     data: parsed.data,
   })
 
-  // Send approval email when an account is approved for the first time
+  // Notify lodge email when a member is approved for the first time
   if (parsed.data.approved === true && userBefore && !userBefore.approved) {
     sendEmail({
-      to: user.email!,
-      subject: 'Your Walled Lake Lodge #528 account has been approved',
-      html: approvalEmailHtml(user.name ?? 'Member'),
-    }).catch(() => {}) // fire-and-forget — don't fail the request if email fails
+      subject: `Member approved: ${user.name ?? user.email}`,
+      html: memberApprovedHtml(user.name ?? 'Unknown', user.email!),
+    }).catch(() => {})
   }
 
   await prisma.auditLog.create({
