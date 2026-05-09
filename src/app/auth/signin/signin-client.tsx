@@ -1,36 +1,44 @@
-"use client";
+'use client'
 
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
+import { Suspense } from 'react'
+import Link from 'next/link'
+import { SignInForm } from '@/components/auth/SignInForm'
 
 export default function SignInClient() {
-  const params = useSearchParams();
-  const error = params.get("error");
-  const callbackUrl = params.get("callbackUrl") ?? "/";
-
   return (
-    <div className="mx-auto max-w-md p-6">
-      <h1 className="text-2xl font-bold">Member Login</h1>
+    <div className="min-h-[70vh] flex items-center justify-center px-4 py-16">
+      <div className="w-full max-w-md">
+        <div className="text-center mb-8">
+          <h1 className="font-serif text-2xl font-bold text-navy-900">Member Sign In</h1>
+          <p className="text-stone-500 text-sm mt-1">
+            Walled Lake Lodge #528 — Member Portal
+          </p>
+        </div>
 
-      {error ? (
-        <p className="mt-3 rounded-md border p-3 text-sm">
-          Sign-in error: {error}
-        </p>
-      ) : null}
+        <div className="bg-white rounded-lg border border-stone-200 shadow-sm p-8">
+          <Suspense>
+            <SignInForm />
+          </Suspense>
 
-      <p className="mt-3 text-sm opacity-80">
-        This area is being finalized. If you need help, email{" "}
-        <a className="underline" href="mailto:TEMPLEBOARD528@gmail.com">
-          TEMPLEBOARD528@gmail.com
-        </a>
-        .
-      </p>
-
-      <div className="mt-6 flex gap-3">
-        <Link className="underline" href={callbackUrl}>
-          Go back
-        </Link>
+          <div className="mt-6 pt-6 border-t border-stone-100 text-center space-y-2">
+            <p className="text-stone-500 text-sm">
+              Don&apos;t have an account?{' '}
+              <Link href="/auth/signup" className="text-navy-700 hover:text-navy-900 underline">
+                Request Access
+              </Link>
+            </p>
+            <p className="text-stone-400 text-xs">
+              Need help?{' '}
+              <a
+                href="mailto:walledlakemasons528@gmail.com"
+                className="text-navy-600 hover:underline"
+              >
+                Contact the lodge
+              </a>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
-  );
+  )
 }
