@@ -4,6 +4,7 @@ import { sanityClient, QUERIES } from '@/lib/sanity'
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
 import { formatDate } from '@/lib/utils'
+import { fetchMemberCalendarEvents, getThisMonthEvents } from '@/lib/gcal'
 
 export const metadata: Metadata = {
   title: 'Member Dashboard',
@@ -11,13 +12,9 @@ export const metadata: Metadata = {
 }
 
 async function getDashboardData(userId: string) {
-  const [announcements, upcomingEvents, myRsvps] = await Promise.all([
+  const [announcements, calEvents, myRsvps] = await Promise.all([
     sanityClient.fetch(QUERIES.announcements).catch(() => []),
-    prisma.event.findMany({
-      where: { startAt: { gte: new Date() } },
-      orderBy: { startAt: 'asc' },
-      take: 5,
-    }),
+    fetchMemberCalendarEvents(),
     prisma.rSVP.findMany({
       where: { userId, status: 'ATTENDING' },
       include: { event: true },
@@ -25,7 +22,7 @@ async function getDashboardData(userId: string) {
       take: 5,
     }),
   ])
-  return { announcements, upcomingEvents, myRsvps }
+  return { announcements, upcomingEvents: getThisMonthEvents(calEvents), myRsvps }
 }
 
 export default async function MemberDashboardPage() {
@@ -84,12 +81,11 @@ export default async function MemberDashboardPage() {
             </Link>
           </div>
           {upcomingEvents.length === 0 ? (
-            <p className="text-stone-400 text-sm">No upcoming events scheduled.</p>
+            <p className="text-stone-400 text-sm">No events this month.</p>
           ) : (
             <div className="space-y-3">
-              {upcomingEvents.map((event) => (
-                <div key={event.id} className="card p-4 flex gap-4 items-start">
-                  {/* Date block */}
+              {upcomingEvents.map((event, i) => (
+                <div key={i} className="card p-4 flex gap-4 items-start">
                   <div className="flex-shrink-0 w-12 text-center bg-navy-50 rounded p-2 border border-navy-100">
                     <div className="text-gold-600 text-xs font-bold uppercase">{formatDate(event.startAt, 'MMM')}</div>
                     <div className="text-navy-900 text-xl font-bold leading-none">{formatDate(event.startAt, 'd')}</div>
@@ -97,10 +93,7 @@ export default async function MemberDashboardPage() {
                   <div className="min-w-0">
                     <p className="font-medium text-navy-800 text-sm truncate">{event.title}</p>
                     <p className="text-stone-500 text-xs mt-0.5">
-                      {formatDate(event.startAt, 'h:mm a')}
-                      {event.visibility === 'MEMBER' && (
-                        <span className="ml-2 text-navy-500">Members only</span>
-                      )}
+                      {event.allDay ? 'All day' : formatDate(event.startAt, 'h:mm a')}
                     </p>
                     {event.location && (
                       <p className="text-stone-500 text-xs">{event.location}</p>
