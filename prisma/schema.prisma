@@ -281,6 +281,19 @@ model LodgeDocument {
 }
 
 // ============================================================
+// PHOTO GALLERY
+// ============================================================
+
+model Photo {
+  id        String   @id @default(cuid())
+  title     String?
+  caption   String?
+  imageUrl  String
+  pathname  String   // Vercel Blob pathname — used for deletion
+  createdAt DateTime @default(now())
+}
+
+// ============================================================
 // AUDIT LOG
 // ============================================================
 

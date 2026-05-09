@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { label: 'About the Lodge',   href: '/about-lodge' },
   { label: 'How To Join',       href: '/how-to-join' },
   { label: 'Events',            href: '/events' },
+  { label: 'Photo Gallery',     href: '/gallery' },
   { label: 'Hall Rental',       href: '/hall-rental' },
   { label: 'Contact',           href: '/contact' },
 ]

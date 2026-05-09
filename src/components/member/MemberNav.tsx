@@ -19,6 +19,7 @@ const MEMBER_LINKS = [
 const ADMIN_LINKS = [
   { label: 'Announcements', href: '/admin/announcements', icon: '◈' },
   { label: 'Documents',     href: '/admin/documents',     icon: '◉' },
+  { label: 'Photo Gallery', href: '/admin/gallery',       icon: '◻' },
   { label: 'Manage Members', href: '/admin/members',      icon: '◫' },
   { label: 'Comment Queue', href: '/admin/moderation',    icon: '◬' },
 ]
