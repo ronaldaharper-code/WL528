@@ -3,7 +3,7 @@ import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
 import { formatDate } from '@/lib/utils'
-import { fetchMemberCalendarEvents, getThisMonthEvents } from '@/lib/gcal'
+import { fetchMemberCalendarEvents, getNext30DaysEvents } from '@/lib/gcal'
 
 export const metadata: Metadata = {
   title: 'Member Dashboard',
@@ -21,7 +21,7 @@ async function getDashboardData(userId: string) {
       take: 5,
     }),
   ])
-  return { announcements, upcomingEvents: getThisMonthEvents(calEvents), myRsvps }
+  return { announcements, upcomingEvents: getNext30DaysEvents(calEvents), myRsvps }
 }
 
 export default async function MemberDashboardPage() {
@@ -80,10 +80,10 @@ export default async function MemberDashboardPage() {
             </Link>
           </div>
           {upcomingEvents.length === 0 ? (
-            <p className="text-stone-400 text-sm">No events this month.</p>
+            <p className="text-stone-400 text-sm">No events in the next 30 days.</p>
           ) : (
             <div className="space-y-3">
-              {upcomingEvents.map((event, i) => (
+              {upcomingEvents.map((event, i: number) => (
                 <div key={i} className="card p-4 flex gap-4 items-start">
                   <div className="flex-shrink-0 w-12 text-center bg-navy-50 rounded p-2 border border-navy-100">
                     <div className="text-gold-600 text-xs font-bold uppercase">{formatDate(event.startAt, 'MMM')}</div>

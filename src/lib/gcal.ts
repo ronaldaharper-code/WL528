@@ -90,10 +90,11 @@ export async function fetchMemberCalendarEvents(): Promise<CalEvent[]> {
   }
 }
 
-export function getThisMonthEvents(events: CalEvent[]): CalEvent[] {
-  const now   = new Date()
-  const start = new Date(now.getFullYear(), now.getMonth(), 1)
-  const end   = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59)
+export function getNext30DaysEvents(events: CalEvent[]): CalEvent[] {
+  const now = new Date()
+  const start = new Date(now.getFullYear(), now.getMonth(), now.getDate()) // today at midnight
+  const end   = new Date(start)
+  end.setDate(end.getDate() + 30)
   return events
     .filter(e => e.startAt >= start && e.startAt <= end)
     .sort((a, b) => a.startAt.getTime() - b.startAt.getTime())
