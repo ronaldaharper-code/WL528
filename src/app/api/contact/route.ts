@@ -41,7 +41,6 @@ export async function POST(req: NextRequest) {
   // Best-effort email notification (SMTP may not be configured)
   try {
     await sendEmail({
-      to: process.env.ADMIN_EMAIL ?? 'TEMPLEBOARD528@gmail.com',
       subject: `Contact Form: ${subject}`,
       html: `
         <h2>Contact Form Submission</h2>
@@ -50,7 +49,6 @@ export async function POST(req: NextRequest) {
         <hr>
         <p>${message.replace(/\n/g, '<br>')}</p>
       `,
-      replyTo: email,
     })
   } catch (err) {
     console.error('Contact email error (message saved to DB):', err)
