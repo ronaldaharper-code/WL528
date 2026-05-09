@@ -118,6 +118,8 @@ model User {
   volunteers  Volunteer[]
   donations   Donation[]
   removedComments Comment[] @relation("RemovedBy")
+  volunteerSignups    VolunteerSignup[]
+  volunteerEvents     VolunteerEvent[] @relation("VolunteerEventCreator")
 }
 
 // ============================================================
@@ -291,6 +293,57 @@ model Photo {
   imageUrl  String
   pathname  String   // Vercel Blob pathname — used for deletion
   createdAt DateTime @default(now())
+}
+
+// ============================================================
+// VOLUNTEER SYSTEM
+// ============================================================
+
+model VolunteerEvent {
+  id          String   @id @default(cuid())
+  title       String
+  description String?  @db.Text
+  eventDate   DateTime
+  location    String?
+  isExternal  Boolean  @default(false)
+  hostOrg     String?
+  published   Boolean  @default(true)
+  createdById String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  roles     VolunteerRole[]
+  createdBy User            @relation("VolunteerEventCreator", fields: [createdById], references: [id])
+}
+
+model VolunteerRole {
+  id           String   @id @default(cuid())
+  eventId      String
+  name         String
+  description  String?  @db.Text
+  slotsNeeded  Int      @default(1)
+  shiftStart   String?
+  shiftEnd     String?
+  instructions String?  @db.Text
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  event   VolunteerEvent  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  signups VolunteerSignup[]
+}
+
+model VolunteerSignup {
+  id        String   @id @default(cuid())
+  roleId    String
+  userId    String
+  note      String?
+  createdAt DateTime @default(now())
+
+  role VolunteerRole @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  user User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, userId])
 }
 
 // ============================================================

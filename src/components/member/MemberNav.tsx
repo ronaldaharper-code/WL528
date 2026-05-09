@@ -9,19 +9,21 @@ interface Props {
 }
 
 const MEMBER_LINKS = [
-  { label: 'Dashboard', href: '/member/dashboard', icon: '⊞' },
-  { label: 'Calendar', href: '/member/calendar', icon: '◻' },
-  { label: 'Directory', href: '/member/directory', icon: '◈' },
-  { label: 'Documents', href: '/member/documents', icon: '◉' },
-  { label: 'My Profile', href: '/member/profile', icon: '◎' },
+  { label: 'Dashboard',   href: '/member/dashboard',  icon: '⊞' },
+  { label: 'Calendar',    href: '/member/calendar',   icon: '◻' },
+  { label: 'Volunteer',   href: '/member/volunteer',  icon: '◆' },
+  { label: 'Directory',   href: '/member/directory',  icon: '◈' },
+  { label: 'Documents',   href: '/member/documents',  icon: '◉' },
+  { label: 'My Profile',  href: '/member/profile',    icon: '◎' },
 ]
 
 const ADMIN_LINKS = [
-  { label: 'Announcements', href: '/admin/announcements', icon: '◈' },
-  { label: 'Documents',     href: '/admin/documents',     icon: '◉' },
-  { label: 'Photo Gallery', href: '/admin/gallery',       icon: '◻' },
-  { label: 'Manage Members', href: '/admin/members',      icon: '◫' },
-  { label: 'Comment Queue', href: '/admin/moderation',    icon: '◬' },
+  { label: 'Announcements',   href: '/admin/announcements', icon: '◈' },
+  { label: 'Documents',       href: '/admin/documents',     icon: '◉' },
+  { label: 'Photo Gallery',   href: '/admin/gallery',       icon: '◻' },
+  { label: 'Volunteer Events', href: '/admin/volunteer',    icon: '◆' },
+  { label: 'Manage Members',  href: '/admin/members',       icon: '◫' },
+  { label: 'Comment Queue',   href: '/admin/moderation',    icon: '◬' },
 ]
 
 export function MemberNav({ role }: Props) {

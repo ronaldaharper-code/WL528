@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-export function DeleteButton({ endpoint, label = 'Delete' }: { endpoint: string; label?: string }) {
+export function DeleteButton({ endpoint, label = 'Delete', redirectTo }: { endpoint: string; label?: string; redirectTo?: string }) {
   const router = useRouter()
   const [confirming, setConfirming] = useState(false)
   const [loading,    setLoading]    = useState(false)
@@ -13,7 +13,8 @@ export function DeleteButton({ endpoint, label = 'Delete' }: { endpoint: string;
     await fetch(endpoint, { method: 'DELETE' })
     setLoading(false)
     setConfirming(false)
-    router.refresh()
+    if (redirectTo) router.push(redirectTo)
+    else router.refresh()
   }
 
   if (confirming) {
