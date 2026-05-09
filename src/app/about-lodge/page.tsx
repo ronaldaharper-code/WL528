@@ -68,9 +68,9 @@ export default function AboutLodgePage() {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
-            <h3 className="font-semibold text-navy-700 mb-2">Regular Stated Meetings</h3>
+            <h3 className="font-semibold text-navy-700 mb-2">Regular Communications Meetings</h3>
             <p className="text-stone-600 text-sm leading-relaxed">
-              The lodge holds its stated meeting on the <strong>first Wednesday of each
+              The lodge holds its Communications Meeting on the <strong>first Wednesday of each
               month</strong>. The lodge goes dark in <strong>July and August</strong>.
               Masonic visitors are always welcome with proper credentials.
             </p>

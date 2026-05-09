@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { siteConfig } from '@/config/site'
 
 export const metadata: Metadata = {
@@ -65,11 +66,21 @@ export default async function HomePage() {
               Est. {siteConfig.established} &bull; Oakland County, Michigan
             </span>
 
-            <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight mb-6">
-              Walled Lake<br />
-              Lodge{' '}
-              <span className="text-gold-400">#528</span>
-            </h1>
+            <div className="flex items-center gap-6 mb-6">
+              <Image
+                src="/mason-logo.gif"
+                alt="Walled Lake Lodge #528 seal"
+                width={120}
+                height={120}
+                className="shrink-0 object-contain drop-shadow-lg"
+                priority
+              />
+              <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight">
+                Walled Lake<br />
+                Lodge{' '}
+                <span className="text-gold-400">#528</span>
+              </h1>
+            </div>
 
             <p className="text-2xl text-stone-300/90 font-light leading-relaxed mb-4 max-w-2xl">
               Free &amp; Accepted Masons
