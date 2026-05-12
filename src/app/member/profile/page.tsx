@@ -21,6 +21,9 @@ export default async function ProfilePage() {
       bio: true,
       title: true,
       joinedLodge: true,
+      eaDate: true,
+      fcDate: true,
+      mmDate: true,
       profileVisible: true,
     },
   })

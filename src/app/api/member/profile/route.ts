@@ -10,6 +10,9 @@ const schema = z.object({
   bio: z.string().max(500).optional(),
   title: z.string().max(100).optional(),
   joinedLodge: z.string().max(10).optional(),
+  eaDate: z.string().max(10).optional(),
+  fcDate: z.string().max(10).optional(),
+  mmDate: z.string().max(10).optional(),
   profileVisible: z.boolean(),
 })
 

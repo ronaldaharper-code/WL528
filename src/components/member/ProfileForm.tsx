@@ -5,6 +5,13 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
+function formatMasonicDate(raw: string): string {
+  const digits = raw.replace(/\D/g, '').slice(0, 8)
+  if (digits.length <= 2) return digits
+  if (digits.length <= 4) return `${digits.slice(0, 2)}/${digits.slice(2)}`
+  return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`
+}
+
 function formatPhone(raw: string): string {
   const digits = raw.replace(/\D/g, '').slice(0, 10)
   if (digits.length <= 3) return digits
@@ -22,6 +29,18 @@ const schema = z.object({
   bio: z.string().max(500).optional(),
   title: z.string().optional(),
   joinedLodge: z.string().optional(),
+  eaDate: z.string().optional().refine(
+    val => !val || /^\d{2}\/\d{2}\/\d{4}$/.test(val),
+    { message: 'Use MM/DD/YYYY format' }
+  ),
+  fcDate: z.string().optional().refine(
+    val => !val || /^\d{2}\/\d{2}\/\d{4}$/.test(val),
+    { message: 'Use MM/DD/YYYY format' }
+  ),
+  mmDate: z.string().optional().refine(
+    val => !val || /^\d{2}\/\d{2}\/\d{4}$/.test(val),
+    { message: 'Use MM/DD/YYYY format' }
+  ),
   profileVisible: z.boolean(),
 })
 
@@ -37,6 +56,9 @@ interface Props {
     bio: string | null
     title: string | null
     joinedLodge: string | null
+    eaDate: string | null
+    fcDate: string | null
+    mmDate: string | null
     profileVisible: boolean
   }
 }
@@ -53,6 +75,9 @@ export function ProfileForm({ user }: Props) {
       bio: user.bio ?? '',
       title: user.title ?? '',
       joinedLodge: user.joinedLodge ?? '',
+      eaDate: user.eaDate ?? '',
+      fcDate: user.fcDate ?? '',
+      mmDate: user.mmDate ?? '',
       profileVisible: user.profileVisible,
     },
   })
@@ -115,6 +140,48 @@ export function ProfileForm({ user }: Props) {
         <label htmlFor="profile-joined" className="form-label">Year Joined Lodge</label>
         <input id="profile-joined" type="text" {...register('joinedLodge')} className="form-input"
                placeholder="e.g. 2015" />
+      </div>
+
+      <div>
+        <label htmlFor="profile-ea" className="form-label">Entered Apprentice Date</label>
+        <input
+          id="profile-ea"
+          type="text"
+          inputMode="numeric"
+          {...register('eaDate')}
+          onChange={(e) => setValue('eaDate', formatMasonicDate(e.target.value), { shouldValidate: true })}
+          className="form-input"
+          placeholder="MM/DD/YYYY"
+        />
+        {errors.eaDate && <p className="form-error">Use MM/DD/YYYY format</p>}
+      </div>
+
+      <div>
+        <label htmlFor="profile-fc" className="form-label">Fellowcraft Date</label>
+        <input
+          id="profile-fc"
+          type="text"
+          inputMode="numeric"
+          {...register('fcDate')}
+          onChange={(e) => setValue('fcDate', formatMasonicDate(e.target.value), { shouldValidate: true })}
+          className="form-input"
+          placeholder="MM/DD/YYYY"
+        />
+        {errors.fcDate && <p className="form-error">Use MM/DD/YYYY format</p>}
+      </div>
+
+      <div>
+        <label htmlFor="profile-mm" className="form-label">Master Mason Date</label>
+        <input
+          id="profile-mm"
+          type="text"
+          inputMode="numeric"
+          {...register('mmDate')}
+          onChange={(e) => setValue('mmDate', formatMasonicDate(e.target.value), { shouldValidate: true })}
+          className="form-input"
+          placeholder="MM/DD/YYYY"
+        />
+        {errors.mmDate && <p className="form-error">Use MM/DD/YYYY format</p>}
       </div>
 
       <div>
