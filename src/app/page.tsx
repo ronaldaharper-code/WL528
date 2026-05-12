@@ -83,9 +83,9 @@ const WHAT_WE_DO = [
   },
   {
     title: 'Civic Engagement',
-    body: 'Parade participation, open houses, family events. We are visible, active, and proud members of the Walled Lake community.',
+    body: 'Parade participation, open houses, community events. We are visible, active, and proud members of the Walled Lake community.',
     image: '/lodge-parade.jpg',
-    imageAlt: 'Lodge members participating in a community parade',
+    imageAlt: 'Lodge members at a community event',
   },
 ]
 
@@ -129,7 +129,7 @@ export default function HomePage() {
           src="/hero-community.jpg"
           alt="Lodge members gathered at a Walled Lake community event"
           fill
-          className="object-cover object-[center_40%]"
+          className="object-cover object-[center_60%]"
           priority
         />
         {/* Layered gradient: strong left for text, fades right to reveal photo */}
