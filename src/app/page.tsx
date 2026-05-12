@@ -214,6 +214,39 @@ export default async function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════════
+          BROTHERHOOD PHOTO
+      ══════════════════════════════════════════════════════════════ */}
+      <section aria-labelledby="brotherhood-heading" className="section bg-stone-50">
+        <div className="container-wide">
+          <div className="text-center max-w-2xl mx-auto mb-8">
+            <span className="eyebrow mb-3 block">Our Brotherhood</span>
+            <h2 id="brotherhood-heading" className="heading-md">
+              Brothers in Fellowship
+            </h2>
+          </div>
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-stone-200/60">
+            <div className="relative aspect-[4/3] sm:aspect-[16/7]">
+              <Image
+                src="/IMG_2461 copy.png"
+                alt="Members of Walled Lake Lodge #528 gathered in the lodge room"
+                fill
+                className="object-cover object-[center_15%]"
+                sizes="(max-width: 640px) 100vw, (max-width: 1280px) 90vw, 1200px"
+              />
+            </div>
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-navy-950/90 via-navy-950/40 to-transparent px-6 py-8 sm:px-10 sm:py-10">
+              <p className="font-serif text-white text-base sm:text-xl font-semibold">
+                Walled Lake Lodge #528 &mdash; Brothers Gathered in Fellowship
+              </p>
+              <p className="text-stone-300/80 text-sm mt-1">
+                Walled Lake, Michigan &middot; Oakland County &middot; Est. 1924
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════
           UPCOMING PUBLIC EVENTS
       ══════════════════════════════════════════════════════════════ */}
       <section aria-labelledby="events-heading" className="section bg-stone-50">
