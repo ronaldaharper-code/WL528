@@ -143,9 +143,7 @@ export default function HomePage() {
             </span>
 
             <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl xl:text-[82px] font-bold text-white leading-[1.04] tracking-tight mb-7">
-              Good Men<br />
-              Still Gather<br />
-              Here.
+              Good Men Still Gather Here.
             </h1>
 
             <p className="text-lg sm:text-xl text-stone-300 leading-relaxed mb-10 max-w-lg">
