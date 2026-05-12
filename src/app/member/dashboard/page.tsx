@@ -80,7 +80,7 @@ export default async function MemberDashboardPage() {
             </Link>
           </div>
           {upcomingEvents.length === 0 ? (
-            <p className="text-stone-400 text-sm">No events in the next 30 days.</p>
+            <p className="text-stone-400 text-sm">No events in the next 90 days.</p>
           ) : (
             <div className="space-y-3">
               {upcomingEvents.map((event, i: number) => (

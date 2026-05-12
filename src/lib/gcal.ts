@@ -97,7 +97,7 @@ export function getNext30DaysEvents(events: CalEvent[]): CalEvent[] {
   const now = new Date()
   const start = new Date(now.getFullYear(), now.getMonth(), now.getDate()) // today at midnight
   const end   = new Date(start)
-  end.setDate(end.getDate() + 30)
+  end.setDate(end.getDate() + 90)
   return events
     .filter(e => e.startAt >= start && e.startAt <= end)
     .sort((a, b) => a.startAt.getTime() - b.startAt.getTime())
