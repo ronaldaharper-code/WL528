@@ -129,7 +129,7 @@ export default function HomePage() {
           src="/hero-community.jpg"
           alt="Lodge members gathered at a Walled Lake community event"
           fill
-          className="object-cover object-center"
+          className="object-cover object-[center_40%]"
           priority
         />
         {/* Layered gradient: strong left for text, fades right to reveal photo */}
