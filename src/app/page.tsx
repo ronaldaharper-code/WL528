@@ -133,12 +133,12 @@ export default function HomePage() {
           priority
         />
         {/* Layered gradient: strong left for text, fades right to reveal photo */}
-        <div className="absolute inset-0 bg-gradient-to-r from-navy-950/92 via-navy-950/70 to-navy-900/20" aria-hidden="true" />
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/60 via-transparent to-transparent" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-950 via-navy-950/85 to-navy-900/30" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/70 via-transparent to-transparent" aria-hidden="true" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 lg:py-40">
           <div className="max-w-2xl">
-            <span className="text-gold-400 text-xs font-bold uppercase tracking-[0.18em] mb-6 block">
+            <span className="text-white/90 text-xs font-bold uppercase tracking-[0.18em] mb-6 block drop-shadow-md">
               Est. {siteConfig.established} &bull; Walled Lake, Michigan
             </span>
 
@@ -146,7 +146,7 @@ export default function HomePage() {
               Good Men Still Gather Here.
             </h1>
 
-            <p className="text-lg sm:text-xl text-stone-300 leading-relaxed mb-10 max-w-lg">
+            <p className="text-lg sm:text-xl text-white/90 leading-relaxed mb-10 max-w-lg drop-shadow-md">
               Walled Lake Lodge #528 is a brotherhood of men committed to growth,
               service, and genuine fellowship — rooted in over 100 years of tradition.
             </p>
