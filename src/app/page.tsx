@@ -187,7 +187,6 @@ export default function HomePage() {
       <section aria-labelledby="why-heading" className="section bg-stone-50">
         <div className="container-wide">
           <div className="max-w-2xl mb-14">
-            <span className="eyebrow mb-3 block">Why Men Join</span>
             <h2 id="why-heading" className="heading-lg text-stone-900 mb-5">
               Men join for the history.<br />
               They stay for the brotherhood.
