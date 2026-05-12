@@ -4,140 +4,209 @@ import Image from 'next/image'
 import { siteConfig } from '@/config/site'
 
 export const metadata: Metadata = {
-  title: 'Walled Lake Lodge #528 F&AM — Freemasonry in Walled Lake, Michigan',
+  title: 'Walled Lake Lodge #528 F&AM — Brotherhood. Purpose. Legacy.',
   description: siteConfig.description,
 }
 
-const PILLARS = [
+// ─── Why Men Join ─────────────────────────────────────────────────────────────
+const WHY_JOIN = [
   {
-    title: 'Brotherly Love',
-    body: 'Every Mason regards the whole human race as one family. We cultivate genuine friendship, charity, and compassion — not as duties, but as the natural expression of a well-formed character.',
+    title: 'Brotherhood',
+    body: 'A network of men who show up for each other — not just in meetings, but in life. Real friendships built on shared values.',
     icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
+      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
       </svg>
     ),
   },
   {
-    title: 'Relief',
-    body: 'We support our brethren, their families, and our wider community through charitable service. Freemasonry has always considered charitable relief among its highest obligations.',
+    title: 'Leadership',
+    body: 'Every role, every ritual, every degree teaches you to lead with integrity. Freemasonry has shaped leaders for centuries.',
     icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
+      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Service',
+    body: 'Real charitable work that leaves a mark on your community — and on you. We serve Oakland County year-round.',
+    icon: (
+      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
       </svg>
     ),
   },
   {
-    title: 'Truth',
-    body: 'We pursue knowledge, uphold integrity in all dealings, and challenge every member to become a better version of himself — in his family, his community, and his character.',
+    title: 'Personal Growth',
+    body: 'Freemasonry challenges you to examine yourself honestly and become a better version of who you already are.',
     icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Mentorship',
+    body: 'Learn from men who have walked the path before you. Wisdom passed down, not looked up. That is what brotherhood means.',
+    icon: (
+      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Purpose',
+    body: 'Join something larger than yourself. Be part of a brotherhood and a legacy that has endured for over 100 years.',
+    icon: (
+      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
       </svg>
     ),
   },
 ]
 
-export default async function HomePage() {
+// ─── What We Actually Do ──────────────────────────────────────────────────────
+const WHAT_WE_DO = [
+  {
+    title: 'Fellowship & Dinners',
+    body: 'Monthly gatherings where friendships become brotherhood. Good food, real conversation, and the kind of connection that actually sticks.',
+    image: '/lodge-fellowship.jpg',
+    imageAlt: 'Lodge members enjoying a community gathering',
+  },
+  {
+    title: 'Community Service',
+    body: 'Scholarships, food drives, civic projects. We have been serving Oakland County for over 100 years — and we are not done.',
+    image: '/lodge-scholarship.jpg',
+    imageAlt: 'Lodge presenting a scholarship award to a community member',
+  },
+  {
+    title: 'Civic Engagement',
+    body: 'Parade participation, open houses, family events. We are visible, active, and proud members of the Walled Lake community.',
+    image: '/lodge-parade.jpg',
+    imageAlt: 'Lodge members participating in a community parade',
+  },
+]
+
+// ─── Membership Journey ───────────────────────────────────────────────────────
+const JOURNEY = [
+  {
+    step: '01',
+    title: 'Visit the Lodge',
+    body: 'Come see the building. Meet a brother or two. No pressure, no pitch — just an open door.',
+  },
+  {
+    step: '02',
+    title: 'Meet the Brothers',
+    body: 'Talk to real members. Ask real questions. Get a feel for who we are and what we stand for.',
+  },
+  {
+    step: '03',
+    title: 'Ask Everything',
+    body: 'There are no dumb questions. Every brother started exactly where you are standing right now.',
+  },
+  {
+    step: '04',
+    title: 'Attend an Event',
+    body: 'Come to a dinner or open house before making any decisions. See lodge life firsthand.',
+  },
+  {
+    step: '05',
+    title: 'Decide What Feels Right',
+    body: 'When you are ready — if you are ready — the door is open. The choice is always yours.',
+  },
+]
+
+export default function HomePage() {
   return (
     <>
       {/* ══════════════════════════════════════════════════════════════
-          HERO — deep navy, typographic, dignified
+          HERO — full-bleed real photography, emotional identity
       ══════════════════════════════════════════════════════════════ */}
-      <section aria-label="Welcome to Walled Lake Lodge #528" className="relative overflow-hidden bg-hero text-white">
-        {/* Subtle diagonal grid pattern */}
-        <div
-          className="absolute inset-0 opacity-[0.04]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpath d='M0 80L80 0M-20 20L20 -20M60 100L100 60' stroke='%23c9891f' stroke-width='1'/%3E%3C/svg%3E")`,
-          }}
-          aria-hidden="true"
+      <section className="relative min-h-[92vh] flex items-center" aria-label="Welcome to Walled Lake Lodge #528">
+        <Image
+          src="/hero-community.jpg"
+          alt="Lodge members gathered at a Walled Lake community event"
+          fill
+          className="object-cover object-center"
+          priority
         />
+        {/* Layered gradient: strong left for text, fades right to reveal photo */}
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-950/92 via-navy-950/70 to-navy-900/20" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/60 via-transparent to-transparent" aria-hidden="true" />
 
-        {/* Radial glow */}
-        <div className="absolute inset-0 bg-gradient-to-br from-navy-800/20 via-transparent to-navy-950/60" aria-hidden="true" />
-
-        {/* Gold left accent bar */}
-        <div className="absolute left-0 inset-y-0 w-1 bg-gradient-to-b from-gold-500/0 via-gold-500 to-gold-500/0" aria-hidden="true" />
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32 xl:py-40">
-          <div className="max-w-3xl">
-            <span className="eyebrow mb-5 block text-gold-400">
-              Est. {siteConfig.established} &bull; Oakland County, Michigan
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 lg:py-40">
+          <div className="max-w-2xl">
+            <span className="text-gold-400 text-xs font-bold uppercase tracking-[0.18em] mb-6 block">
+              Est. {siteConfig.established} &bull; Walled Lake, Michigan
             </span>
 
-            <div className="flex items-center gap-6 mb-6">
-              <Image
-                src="/mason-logo.gif"
-                alt="Walled Lake Lodge #528 seal"
-                width={120}
-                height={120}
-                className="shrink-0 object-contain drop-shadow-lg"
-                priority
-              />
-              <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight">
-                Walled Lake<br />
-                Lodge{' '}
-                <span className="text-gold-400">#528</span>
-              </h1>
-            </div>
+            <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl xl:text-[82px] font-bold text-white leading-[1.04] tracking-tight mb-7">
+              Good Men<br />
+              Still Gather<br />
+              Here.
+            </h1>
 
-            <p className="text-2xl text-stone-300/90 font-light leading-relaxed mb-4 max-w-2xl">
-              Free &amp; Accepted Masons
+            <p className="text-lg sm:text-xl text-stone-300 leading-relaxed mb-10 max-w-lg">
+              Walled Lake Lodge #528 is a brotherhood of men committed to growth,
+              service, and genuine fellowship — rooted in over 100 years of tradition.
             </p>
 
-            <p className="text-lg text-stone-400 leading-relaxed mb-10 max-w-xl">
-              A fraternal brotherhood dedicated to Brotherly Love, Relief, and Truth —
-              serving the Walled Lake community for over one hundred years.
-            </p>
-
-            <div className="flex flex-wrap gap-3">
-              <Link href="/about-freemasonry" className="btn btn-gold btn-lg">
-                Learn About Freemasonry
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link href="/about-freemasonry" className="btn btn-gold btn-lg text-center">
+                Curious About Masonry?
               </Link>
-              <Link href="/events" className="btn btn-outline btn-lg">
-                Upcoming Events
+              <Link href="/contact" className="btn btn-outline btn-lg text-center">
+                Visit the Lodge
               </Link>
             </div>
           </div>
         </div>
-
-        {/* Bottom fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-stone-50 to-transparent" aria-hidden="true" />
       </section>
 
       {/* ══════════════════════════════════════════════════════════════
-          THREE PILLARS
+          TAGLINE STRIP
       ══════════════════════════════════════════════════════════════ */}
-      <section aria-labelledby="pillars-heading" className="section bg-stone-50">
+      <div className="bg-navy-900 py-5 px-4 text-center">
+        <p className="font-serif text-gold-400/90 text-lg sm:text-xl italic tracking-wide">
+          &ldquo;Brotherhood. Purpose. Legacy.&rdquo;
+        </p>
+      </div>
+
+      {/* ══════════════════════════════════════════════════════════════
+          WHY MEN JOIN
+      ══════════════════════════════════════════════════════════════ */}
+      <section aria-labelledby="why-heading" className="section bg-stone-50">
         <div className="container-wide">
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <span className="eyebrow mb-3 block">Our Principles</span>
-            <h2 id="pillars-heading" className="heading-lg text-balance">
-              The Three Tenets of Freemasonry
+          <div className="max-w-2xl mb-14">
+            <span className="eyebrow mb-3 block">Why Men Join</span>
+            <h2 id="why-heading" className="heading-lg text-stone-900 mb-5">
+              Men don&apos;t join<br className="hidden sm:block" /> for the history.<br />
+              They stay for<br className="hidden sm:block" /> the brotherhood.
             </h2>
+            <p className="text-stone-500 text-lg leading-relaxed">
+              Freemasonry attracts men who want more — more purpose, more connection,
+              more meaning. Here is what they find.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-            {PILLARS.map((pillar, i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+            {WHY_JOIN.map((item) => (
               <div
-                key={pillar.title}
-                className="bg-white rounded-2xl border border-stone-200/80 p-8 text-center
-                           shadow-card hover:shadow-card-md hover:-translate-y-0.5
-                           transition-all duration-200"
+                key={item.title}
+                className="bg-white rounded-2xl border border-stone-200/70 p-7
+                           hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 group"
               >
                 <div
-                  className="w-14 h-14 rounded-2xl bg-navy-50 border border-navy-100
-                             flex items-center justify-center mx-auto mb-5 text-navy-600"
+                  className="w-11 h-11 rounded-xl bg-navy-50 border border-navy-100/60
+                             flex items-center justify-center mb-5 text-navy-700
+                             group-hover:bg-navy-100 transition-colors duration-150"
                 >
-                  {pillar.icon}
+                  {item.icon}
                 </div>
-                <h3 className="font-serif text-xl font-bold text-stone-900 mb-3">
-                  {pillar.title}
-                </h3>
-                <p className="text-stone-600 leading-relaxed text-sm">
-                  {pillar.body}
-                </p>
+                <h3 className="font-serif text-lg font-bold text-stone-900 mb-2">{item.title}</h3>
+                <p className="text-stone-500 text-sm leading-relaxed">{item.body}</p>
               </div>
             ))}
           </div>
@@ -145,70 +214,43 @@ export default async function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════════
-          ABOUT + QUOTE
+          WHAT WE ACTUALLY DO
       ══════════════════════════════════════════════════════════════ */}
-      <section aria-labelledby="about-heading" className="section bg-white">
+      <section aria-labelledby="do-heading" className="section bg-white">
         <div className="container-wide">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16 items-center">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <span className="eyebrow mb-3 block">Lodge Life</span>
+            <h2 id="do-heading" className="heading-lg text-stone-900 mb-5">
+              We&apos;re more active<br />than you think.
+            </h2>
+            <p className="text-stone-500 text-lg leading-relaxed">
+              Lodge life is dinners, service projects, open houses, charity work,
+              and genuine friendship. Here is what that actually looks like.
+            </p>
+          </div>
 
-            {/* Text column */}
-            <div className="lg:col-span-3">
-              <span className="eyebrow mb-3 block">Walled Lake, Michigan</span>
-              <h2 id="about-heading" className="heading-lg mb-5">
-                A Lodge Rooted in Tradition
-              </h2>
-              <p className="lead mb-5">
-                Walled Lake Lodge #528 was chartered under the Grand Lodge of Michigan,
-                Free and Accepted Masons, and has served Oakland County since 1924.
-              </p>
-              <p className="text-stone-600 leading-relaxed mb-4">
-                We meet regularly throughout the year to conduct lodge business, confer
-                Masonic degrees, and build lasting bonds of brotherhood. Our membership
-                includes men from all walks of life — united by shared values and a
-                commitment to making themselves and their communities better.
-              </p>
-              <p className="text-stone-600 leading-relaxed mb-8">
-                The lodge is open to men of good character who believe in a Supreme Being.
-                We do not recruit members — Freemasonry must be approached freely.
-              </p>
-              <div className="flex flex-wrap gap-3">
-                <Link href="/about-lodge" className="btn btn-primary">
-                  About the Lodge
-                </Link>
-                <Link href="/how-to-join" className="btn btn-secondary">
-                  How to Join
-                </Link>
-              </div>
-            </div>
-
-            {/* Quote card */}
-            <div className="lg:col-span-2">
-              <div className="relative rounded-2xl bg-gradient-to-br from-navy-900 to-navy-800 p-8 lg:p-10 text-white overflow-hidden">
-                {/* decorative quotation mark */}
-                <div className="absolute top-4 right-6 font-serif text-8xl text-white/5 leading-none select-none" aria-hidden="true">
-                  &ldquo;
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            {WHAT_WE_DO.map((item) => (
+              <div
+                key={item.title}
+                className="group rounded-2xl overflow-hidden border border-stone-200/70 bg-white
+                           hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+              >
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Image
+                    src={item.image}
+                    alt={item.imageAlt}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
                 </div>
-
-                <blockquote className="relative">
-                  <p className="font-serif text-2xl italic leading-relaxed text-white mb-5">
-                    &ldquo;Freemasonry makes good men better.&rdquo;
-                  </p>
-                  <footer className="text-gold-400 text-sm font-semibold tracking-wide uppercase">
-                    Masonic Tradition
-                  </footer>
-                </blockquote>
-
-                <div className="mt-7 pt-7 border-t border-white/10">
-                  <p className="text-stone-400 text-sm leading-relaxed mb-4">
-                    Membership in Freemasonry is open to men of good character who
-                    believe in a Supreme Being. We do not solicit membership.
-                  </p>
-                  <p className="font-serif italic text-gold-400 font-semibold">
-                    &ldquo;To be one, ask one.&rdquo;
-                  </p>
+                <div className="p-6">
+                  <h3 className="font-serif text-lg font-bold text-stone-900 mb-2">{item.title}</h3>
+                  <p className="text-stone-500 text-sm leading-relaxed">{item.body}</p>
                 </div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -220,9 +262,7 @@ export default async function HomePage() {
         <div className="container-wide">
           <div className="text-center max-w-2xl mx-auto mb-8">
             <span className="eyebrow mb-3 block">Our Brotherhood</span>
-            <h2 id="brotherhood-heading" className="heading-md">
-              Brothers in Fellowship
-            </h2>
+            <h2 id="brotherhood-heading" className="heading-md">Brothers in Fellowship</h2>
           </div>
           <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-stone-200/60">
             <div className="relative aspect-[4/3] sm:aspect-[16/7]">
@@ -247,28 +287,112 @@ export default async function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════════
-          UPCOMING PUBLIC EVENTS
+          MEMBERSHIP JOURNEY
+      ══════════════════════════════════════════════════════════════ */}
+      <section aria-labelledby="journey-heading" className="section bg-white">
+        <div className="container-wide">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <span className="eyebrow mb-3 block">Your Path</span>
+            <h2 id="journey-heading" className="heading-lg text-stone-900 mb-5">
+              You&apos;re Not Recruited.<br />You&apos;re Welcomed.
+            </h2>
+            <p className="text-stone-500 text-lg leading-relaxed">
+              Freemasonry has never solicited members. The door is always open —
+              but you walk through it yourself, on your own terms, in your own time.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-6">
+            {JOURNEY.map((item, i) => (
+              <div key={item.step} className="relative">
+                {/* Connector line between steps on large screens */}
+                {i < JOURNEY.length - 1 && (
+                  <div
+                    className="hidden lg:block absolute top-5 left-[calc(50%+1.5rem)] right-[-1.5rem] h-px bg-stone-200"
+                    aria-hidden="true"
+                  />
+                )}
+                <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
+                  <div className="w-10 h-10 rounded-full bg-navy-900 text-white text-xs font-bold font-mono flex items-center justify-center mb-4 shrink-0">
+                    {item.step}
+                  </div>
+                  <h3 className="font-serif text-base font-bold text-stone-900 mb-2">{item.title}</h3>
+                  <p className="text-stone-500 text-sm leading-relaxed">{item.body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-14">
+            <Link href="/how-to-join" className="btn btn-primary btn-lg">
+              Learn How to Join
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════
+          UPCOMING EVENTS
       ══════════════════════════════════════════════════════════════ */}
       <section aria-labelledby="events-heading" className="section bg-stone-50">
         <div className="container-wide">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div>
-              <span className="eyebrow mb-2 block">Community Calendar</span>
-              <h2 id="events-heading" className="heading-md">Upcoming Events</h2>
+              <span className="eyebrow mb-2 block">Stay Connected</span>
+              <h2 id="events-heading" className="heading-md">What&apos;s Happening</h2>
             </div>
+            <Link href="/events" className="text-sm text-navy-600 hover:text-navy-800 font-medium transition-colors">
+              View Full Calendar &rarr;
+            </Link>
           </div>
-          <div className="text-center py-16 bg-white rounded-2xl border border-stone-200">
-            <div className="w-14 h-14 rounded-2xl bg-navy-50 flex items-center justify-center mx-auto mb-4">
+          <div className="bg-white rounded-2xl border border-stone-200 p-10 sm:p-14 text-center">
+            <div className="w-14 h-14 rounded-2xl bg-navy-50 flex items-center justify-center mx-auto mb-5">
               <svg className="w-7 h-7 text-navy-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
               </svg>
             </div>
-            <p className="font-serif text-lg font-semibold text-navy-800 mb-2">View Our Events Calendar</p>
-            <p className="text-stone-500 text-sm mb-6 max-w-sm mx-auto">
-              See all upcoming public events hosted at or by {siteConfig.name}.
+            <p className="font-serif text-xl font-semibold text-navy-800 mb-3">See What&apos;s Coming Up</p>
+            <p className="text-stone-500 text-sm leading-relaxed mb-7 max-w-sm mx-auto">
+              Dinners, open houses, degree nights, community events — see everything
+              on the lodge calendar.
             </p>
             <Link href="/events" className="btn btn-primary">
               Open Events Calendar
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════
+          ABOUT FREEMASONRY — concise, approachable, modern
+      ══════════════════════════════════════════════════════════════ */}
+      <section aria-labelledby="about-heading" className="section bg-navy-900 text-white relative overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpath d='M0 80L80 0M-20 20L20 -20M60 100L100 60' stroke='%23c9891f' stroke-width='1'/%3E%3C/svg%3E")` }}
+          aria-hidden="true"
+        />
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <span className="eyebrow mb-4 block text-gold-400">About Freemasonry</span>
+          <h2 id="about-heading" className="heading-lg text-white mb-7">
+            One of the Oldest<br />Brotherhoods in the World.
+          </h2>
+          <p className="text-stone-300 text-lg leading-relaxed mb-5 max-w-2xl mx-auto">
+            Freemasonry is a fraternal organization built on the belief that good men
+            can make themselves — and their communities — better. It is not a religion,
+            not a political organization, and not a secret society.
+          </p>
+          <p className="text-stone-400 leading-relaxed mb-11 max-w-2xl mx-auto">
+            It is a brotherhood of men from all walks of life — different backgrounds,
+            different careers, different beliefs — united by shared values and a genuine
+            desire to do good in the world.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <Link href="/about-freemasonry" className="btn btn-gold btn-lg">
+              Learn About Freemasonry
+            </Link>
+            <Link href="/about-lodge" className="btn btn-outline btn-lg">
+              About the Lodge
             </Link>
           </div>
         </div>
@@ -285,7 +409,7 @@ export default async function HomePage() {
                 <span className="eyebrow mb-2 block">Available for Private Events</span>
                 <h2 id="rental-heading" className="heading-md mb-3">Hall Rental</h2>
                 <p className="text-stone-600 leading-relaxed">
-                  Our banquet hall seats up to{' '}
+                  Our hall seats up to{' '}
                   <strong className="text-stone-800">125 guests</strong> and is available
                   for private celebrations, community gatherings, meetings, and more.
                 </p>
@@ -302,7 +426,11 @@ export default async function HomePage() {
           DONATE CTA
       ══════════════════════════════════════════════════════════════ */}
       <section aria-labelledby="donate-heading" className="section bg-hero text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpath d='M0 80L80 0M-20 20L20 -20M60 100L100 60' stroke='%23c9891f' stroke-width='1'/%3E%3C/svg%3E")` }} aria-hidden="true" />
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpath d='M0 80L80 0M-20 20L20 -20M60 100L100 60' stroke='%23c9891f' stroke-width='1'/%3E%3C/svg%3E")` }}
+          aria-hidden="true"
+        />
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <span className="eyebrow mb-4 block text-gold-400">Support Our Work</span>
           <h2 id="donate-heading" className="heading-lg text-white mb-5">
