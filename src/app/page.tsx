@@ -132,21 +132,30 @@ export default function HomePage() {
           className="object-cover object-[center_60%]"
           priority
         />
-        {/* Layered gradient: strong left for text, fades right to reveal photo */}
-        <div className="absolute inset-0 bg-gradient-to-r from-navy-950 via-navy-950/85 to-navy-900/30" aria-hidden="true" />
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/70 via-transparent to-transparent" aria-hidden="true" />
+        {/* Light directional gradient — text shadow carries the readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-950/75 via-navy-950/40 to-transparent" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/40 via-transparent to-transparent" aria-hidden="true" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 lg:py-40">
           <div className="max-w-2xl">
-            <span className="text-white/90 text-xs font-bold uppercase tracking-[0.18em] mb-6 block drop-shadow-md">
+            <span
+              className="text-white/90 text-xs font-bold uppercase tracking-[0.18em] mb-6 block"
+              style={{ textShadow: '0 1px 8px rgba(0,0,0,0.8)' }}
+            >
               Est. {siteConfig.established} &bull; Walled Lake, Michigan
             </span>
 
-            <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl xl:text-[82px] font-bold text-white leading-[1.04] tracking-tight mb-7">
+            <h1
+              className="font-serif text-5xl sm:text-6xl lg:text-7xl xl:text-[82px] font-bold text-white leading-[1.04] tracking-tight mb-7"
+              style={{ textShadow: '0 2px 16px rgba(0,0,0,0.7)' }}
+            >
               Good Men Still Gather Here.
             </h1>
 
-            <p className="text-lg sm:text-xl text-white/90 leading-relaxed mb-10 max-w-lg drop-shadow-md">
+            <p
+              className="text-lg sm:text-xl text-white leading-relaxed mb-10 max-w-lg"
+              style={{ textShadow: '0 1px 10px rgba(0,0,0,0.8)' }}
+            >
               Walled Lake Lodge #528 is a brotherhood of men committed to growth,
               service, and genuine fellowship — rooted in over 100 years of tradition.
             </p>
