@@ -182,8 +182,8 @@ export default function HomePage() {
           <div className="max-w-2xl mb-14">
             <span className="eyebrow mb-3 block">Why Men Join</span>
             <h2 id="why-heading" className="heading-lg text-stone-900 mb-5">
-              Men don&apos;t join<br className="hidden sm:block" /> for the history.<br />
-              They stay for<br className="hidden sm:block" /> the brotherhood.
+              Men join for the history.<br />
+              They stay for the brotherhood.
             </h2>
             <p className="text-stone-500 text-lg leading-relaxed">
               Freemasonry attracts men who want more — more purpose, more connection,
