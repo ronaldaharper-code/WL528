@@ -385,6 +385,21 @@ export default function HomePage() {
             different careers, different beliefs — united by shared values and a genuine
             desire to do good in the world.
           </p>
+
+          {/* Three Tenets */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12 max-w-3xl mx-auto">
+            {[
+              { tenet: 'Brotherly Love', body: 'Respect and kindness toward all mankind — treating every person with care and compassion.' },
+              { tenet: 'Relief', body: 'Charitable giving and aid to those in need — brothers, families, and the wider community.' },
+              { tenet: 'Truth', body: 'A lifelong commitment to honesty, integrity, and the pursuit of moral and spiritual knowledge.' },
+            ].map(({ tenet, body }) => (
+              <div key={tenet} className="rounded-xl border border-white/10 bg-white/5 px-6 py-7 text-left">
+                <p className="font-serif text-gold-400 font-semibold text-lg mb-2">{tenet}</p>
+                <p className="text-stone-400 text-sm leading-relaxed">{body}</p>
+              </div>
+            ))}
+          </div>
+
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link href="/about-freemasonry" className="btn btn-gold btn-lg">
               Learn About Freemasonry
