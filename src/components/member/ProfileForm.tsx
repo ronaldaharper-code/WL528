@@ -5,10 +5,20 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
+function formatPhone(raw: string): string {
+  const digits = raw.replace(/\D/g, '').slice(0, 10)
+  if (digits.length <= 3) return digits
+  if (digits.length <= 6) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`
+  return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`
+}
+
 const schema = z.object({
   name: z.string().min(2),
   displayName: z.string().optional(),
-  phone: z.string().optional(),
+  phone: z.string().optional().refine(
+    val => !val || val.replace(/\D/g, '').length === 10,
+    { message: 'Phone must be 10 digits' }
+  ),
   bio: z.string().max(500).optional(),
   title: z.string().optional(),
   joinedLodge: z.string().optional(),
@@ -34,12 +44,12 @@ interface Props {
 export function ProfileForm({ user }: Props) {
   const [status, setStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
       name: user.name ?? '',
       displayName: user.displayName ?? '',
-      phone: user.phone ?? '',
+      phone: user.phone ? formatPhone(user.phone) : '',
       bio: user.bio ?? '',
       title: user.title ?? '',
       joinedLodge: user.joinedLodge ?? '',
@@ -90,7 +100,15 @@ export function ProfileForm({ user }: Props) {
 
       <div>
         <label htmlFor="profile-phone" className="form-label">Phone (members-only)</label>
-        <input id="profile-phone" type="tel" {...register('phone')} className="form-input" />
+        <input
+          id="profile-phone"
+          type="tel"
+          {...register('phone')}
+          onChange={(e) => setValue('phone', formatPhone(e.target.value), { shouldValidate: true })}
+          className="form-input"
+          placeholder="(555) 555-5555"
+        />
+        {errors.phone && <p className="form-error">Enter a valid 10-digit phone number</p>}
       </div>
 
       <div>
