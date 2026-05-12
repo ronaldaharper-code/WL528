@@ -27,6 +27,11 @@ export default function SignInClient() {
                 Request Access
               </Link>
             </p>
+            <p className="text-stone-500 text-sm">
+              <Link href="/auth/forgot-password" className="text-navy-700 hover:text-navy-900 underline">
+                Forgot your password?
+              </Link>
+            </p>
             <p className="text-stone-400 text-xs">
               Need help?{' '}
               <a

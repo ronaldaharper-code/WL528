@@ -5,8 +5,25 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 const FROM    = 'Walled Lake Lodge #528 <onboarding@resend.dev>'
 const LODGE   = 'walledlakemasons528@gmail.com'
 
-export async function sendEmail({ subject, html }: { subject: string; html: string }) {
-  return resend.emails.send({ from: FROM, to: LODGE, subject, html })
+export async function sendEmail({ subject, html, to }: { subject: string; html: string; to?: string }) {
+  return resend.emails.send({ from: FROM, to: to ?? LODGE, subject, html })
+}
+
+export function passwordResetHtml(name: string, resetUrl: string) {
+  return `
+<div style="font-family:sans-serif;max-width:520px;margin:0 auto;color:#1c1917">
+  <h2 style="color:#1e3a5f">Reset Your Password — Walled Lake Lodge #528</h2>
+  <p>Hi ${name},</p>
+  <p>A password reset was requested for your member portal account. Click the button below to set a new password. This link expires in <strong>24 hours</strong>.</p>
+  <p style="margin:28px 0">
+    <a href="${resetUrl}" style="background:#1e3a5f;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:600;display:inline-block">
+      Reset My Password
+    </a>
+  </p>
+  <p style="color:#78716c;font-size:13px">If you did not request this reset, you can safely ignore this email — your password will not change.</p>
+  <p style="color:#78716c;font-size:13px">Or copy this link into your browser:<br>${resetUrl}</p>
+</div>
+`
 }
 
 export function newMemberSignupHtml(name: string, email: string) {

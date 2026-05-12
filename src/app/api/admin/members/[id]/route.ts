@@ -50,3 +50,22 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 
   return NextResponse.json({ user: { id: user.id, approved: user.approved, role: user.role } })
 }
+
+export async function DELETE(_req: NextRequest, { params }: Params) {
+  const session = await requireAdmin()
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+  const { id } = await params
+
+  if (id === session.user.id) {
+    return NextResponse.json({ error: 'You cannot remove your own account' }, { status: 400 })
+  }
+
+  await prisma.user.delete({ where: { id } })
+
+  await prisma.auditLog.create({
+    data: { actorId: session.user.id, action: 'MEMBER_DELETED', target: id },
+  })
+
+  return NextResponse.json({ ok: true })
+}
