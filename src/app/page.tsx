@@ -70,7 +70,7 @@ const WHY_JOIN = [
 // ─── What We Actually Do ──────────────────────────────────────────────────────
 const WHAT_WE_DO = [
   {
-    title: 'Fellowship & Dinners',
+    title: 'Fellowship',
     body: 'Monthly gatherings where friendships become brotherhood. Good food, real conversation, and the kind of connection that actually sticks.',
     image: '/lodge-fellowship.jpg',
     imageAlt: 'Lodge members enjoying a community gathering',
@@ -163,6 +163,9 @@ export default function HomePage() {
             <div className="flex flex-col sm:flex-row gap-3">
               <Link href="/about-freemasonry" className="btn btn-gold btn-lg text-center">
                 Curious About Masonry?
+              </Link>
+              <Link href="/how-to-join" className="btn btn-primary btn-lg text-center">
+                How to Join
               </Link>
               <Link href="/contact" className="btn btn-outline btn-lg text-center">
                 Visit the Lodge
