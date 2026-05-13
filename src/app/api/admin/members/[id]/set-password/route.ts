@@ -22,7 +22,7 @@ function tempPasswordEmailHtml(name: string, email: string, password: string) {
     <tr><td><strong>Temporary Password:</strong></td><td style="font-family:monospace;font-size:16px">${password}</td></tr>
   </table>
   <p>
-    <a href="https://wl-528.vercel.app/auth/signin" style="background:#1e3a5f;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:600;display:inline-block">
+    <a href="https://www.walledlakemasons.org/auth/signin" style="background:#1e3a5f;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:600;display:inline-block">
       Sign In Now
     </a>
   </p>

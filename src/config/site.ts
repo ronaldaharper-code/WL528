@@ -10,7 +10,7 @@ export const siteConfig = {
   description:
     'Walled Lake Lodge #528 Free and Accepted Masons — serving Oakland County, Michigan since 1924.',
   url:
-    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.walledlakemasons.com',
+    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.walledlakemasons.org',
 
   // ── Physical Location ────────────────────────────────────────────────────
   address: {
