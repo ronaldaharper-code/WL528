@@ -110,7 +110,7 @@ export default async function MemberVolunteerEventPage({ params }: Props) {
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 flex-wrap mb-1">
                               <span className="font-medium text-stone-800 text-sm">
-                                {format(new Date(shift.date + 'T00:00:00'), 'EEEE, MMMM d')}
+                                {format(new Date(shift.date.getUTCFullYear(), shift.date.getUTCMonth(), shift.date.getUTCDate()), 'EEEE, MMMM d')}
                               </span>
                               {shiftTime && (
                                 <span className="text-stone-400 text-xs">{shiftTime}</span>
@@ -173,7 +173,7 @@ export default async function MemberVolunteerEventPage({ params }: Props) {
                   <li key={sh.id} className="text-green-700 text-sm flex items-center gap-2">
                     <span aria-hidden="true">✓</span>
                     <span>
-                      {role.name} — {format(new Date(sh.date + 'T00:00:00'), 'EEE, MMM d')}
+                      {role.name} — {format(new Date(sh.date.getUTCFullYear(), sh.date.getUTCMonth(), sh.date.getUTCDate()), 'EEE, MMM d')}
                       {sh.shiftStart ? ` · ${[sh.shiftStart, sh.shiftEnd].filter(Boolean).join(' – ')}` : ''}
                     </span>
                   </li>
