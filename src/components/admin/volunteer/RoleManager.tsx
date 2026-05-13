@@ -354,7 +354,7 @@ export function RoleManager({ eventId, initialRoles }: Props) {
                             return (
                               <tr key={shift.id} className="hover:bg-stone-50">
                                 <td className="px-3 py-2 text-stone-700 font-medium whitespace-nowrap">
-                                  {format(new Date(shift.date), 'EEE, MMM d')}
+                                  {format(new Date(shift.date + 'T00:00:00'), 'EEE, MMM d')}
                                 </td>
                                 <td className="px-3 py-2 text-stone-500 whitespace-nowrap">
                                   {shift.shiftStart && shift.shiftEnd
