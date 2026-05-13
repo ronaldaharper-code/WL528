@@ -2,7 +2,7 @@ import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
-const FROM    = 'Walled Lake Lodge #528 <onboarding@resend.dev>'
+const FROM    = 'Walled Lake Lodge #528 <noreply@walledlakemasons.org>'
 const LODGE   = 'walledlakemasons528@gmail.com'
 
 export async function sendEmail({ subject, html, to }: { subject: string; html: string; to?: string }) {
