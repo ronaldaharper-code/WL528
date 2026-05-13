@@ -13,9 +13,10 @@ interface Props {
 export function AdminMemberActions({ memberId, approved, role }: Props) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
-  const [resetUrl, setResetUrl] = useState<string | null>(null)
-  const [emailOk, setEmailOk] = useState<boolean | null>(null)
   const [confirmRemove, setConfirmRemove] = useState(false)
+  const [showPasswordForm, setShowPasswordForm] = useState(false)
+  const [tempPassword, setTempPassword] = useState('')
+  const [passwordResult, setPasswordResult] = useState<{ emailOk: boolean; password: string } | null>(null)
 
   const patch = async (payload: object) => {
     setLoading(true)
@@ -28,13 +29,19 @@ export function AdminMemberActions({ memberId, approved, role }: Props) {
     router.refresh()
   }
 
-  const sendReset = async () => {
+  const setPassword = async (e: { preventDefault(): void }) => {
+    e.preventDefault()
+    if (!tempPassword) return
     setLoading(true)
-    const res = await fetch(`/api/admin/members/${memberId}/reset-password`, { method: 'POST' })
+    const res = await fetch(`/api/admin/members/${memberId}/set-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: tempPassword }),
+    })
     const data = await res.json().catch(() => ({}))
     setLoading(false)
-    setEmailOk(data.emailOk ?? false)
-    setResetUrl(data.resetUrl ?? null)
+    setPasswordResult({ emailOk: data.emailOk ?? false, password: tempPassword })
+    setTempPassword('')
   }
 
   const removeMember = async () => {
@@ -68,26 +75,60 @@ export function AdminMemberActions({ memberId, approved, role }: Props) {
     )
   }
 
-  if (resetUrl) {
+  if (passwordResult) {
     return (
-      <div className="space-y-2">
-        <p className={`text-xs font-medium ${emailOk ? 'text-green-700' : 'text-amber-700'}`}>
-          {emailOk ? 'Reset email sent.' : 'Email delivery failed — share this link manually:'}
+      <div className="space-y-1.5">
+        <p className={`text-xs font-medium ${passwordResult.emailOk ? 'text-green-700' : 'text-amber-700'}`}>
+          {passwordResult.emailOk
+            ? 'Password set and email sent to member.'
+            : 'Password set — email failed. Share this password manually:'}
         </p>
-        <input
-          readOnly
-          value={resetUrl}
-          onClick={(e) => (e.target as HTMLInputElement).select()}
-          className="text-xs border border-stone-300 rounded px-2 py-1 w-full font-mono bg-stone-50"
-        />
+        {!passwordResult.emailOk && (
+          <input
+            readOnly
+            value={passwordResult.password}
+            onClick={(e) => (e.target as HTMLInputElement).select()}
+            className="text-xs border border-stone-300 rounded px-2 py-1 w-full font-mono bg-stone-50"
+          />
+        )}
         <button
           type="button"
-          onClick={() => { setResetUrl(null); setEmailOk(null) }}
+          onClick={() => { setPasswordResult(null); setShowPasswordForm(false) }}
           className="text-xs text-stone-500 hover:underline"
         >
           Done
         </button>
       </div>
+    )
+  }
+
+  if (showPasswordForm) {
+    return (
+      <form onSubmit={setPassword} className="flex flex-wrap items-center gap-2">
+        <input
+          type="text"
+          value={tempPassword}
+          onChange={(e) => setTempPassword(e.target.value)}
+          placeholder="Temporary password"
+          minLength={6}
+          required
+          className="text-xs border border-stone-300 rounded px-2 py-1 w-36 focus:outline-none focus:ring-1 focus:ring-navy-400"
+        />
+        <button
+          type="submit"
+          disabled={loading || !tempPassword}
+          className="text-xs bg-navy-700 text-white rounded px-3 py-1 hover:bg-navy-800"
+        >
+          {loading ? 'Saving…' : 'Set & Email'}
+        </button>
+        <button
+          type="button"
+          onClick={() => { setShowPasswordForm(false); setTempPassword('') }}
+          className="text-xs text-stone-500 hover:underline"
+        >
+          Cancel
+        </button>
+      </form>
     )
   }
 
@@ -123,14 +164,13 @@ export function AdminMemberActions({ memberId, approved, role }: Props) {
           Remove Admin
         </button>
       )}
-      {approved && !resetUrl && (
+      {approved && (
         <button
           type="button"
-          disabled={loading}
-          onClick={sendReset}
+          onClick={() => setShowPasswordForm(true)}
           className="text-xs border border-navy-300 text-navy-700 rounded px-3 py-1 hover:bg-navy-50"
         >
-          {loading ? 'Generating…' : 'Send Password Reset'}
+          Set Password
         </button>
       )}
       <button

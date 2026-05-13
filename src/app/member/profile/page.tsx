@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { ProfileForm } from '@/components/member/ProfileForm'
+import { ChangePasswordForm } from '@/components/member/ChangePasswordForm'
 
 export const metadata: Metadata = {
   title: 'My Profile',
@@ -42,6 +43,16 @@ export default async function ProfilePage() {
       <div className="bg-white rounded-lg border border-stone-200 shadow-sm p-6">
         <ProfileForm user={user} />
       </div>
+
+      <section>
+        <h2 className="font-serif text-lg font-bold text-navy-900 mb-1">Change Password</h2>
+        <p className="text-stone-500 text-sm mb-4">
+          Update your sign-in password. You&apos;ll need to enter your current password to confirm.
+        </p>
+        <div className="bg-white rounded-lg border border-stone-200 shadow-sm p-6">
+          <ChangePasswordForm />
+        </div>
+      </section>
     </div>
   )
 }
