@@ -13,7 +13,8 @@ interface Props {
 export function AdminMemberActions({ memberId, approved, role }: Props) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
-  const [resetSent, setResetSent] = useState(false)
+  const [resetUrl, setResetUrl] = useState<string | null>(null)
+  const [emailOk, setEmailOk] = useState<boolean | null>(null)
   const [confirmRemove, setConfirmRemove] = useState(false)
 
   const patch = async (payload: object) => {
@@ -29,10 +30,11 @@ export function AdminMemberActions({ memberId, approved, role }: Props) {
 
   const sendReset = async () => {
     setLoading(true)
-    await fetch(`/api/admin/members/${memberId}/reset-password`, { method: 'POST' })
+    const res = await fetch(`/api/admin/members/${memberId}/reset-password`, { method: 'POST' })
+    const data = await res.json().catch(() => ({}))
     setLoading(false)
-    setResetSent(true)
-    setTimeout(() => setResetSent(false), 4000)
+    setEmailOk(data.emailOk ?? false)
+    setResetUrl(data.resetUrl ?? null)
   }
 
   const removeMember = async () => {
@@ -61,6 +63,29 @@ export function AdminMemberActions({ memberId, approved, role }: Props) {
           className="text-xs border border-stone-300 text-stone-600 rounded px-3 py-1 hover:bg-stone-100"
         >
           Cancel
+        </button>
+      </div>
+    )
+  }
+
+  if (resetUrl) {
+    return (
+      <div className="space-y-2">
+        <p className={`text-xs font-medium ${emailOk ? 'text-green-700' : 'text-amber-700'}`}>
+          {emailOk ? 'Reset email sent.' : 'Email delivery failed — share this link manually:'}
+        </p>
+        <input
+          readOnly
+          value={resetUrl}
+          onClick={(e) => (e.target as HTMLInputElement).select()}
+          className="text-xs border border-stone-300 rounded px-2 py-1 w-full font-mono bg-stone-50"
+        />
+        <button
+          type="button"
+          onClick={() => { setResetUrl(null); setEmailOk(null) }}
+          className="text-xs text-stone-500 hover:underline"
+        >
+          Done
         </button>
       </div>
     )
@@ -98,14 +123,14 @@ export function AdminMemberActions({ memberId, approved, role }: Props) {
           Remove Admin
         </button>
       )}
-      {approved && (
+      {approved && !resetUrl && (
         <button
           type="button"
-          disabled={loading || resetSent}
+          disabled={loading}
           onClick={sendReset}
           className="text-xs border border-navy-300 text-navy-700 rounded px-3 py-1 hover:bg-navy-50"
         >
-          {resetSent ? 'Reset Sent ✓' : 'Send Password Reset'}
+          {loading ? 'Generating…' : 'Send Password Reset'}
         </button>
       )}
       <button

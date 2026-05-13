@@ -29,15 +29,21 @@ export async function POST(_req: NextRequest, { params }: Params) {
 
   const resetUrl = `${siteConfig.url}/auth/reset-password?token=${token}`
 
-  await sendEmail({
-    to: user.email,
-    subject: 'Reset your Walled Lake Lodge password',
-    html: passwordResetHtml(user.name ?? 'Member', resetUrl),
-  }).catch(() => {})
+  let emailOk = false
+  try {
+    await sendEmail({
+      to: user.email,
+      subject: 'Reset your Walled Lake Lodge password',
+      html: passwordResetHtml(user.name ?? 'Member', resetUrl),
+    })
+    emailOk = true
+  } catch {
+    // email delivery failed — admin can share resetUrl manually
+  }
 
   await prisma.auditLog.create({
     data: { actorId: session.user.id, action: 'PASSWORD_RESET_SENT', target: id },
   })
 
-  return NextResponse.json({ ok: true })
+  return NextResponse.json({ ok: true, emailOk, resetUrl })
 }
