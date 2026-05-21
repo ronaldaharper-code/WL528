@@ -13,6 +13,7 @@ const NAV_LINKS = [
   { label: 'Events',            href: '/events' },
   { label: 'Photo Gallery',     href: '/gallery' },
   { label: 'Hall Rental',       href: '/hall-rental' },
+  { label: 'Merchandise',        href: '/merchandise' },
   { label: 'Contact',           href: '/contact' },
 ]
 
