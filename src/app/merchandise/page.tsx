@@ -168,50 +168,37 @@ export default function MerchandisePage() {
         />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-500/50 to-transparent" aria-hidden="true" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-14">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
 
-            {/* Text */}
+            {/* Badge + Title */}
             <div>
-              <div className="inline-flex items-center gap-2 mb-6 px-3 py-1 rounded-full border border-gold-600/30 bg-gold-500/8">
+              <div className="inline-flex items-center gap-2 mb-4 px-3 py-1 rounded-full border border-gold-600/30 bg-gold-500/8">
                 <span className="w-1.5 h-1.5 rounded-full bg-gold-400" aria-hidden="true" />
                 <span className="text-gold-300 text-[11px] font-bold uppercase tracking-[0.2em]">Est. 1924</span>
               </div>
 
-              <h1 className="font-serif leading-[0.95] mb-6">
-                <span className="block text-5xl sm:text-6xl lg:text-7xl font-bold text-white">WL528</span>
-                <span className="block text-5xl sm:text-6xl lg:text-7xl font-bold text-gold-400">Heritage</span>
-                <span className="block text-5xl sm:text-6xl lg:text-7xl font-bold text-white">Collection</span>
+              <h1 className="font-serif leading-none">
+                <span className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white">WL528 </span>
+                <span className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gold-400">Heritage </span>
+                <span className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white">Collection</span>
               </h1>
+            </div>
 
-              <p className="text-stone-300 text-lg leading-relaxed mb-4 max-w-md">
+            {/* Tagline + location */}
+            <div className="sm:text-right shrink-0">
+              <p className="text-stone-300 text-base leading-relaxed mb-2 max-w-xs sm:ml-auto">
                 Apparel and merchandise inspired by the history, brotherhood, and community of Walled Lake Masonic Lodge #528.
               </p>
-
-              <p className="text-gold-400/80 text-base font-medium italic mb-8">
+              <p className="text-gold-400/80 text-sm font-medium italic mb-3">
                 Wear the tradition. Share the story.
               </p>
-
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 sm:justify-end">
                 <div className="h-px w-8 bg-gold-600/50" aria-hidden="true" />
                 <span className="text-stone-600 text-[11px] font-bold uppercase tracking-[0.2em]">Walled Lake, Michigan</span>
               </div>
             </div>
 
-            {/* Hero image */}
-            <div className="flex justify-center lg:justify-end">
-              <div className="relative w-80 h-80 sm:w-[440px] sm:h-[440px]">
-                <div className="absolute inset-0 rounded-full bg-gold-500/5 blur-3xl" aria-hidden="true" />
-                <Image
-                  src={FEATURED.image}
-                  alt="WL528 Heritage Hoodie — Est. 1924"
-                  fill
-                  className="object-contain drop-shadow-2xl"
-                  priority
-                  sizes="(max-width: 640px) 320px, 440px"
-                />
-              </div>
-            </div>
           </div>
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-600/25 to-transparent" aria-hidden="true" />
