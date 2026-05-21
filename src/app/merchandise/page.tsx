@@ -66,6 +66,14 @@ const COMMUNITY_COLLECTION = [
     tags: ['Community & Event'],
     price: '$22.99',
   },
+  {
+    id: 'magnet',
+    title: 'Vintage Lodge Magnet',
+    description: 'A vintage-style die-cut magnet featuring the historic Walled Lake Masonic Lodge building. Perfect for anywhere you want to rep WL528 pride.',
+    image: '/merch/imagemagnet.png',      // swap: vintage lodge magnet
+    tags: ['Accessories'],
+    price: '$18.00',
+  },
 ]
 
 const PREMIUM_COLLECTION = [
