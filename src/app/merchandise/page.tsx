@@ -29,7 +29,7 @@ const IDENTITY_COLLECTION = [
     description: 'A bold acronym design built around the principles of Brotherhood, Respect, Obligation, Tradition, Honor, Enlightenment, and Responsibility.',
     image: '/merch/imagebrohoodT2.png',   // swap: BROTHER acronym tee
     tags: ['Identity Series'],
-    price: '$24.99',
+    price: '$39.99',
   },
   {
     id: 'logo-hat',
