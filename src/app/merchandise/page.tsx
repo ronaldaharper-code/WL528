@@ -281,7 +281,7 @@ export default function MerchandisePage() {
       <section className="py-16 lg:py-20" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionLabel label="Community & Event" />
-          <div className="grid sm:grid-cols-2 gap-5 max-w-3xl mx-auto">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {COMMUNITY_COLLECTION.map(p => <ProductCard key={p.id} {...p} />)}
           </div>
         </div>
