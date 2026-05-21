@@ -27,7 +27,7 @@ const IDENTITY_COLLECTION = [
     id: 'brother-tee',
     title: 'B.R.O.T.H.E.R. Identity Tee',
     description: 'A bold acronym design built around the principles of Brotherhood, Respect, Obligation, Tradition, Honor, Enlightenment, and Responsibility.',
-    image: '/merch/imagebrohoodT2.png',   // swap: BROTHER acronym tee
+    image: '/merch/imagebrotherT.png',    // swap: BROTHER acronym tee
     tags: ['Identity Series'],
     price: '$39.99',
   },
@@ -43,7 +43,7 @@ const IDENTITY_COLLECTION = [
     id: 'brotherhood-tee',
     title: 'Brotherhood Tee',
     description: 'A clean modern identity shirt centered on the word Brotherhood, designed for members, supporters, and anyone who values strong community.',
-    image: '/merch/imagebrotherT.png',    // swap: Brotherhood script tee
+    image: '/merch/imagebrohoodT2.png',   // swap: Brotherhood script tee
     tags: ['Identity Series'],
     price: '$34.99',
   },
