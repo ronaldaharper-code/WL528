@@ -18,7 +18,7 @@ const FEATURED = {
   tags: ['Heritage Series', 'Limited Run', 'Local Pride'],
   description:
     'A vintage-inspired hoodie featuring the historic Walled Lake Masonic Lodge artwork with an aged, sepia-toned design and Est. 1924 detail. Built to feel like local heritage apparel, not generic lodge merch.',
-  image: '/merch/imagehoody.png',         // swap: heritage hoodie mockup
+  image: '/merch/imagehoody2.png',        // swap: heritage hoodie
   price: '$49.99',
 }
 
@@ -27,7 +27,7 @@ const IDENTITY_COLLECTION = [
     id: 'brother-tee',
     title: 'B.R.O.T.H.E.R. Identity Tee',
     description: 'A bold acronym design built around the principles of Brotherhood, Respect, Obligation, Tradition, Honor, Enlightenment, and Responsibility.',
-    image: '/merch/imagetshirt.png',       // swap: BROTHER acronym tee
+    image: '/merch/imagebrohoodT2.png',   // swap: BROTHER acronym tee
     tags: ['Identity Series'],
     price: '$24.99',
   },
@@ -35,15 +35,15 @@ const IDENTITY_COLLECTION = [
     id: 'logo-hat',
     title: 'Minimal Logo Hat',
     description: 'A simple everyday hat featuring the Walled Lake Masons #528 crest. Clean, wearable, and built for visibility without shouting.',
-    image: '/merch/imagehat.png',          // swap: trucker hat mockup
+    image: '/merch/imagehat2.png',        // swap: trucker hat
     tags: ['Everyday Wear'],
     price: '$24.99',
   },
   {
     id: 'brotherhood-tee',
-    title: 'Brotherhood Identity Tee',
+    title: 'Brotherhood Tee',
     description: 'A clean modern identity shirt centered on the word Brotherhood, designed for members, supporters, and anyone who values strong community.',
-    image: '/merch/imagebrotherhood.png',  // swap: Brotherhood script tee
+    image: '/merch/imagebrotherT.png',    // swap: Brotherhood script tee
     tags: ['Identity Series'],
     price: '$22.99',
   },
@@ -54,7 +54,7 @@ const COMMUNITY_COLLECTION = [
     id: 'dragged-tee',
     title: '"I Was Dragged Here By A Mason"',
     description: 'A little humor. A lot of truth. The perfect shirt for the wives, kids, and friends who show up anyway — and end up loving it.',
-    image: '/merch/imagedragged.png',      // swap: "I Was Dragged Here" tee
+    image: '/merch/imageMemT2.png',       // swap: "I Was Dragged Here" tee
     tags: ['Community & Event'],
     price: '$22.99',
   },
@@ -62,16 +62,8 @@ const COMMUNITY_COLLECTION = [
     id: 'father-tee',
     title: '"My Father Is A Mason"',
     description: 'A bold tribute tee for the sons and daughters proud to carry the legacy. Wear it with honor.',
-    image: '/merch/imagefather.png',       // swap: "My Father Is A Mason" tee
+    image: '/merch/imagefatherT2.png',    // swap: "My Father Is A Mason" tee
     tags: ['Community & Event'],
-    price: '$22.99',
-  },
-  {
-    id: 'memorial-tee',
-    title: 'Memorial Day Open House Tee',
-    description: 'A lighthearted event shirt created for the Memorial Day Open House. Designed to make the lodge feel approachable, active, and fun.',
-    image: '/merch/imagememorial.png',     // swap: memorial day tee mockup
-    tags: ['Event Series'],
     price: '$22.99',
   },
 ]
@@ -81,28 +73,20 @@ const PREMIUM_COLLECTION = [
     id: 'quarter-zip',
     title: 'Embroidered Quarter-Zip',
     description: 'A polished navy quarter-zip with the Walled Lake Masons #528 crest embroidered on the chest. Professional enough for lodge events, casual enough for everyday wear.',
-    image: '/merch/imagequarterzip.png',   // swap: quarter-zip mockup
+    image: '/merch/imageQuarter2.png',    // swap: quarter-zip
     tags: ['Premium Collection'],
     price: '$49.99',
   },
-  {
-    id: 'brotherhood-alt',
-    title: 'Brotherhood Tee — Block Edition',
-    description: 'A bold, clean take on the Brotherhood identity. Block lettering, gold accents, built to wear anywhere you want to rep the lodge.',
-    image: '/merch/imagebrohood1.png',     // swap: Brotherhood block tee
-    tags: ['Premium Collection'],
-    price: '$22.99',
-  },
 ]
 
-// ── Section divider ───────────────────────────────────────────────────────────
+// ── Section label ─────────────────────────────────────────────────────────────
 
 function SectionLabel({ label }: { label: string }) {
   return (
     <div className="flex items-center justify-center gap-4 mb-10">
-      <div className="h-px flex-1 max-w-24 bg-gradient-to-r from-transparent to-gold-600/60" aria-hidden="true" />
-      <span className="text-gold-400 text-xs font-bold uppercase tracking-[0.2em]">{label}</span>
-      <div className="h-px flex-1 max-w-24 bg-gradient-to-l from-transparent to-gold-600/60" aria-hidden="true" />
+      <div className="h-px flex-1 bg-gradient-to-r from-transparent to-gold-600/50" aria-hidden="true" />
+      <span className="text-gold-400 text-[11px] font-bold uppercase tracking-[0.25em] whitespace-nowrap">{label}</span>
+      <div className="h-px flex-1 bg-gradient-to-l from-transparent to-gold-600/50" aria-hidden="true" />
     </div>
   )
 }
@@ -123,10 +107,12 @@ function ProductCard({
   price: string
 }) {
   return (
-    <div className="rounded-xl overflow-hidden border border-white/8 flex flex-col group"
-      style={{ background: 'linear-gradient(to bottom, #151c2e, #0f1520)' }}>
-      {/* Image area — light background so product photos show clearly */}
-      <div className="relative bg-stone-100 aspect-square overflow-hidden">
+    <div
+      className="rounded-xl overflow-hidden border border-white/8 flex flex-col group transition-transform duration-300 hover:-translate-y-1"
+      style={{ background: '#111827' }}
+    >
+      {/* Dark image area — products have dark/transparent backgrounds */}
+      <div className="relative aspect-square overflow-hidden" style={{ background: '#0d1520' }}>
         <Image
           src={image}
           alt={title}
@@ -136,21 +122,21 @@ function ProductCard({
         />
       </div>
       {/* Text area */}
-      <div className="p-5 flex flex-col flex-1 border-t border-white/8">
+      <div className="p-5 flex flex-col flex-1 border-t border-white/6">
         {tags && tags.length > 0 && (
           <div className="flex flex-wrap gap-1.5 mb-2">
             {tags.map(tag => (
-              <span key={tag} className="text-[10px] font-bold uppercase tracking-wider text-gold-400/70">
+              <span key={tag} className="text-[10px] font-bold uppercase tracking-wider text-gold-500/70">
                 {tag}
               </span>
             ))}
           </div>
         )}
         <h3 className="font-serif text-base font-bold text-stone-100 mb-2 leading-snug">{title}</h3>
-        <p className="text-stone-400 text-sm leading-relaxed flex-1">{description}</p>
-        <div className="mt-4 flex items-center justify-between">
+        <p className="text-stone-500 text-sm leading-relaxed flex-1">{description}</p>
+        <div className="mt-4 flex items-center justify-between pt-4 border-t border-white/6">
           <span className="text-gold-400 font-bold text-lg">{price}</span>
-          <span className="text-xs font-semibold text-stone-500 border border-stone-700 rounded-full px-3 py-1">
+          <span className="text-[11px] font-semibold text-stone-600 border border-stone-700 rounded-full px-3 py-1 uppercase tracking-wider">
             Coming Soon
           </span>
         </div>
@@ -163,27 +149,28 @@ function ProductCard({
 
 export default function MerchandisePage() {
   return (
-    <div style={{ background: '#0c1018' }}>
+    <div style={{ background: '#0c1018', minHeight: '100vh' }}>
 
       {/* ── Hero ────────────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #080c14 0%, #0f1825 50%, #080c14 100%)' }}>
-        {/* Subtle dot texture */}
-        <div className="absolute inset-0 opacity-[0.04]"
-          style={{ backgroundImage: 'radial-gradient(circle, #c9891f 1px, transparent 1px)', backgroundSize: '28px 28px' }}
+      <section className="relative overflow-hidden" style={{ background: 'linear-gradient(160deg, #080c14 0%, #0d1825 60%, #080c14 100%)' }}>
+        <div
+          className="absolute inset-0 opacity-[0.035]"
+          style={{ backgroundImage: 'radial-gradient(circle, #c9891f 1px, transparent 1px)', backgroundSize: '30px 30px' }}
           aria-hidden="true"
         />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-500/60 to-transparent" aria-hidden="true" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-500/50 to-transparent" aria-hidden="true" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
 
+            {/* Text */}
             <div>
               <div className="inline-flex items-center gap-2 mb-6 px-3 py-1 rounded-full border border-gold-600/30 bg-gold-500/8">
                 <span className="w-1.5 h-1.5 rounded-full bg-gold-400" aria-hidden="true" />
                 <span className="text-gold-300 text-[11px] font-bold uppercase tracking-[0.2em]">Est. 1924</span>
               </div>
 
-              <h1 className="font-serif leading-none mb-5">
+              <h1 className="font-serif leading-[0.95] mb-6">
                 <span className="block text-5xl sm:text-6xl lg:text-7xl font-bold text-white">WL528</span>
                 <span className="block text-5xl sm:text-6xl lg:text-7xl font-bold text-gold-400">Heritage</span>
                 <span className="block text-5xl sm:text-6xl lg:text-7xl font-bold text-white">Collection</span>
@@ -199,28 +186,27 @@ export default function MerchandisePage() {
 
               <div className="flex items-center gap-3">
                 <div className="h-px w-8 bg-gold-600/50" aria-hidden="true" />
-                <span className="text-stone-500 text-[11px] font-bold uppercase tracking-[0.2em]">Walled Lake, Michigan</span>
+                <span className="text-stone-600 text-[11px] font-bold uppercase tracking-[0.2em]">Walled Lake, Michigan</span>
               </div>
             </div>
 
             {/* Hero image */}
             <div className="flex justify-center lg:justify-end">
-              <div className="relative w-80 h-80 sm:w-[420px] sm:h-[420px]">
-                <div className="absolute inset-0 rounded-full bg-gold-500/5 blur-3xl scale-75" aria-hidden="true" />
+              <div className="relative w-80 h-80 sm:w-[440px] sm:h-[440px]">
+                <div className="absolute inset-0 rounded-full bg-gold-500/5 blur-3xl" aria-hidden="true" />
                 <Image
                   src={FEATURED.image}
                   alt="WL528 Heritage Hoodie — Est. 1924"
                   fill
                   className="object-contain drop-shadow-2xl"
                   priority
-                  sizes="(max-width: 640px) 320px, 420px"
+                  sizes="(max-width: 640px) 320px, 440px"
                 />
               </div>
             </div>
           </div>
         </div>
-
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-600/30 to-transparent" aria-hidden="true" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-600/25 to-transparent" aria-hidden="true" />
       </section>
 
       {/* ── Heritage Collection (featured) ──────────────────────────────────── */}
@@ -228,12 +214,17 @@ export default function MerchandisePage() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionLabel label="Heritage Collection" />
 
-          <div className="rounded-2xl overflow-hidden border border-white/8"
-            style={{ background: 'linear-gradient(to right, #111827, #0f1520)' }}>
+          <div
+            className="rounded-2xl overflow-hidden border border-white/8"
+            style={{ background: '#111827' }}
+          >
             <div className="grid md:grid-cols-2">
 
-              {/* Image */}
-              <div className="relative bg-stone-100 min-h-72 aspect-square md:aspect-auto">
+              {/* Image panel */}
+              <div className="relative min-h-80 aspect-square md:aspect-auto" style={{ background: '#0d1520' }}>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="absolute w-64 h-64 rounded-full bg-gold-500/5 blur-3xl" aria-hidden="true" />
+                </div>
                 <Image
                   src={FEATURED.image}
                   alt={`${FEATURED.title} — ${FEATURED.subtitle}`}
@@ -252,27 +243,24 @@ export default function MerchandisePage() {
                     </span>
                   ))}
                 </div>
-
                 <h2 className="font-serif text-3xl font-bold text-white mb-1">{FEATURED.title}</h2>
-                <p className="text-gold-400 font-bold text-sm uppercase tracking-widest mb-5">{FEATURED.subtitle}</p>
+                <p className="text-gold-500 font-bold text-sm uppercase tracking-widest mb-5">{FEATURED.subtitle}</p>
                 <p className="text-stone-400 leading-relaxed mb-8">{FEATURED.description}</p>
-
                 <div className="flex items-center gap-6">
                   <span className="text-gold-400 font-bold text-2xl">{FEATURED.price}</span>
-                  <span className="text-sm font-semibold text-stone-500 border border-stone-700 rounded-full px-4 py-2">
+                  <span className="text-sm font-semibold text-stone-600 border border-stone-700 rounded-full px-4 py-2 uppercase tracking-wider text-[11px]">
                     Coming Soon
                   </span>
                 </div>
-                <p className="text-stone-600 text-xs mt-3">Online ordering coming soon — see the interest form below.</p>
+                <p className="text-stone-700 text-xs mt-3">Online ordering coming soon — see the interest form below.</p>
               </div>
-
             </div>
           </div>
         </div>
       </section>
 
       {/* ── Identity Collection ──────────────────────────────────────────────── */}
-      <section className="py-16 lg:py-20 border-t border-white/5">
+      <section className="py-16 lg:py-20" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionLabel label="Identity Collection" />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -282,31 +270,31 @@ export default function MerchandisePage() {
       </section>
 
       {/* ── Community & Event ────────────────────────────────────────────────── */}
-      <section className="py-16 lg:py-20 border-t border-white/5">
+      <section className="py-16 lg:py-20" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionLabel label="Community & Event" />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid sm:grid-cols-2 gap-5 max-w-3xl mx-auto">
             {COMMUNITY_COLLECTION.map(p => <ProductCard key={p.id} {...p} />)}
           </div>
         </div>
       </section>
 
       {/* ── Premium Collection ───────────────────────────────────────────────── */}
-      <section className="py-16 lg:py-20 border-t border-white/5">
+      <section className="py-16 lg:py-20" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionLabel label="Premium Collection" />
-          <div className="grid sm:grid-cols-2 gap-5 max-w-3xl mx-auto">
+          <div className="max-w-sm mx-auto">
             {PREMIUM_COLLECTION.map(p => <ProductCard key={p.id} {...p} />)}
           </div>
         </div>
       </section>
 
       {/* ── More Than Merchandise ────────────────────────────────────────────── */}
-      <section className="py-16 lg:py-20 border-t border-white/5">
+      <section className="py-16 lg:py-20" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center gap-2 mb-6 px-3 py-1 rounded-full border border-gold-600/30 bg-gold-500/8">
+          <div className="inline-flex items-center gap-2 mb-6 px-3 py-1 rounded-full border border-gold-600/30">
             <span className="w-1.5 h-1.5 rounded-full bg-gold-400" aria-hidden="true" />
-            <span className="text-gold-300 text-[11px] font-bold uppercase tracking-[0.2em]">WL528</span>
+            <span className="text-gold-400 text-[11px] font-bold uppercase tracking-[0.2em]">WL528</span>
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white mb-6">More Than Merchandise</h2>
           <p className="text-stone-400 text-lg leading-relaxed">
@@ -316,7 +304,7 @@ export default function MerchandisePage() {
       </section>
 
       {/* ── Interest CTA ─────────────────────────────────────────────────────── */}
-      <section className="py-16 lg:py-20 border-t border-white/5">
+      <section className="py-16 lg:py-20" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-serif text-2xl sm:text-3xl font-bold text-white mb-4">
             Interested in WL528 merchandise?
@@ -334,16 +322,14 @@ export default function MerchandisePage() {
       </section>
 
       {/* ── Footer strip ─────────────────────────────────────────────────────── */}
-      <div className="border-t border-white/8 py-8">
+      <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }} className="py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-center sm:text-left">
-            <p className="text-stone-300 font-bold text-sm uppercase tracking-widest">
-              Brotherhood. Charity. Integrity.
-            </p>
-            <p className="text-stone-500 text-xs mt-1">Building Better Men. Building a Better Community.</p>
+            <p className="text-stone-400 font-bold text-sm uppercase tracking-widest">Brotherhood. Charity. Integrity.</p>
+            <p className="text-stone-600 text-xs mt-1">Building Better Men. Building a Better Community.</p>
           </div>
-          <div className="flex items-center gap-2 text-stone-500">
-            <span className="text-gold-600 text-lg" aria-hidden="true">⊕</span>
+          <div className="flex items-center gap-2 text-stone-600">
+            <span className="text-gold-700 text-lg" aria-hidden="true">⊕</span>
             <span className="text-xs font-semibold uppercase tracking-widest">Est. 1924</span>
           </div>
         </div>
