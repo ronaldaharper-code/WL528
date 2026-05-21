@@ -7,14 +7,14 @@ import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 
 const NAV_LINKS = [
-  { label: 'About Freemasonry', href: '/about-freemasonry' },
-  { label: 'About the Lodge',   href: '/about-lodge' },
-  { label: 'How To Join',       href: '/how-to-join' },
-  { label: 'Events',            href: '/events' },
-  { label: 'Photo Gallery',     href: '/gallery' },
-  { label: 'Hall Rental',       href: '/hall-rental' },
-  { label: 'Merchandise',        href: '/merchandise' },
-  { label: 'Contact',           href: '/contact' },
+  { label: 'About Freemasonry', href: '/about-freemasonry',  highlight: false },
+  { label: 'About the Lodge',   href: '/about-lodge',        highlight: false },
+  { label: 'How To Join',       href: '/how-to-join',        highlight: false },
+  { label: 'Events',            href: '/events',             highlight: false },
+  { label: 'Photo Gallery',     href: '/gallery',            highlight: false },
+  { label: 'Hall Rental',       href: '/hall-rental',        highlight: false },
+  { label: 'Merchandise',       href: '/merchandise',        highlight: true  },
+  { label: 'Contact',           href: '/contact',            highlight: false },
 ]
 
 export function Header() {
@@ -72,9 +72,11 @@ export function Header() {
                 aria-current={isActive(link.href) ? 'page' : undefined}
                 className={`
                   px-3 py-2 rounded-lg text-sm font-medium transition-all duration-150
-                  ${isActive(link.href)
-                    ? 'text-white bg-white/10'
-                    : 'text-stone-300 hover:text-white hover:bg-white/8'
+                  ${link.highlight
+                    ? 'text-gold-300 border border-gold-600/50 bg-gold-500/10 hover:bg-gold-500/20 hover:text-gold-200'
+                    : isActive(link.href)
+                      ? 'text-white bg-white/10'
+                      : 'text-stone-300 hover:text-white hover:bg-white/8'
                   }
                 `}
               >
@@ -150,9 +152,11 @@ export function Header() {
                 aria-current={isActive(link.href) ? 'page' : undefined}
                 className={`
                   block px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-150
-                  ${isActive(link.href)
-                    ? 'bg-white/10 text-white'
-                    : 'text-stone-300 hover:text-white hover:bg-white/8'
+                  ${link.highlight
+                    ? 'text-gold-300 border border-gold-600/40 bg-gold-500/10'
+                    : isActive(link.href)
+                      ? 'bg-white/10 text-white'
+                      : 'text-stone-300 hover:text-white hover:bg-white/8'
                   }
                 `}
               >
