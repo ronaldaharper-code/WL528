@@ -19,7 +19,7 @@ const FEATURED = {
   description:
     'A vintage-inspired hoodie featuring the historic Walled Lake Masonic Lodge artwork with an aged, sepia-toned design and Est. 1924 detail. Built to feel like local heritage apparel, not generic lodge merch.',
   image: '/merch/imagehoody2.png',        // swap: heritage hoodie
-  price: '$49.99',
+  price: '$67.99',
 }
 
 const IDENTITY_COLLECTION = [
@@ -37,7 +37,7 @@ const IDENTITY_COLLECTION = [
     description: 'A simple everyday hat featuring the Walled Lake Masons #528 crest. Clean, wearable, and built for visibility without shouting.',
     image: '/merch/imagehat2.png',        // swap: trucker hat
     tags: ['Everyday Wear'],
-    price: '$24.99',
+    price: '$34.99',
   },
   {
     id: 'brotherhood-tee',
@@ -45,7 +45,7 @@ const IDENTITY_COLLECTION = [
     description: 'A clean modern identity shirt centered on the word Brotherhood, designed for members, supporters, and anyone who values strong community.',
     image: '/merch/imagebrotherT.png',    // swap: Brotherhood script tee
     tags: ['Identity Series'],
-    price: '$22.99',
+    price: '$34.99',
   },
 ]
 
@@ -56,7 +56,7 @@ const COMMUNITY_COLLECTION = [
     description: 'A little humor. A lot of truth. The perfect shirt for the wives, kids, and friends who show up anyway — and end up loving it.',
     image: '/merch/imageMemT2.png',       // swap: "I Was Dragged Here" tee
     tags: ['Community & Event'],
-    price: '$22.99',
+    price: '$34.99',
   },
   {
     id: 'father-tee',
@@ -64,7 +64,7 @@ const COMMUNITY_COLLECTION = [
     description: 'A bold tribute tee for the sons and daughters proud to carry the legacy. Wear it with honor.',
     image: '/merch/imagefatherT2.png',    // swap: "My Father Is A Mason" tee
     tags: ['Community & Event'],
-    price: '$22.99',
+    price: '$34.99',
   },
   {
     id: 'magnet',
@@ -83,7 +83,7 @@ const PREMIUM_COLLECTION = [
     description: 'A polished navy quarter-zip with the Walled Lake Masons #528 crest embroidered on the chest. Professional enough for lodge events, casual enough for everyday wear.',
     image: '/merch/imageQuarter2.png',    // swap: quarter-zip
     tags: ['Premium Collection'],
-    price: '$49.99',
+    price: '$74.99',
   },
 ]
 
