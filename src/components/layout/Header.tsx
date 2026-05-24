@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useSession, signOut } from 'next-auth/react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 
 const NAV_LINKS = [
@@ -19,7 +19,12 @@ const NAV_LINKS = [
 export function Header() {
   const { data: session } = useSession()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [showMerchandise, setShowMerchandise] = useState(false)
   const pathname = usePathname()
+
+  useEffect(() => {
+    setShowMerchandise(!window.location.hostname.includes('walledlakemasons.org'))
+  }, [])
 
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/')
 
@@ -114,14 +119,16 @@ export function Header() {
                 Member Login
               </Link>
             )}
-            <Link
-              href="/merchandise"
-              className="px-3 py-2 rounded-lg text-sm font-semibold border border-gold-600/50
-                         text-gold-300 bg-gold-500/10 hover:bg-gold-500/20 hover:text-gold-200
-                         transition-all duration-150"
-            >
-              Merchandise
-            </Link>
+            {showMerchandise && (
+              <Link
+                href="/merchandise"
+                className="px-3 py-2 rounded-lg text-sm font-semibold border border-gold-600/50
+                           text-gold-300 bg-gold-500/10 hover:bg-gold-500/20 hover:text-gold-200
+                           transition-all duration-150"
+              >
+                Merchandise
+              </Link>
+            )}
           </div>
 
           {/* ── Mobile Hamburger ───────────────────────────────────────────── */}
@@ -193,13 +200,15 @@ export function Header() {
                   Member Login
                 </Link>
               )}
-              <Link
-                href="/merchandise"
-                onClick={() => setMobileOpen(false)}
-                className="block px-4 py-2.5 rounded-xl text-sm font-semibold text-gold-300 border border-gold-600/40 bg-gold-500/10"
-              >
-                Merchandise
-              </Link>
+              {showMerchandise && (
+                <Link
+                  href="/merchandise"
+                  onClick={() => setMobileOpen(false)}
+                  className="block px-4 py-2.5 rounded-xl text-sm font-semibold text-gold-300 border border-gold-600/40 bg-gold-500/10"
+                >
+                  Merchandise
+                </Link>
+              )}
             </div>
           </nav>
         </div>
