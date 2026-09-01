@@ -50,12 +50,12 @@ export default async function MemberDirectoryPage() {
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-10 h-10 rounded-full bg-navy-800 flex items-center justify-center flex-shrink-0">
                   <span className="text-gold-400 font-serif font-bold text-sm">
-                    {(member.displayName ?? member.name ?? '?')[0].toUpperCase()}
+                    {(member.displayName || member.name || '?')[0].toUpperCase()}
                   </span>
                 </div>
                 <div>
                   <p className="font-semibold text-navy-800 text-sm">
-                    {member.displayName ?? member.name}
+                    {member.displayName || member.name}
                   </p>
                   {member.title && (
                     <p className="text-gold-600 text-xs font-medium">{member.title}</p>
