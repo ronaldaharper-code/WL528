@@ -224,18 +224,26 @@ Or PATCH `/api/admin/members/{id}` to approve and set role to ADMIN.
 
 ## Content Management
 
-All content is managed in **Sanity Studio** (no coding required):
+**Actual current state:** Announcements, Documents, Photo Gallery, Volunteer Events, and
+Members are all managed through the app's own `/admin` panel, backed directly by
+Prisma/Postgres — not Sanity. This is true even though Sanity is installed and scaffolded
+(see `sanity/schemas/`) — it's just not wired into any page's data-fetching. Don't assume
+content lives in Sanity without checking; grep for `from '@/lib/sanity'` to see what (if
+anything) actually calls it before relying on Sanity docs elsewhere in this file.
 
-| Content Type | Description |
+| Content Type | Managed via |
 |---|---|
-| Pages | Static page content |
-| Events | Public & member-only events |
-| Announcements | Member-only announcements |
-| Lodge Documents | PDFs, minutes, bylaws |
-| Photo Galleries | Image galleries |
-| Hall Rental | Hall rental page content |
-| Navigation | Header nav items |
-| Footer | Footer contact info, social links |
+| Announcements | `/admin/announcements` → Prisma (`Announcement` model) |
+| Lodge Documents | `/admin/documents` → Prisma (`LodgeDocument` model) + Vercel Blob storage |
+| Photo Galleries | `/admin/gallery` → Prisma + Vercel Blob storage |
+| Volunteer Events | `/admin/volunteer` → Prisma |
+| Members | `/admin/members` → Prisma (`User` model) |
+| Comment Moderation | `/admin/moderation` → Prisma (`Comment` model) |
+| Static page copy (About, How to Join, etc.) | Hardcoded JSX in `src/app/**/page.tsx` — edit the file directly |
+| Site-wide branding (name, address, contact, socials) | `src/config/site.ts` — single source of truth, see below |
+
+Sanity remains available if you want to migrate static page content to a real CMS later,
+but as of this writing it's dead weight in the dependency tree.
 
 ---
 
@@ -279,9 +287,9 @@ Create a file at `src/app/your-page/page.tsx`. Export a `metadata` object for SE
 
 ### Adding Content Types
 
-1. Create a schema file in `sanity/schemas/`
-2. Register it in `sanity/schemas/index.ts`
-3. Add a GROQ query in `src/lib/sanity.ts`
+New content types (in practice, as of this writing) are added the same way Announcements/
+Documents/Gallery were: a Prisma model + an `/admin` CRUD page + a public-facing read
+route, not via Sanity — see "Content Management" above.
 
 ### Updating Member Portal
 
@@ -294,6 +302,64 @@ Protected routes go in `src/app/member/`. They are guarded by the layout at
 npm run db:migrate    # Create and apply migration
 npm run db:generate   # Regenerate Prisma client
 ```
+
+---
+
+## Reusing This as a Template for a Different Organization
+
+This codebase was built for a Masonic lodge, but the underlying architecture — auth with
+admin-approval, role-based member portal, event calendar, volunteer signup, document
+library, announcements, donations — is generic enough to fit most membership-based
+communities (a church, a club, a nonprofit chapter). If you're forking this for a
+different organization, here's what's actually organization-specific vs. what's reusable
+as-is.
+
+### Set up independent infrastructure first
+
+Before changing any code: create a **separate** GitHub repo, a **separate** Neon (or
+other Postgres) database, and a **separate** Vercel project. Nothing here should share
+infrastructure with the original lodge site — different `DATABASE_URL`, different
+`AUTH_SECRET`, different Vercel Blob store, different domain. Sharing any of these would
+mix the two organizations' data or let a deploy of one affect the other.
+
+### Start here: `src/config/site.ts`
+
+This file is already labeled the single source of truth for branding — name, tagline,
+address, contact emails, social links, established year. Update it first; a large amount
+of the site (header, footer, structured data, metadata) pulls from it automatically.
+
+### Masonic-specific things that need attention
+
+- **`prisma/schema.prisma` — `User` model**: `eaDate`, `fcDate`, `mmDate` are Masonic
+  degree dates (Entered Apprentice / Fellowcraft / Master Mason). `title` and
+  `joinedLodge` are generically named but comment-documented as lodge-specific. Rename,
+  repurpose, or drop these depending on what the new organization tracks about its
+  members — but changing the schema means running `npm run db:migrate` and updating every
+  place these fields are read/written (profile form, directory page, admin member view).
+- **Static pages with Masonic content**: `src/app/about-freemasonry/`,
+  `src/app/how-to-join/`, and `src/app/links/` (Masonic links) are lodge-specific and
+  will need to be rewritten or removed. `src/app/about-lodge/` is a reasonable "About Us"
+  page shape but the copy is lodge-specific.
+- **The "no recruiting" content rule**: The `README`'s Masonic Principle section below,
+  and the actual copy on `how-to-join`, enforce "educate, don't recruit" — a Masonic
+  norm, not a general one. A church almost certainly wants active invitations/CTAs, the
+  opposite instinct from what this code currently does.
+- **Images and logo**: everything in `/public` (lodge photos, crest/logo, merchandise
+  designs) needs replacing.
+- **`NEXT_PUBLIC_GA_MEASUREMENT_ID`**: needs its own GA4 property, not the lodge's.
+- **Pages that are probably reusable as-is (content only, not structure)**: `events/`,
+  `hall-rental/` (→ "facility rental" for a church), `donate/`, `contact/`,
+  `merchandise/`, and the entire `member/` and `admin/` portal.
+
+### First deploy checklist
+
+1. New GitHub repo, new Vercel project, new Neon database.
+2. Copy `.env.example` → `.env.local`, fill in the new organization's values.
+3. `npm run db:push` (or `db:migrate` if you've changed the schema) against the new database.
+4. `SEED_ADMIN_EMAIL=... SEED_ADMIN_PASSWORD=... npm run db:seed` to create the first admin.
+5. Update `src/config/site.ts`.
+6. Work through the Masonic-specific items above.
+7. Deploy, then re-run the seed (or use the `/admin/members` PATCH route) against production to bootstrap the production admin account — the local seed only touches your local/dev database.
 
 ---
 
