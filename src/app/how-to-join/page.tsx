@@ -45,7 +45,7 @@ const REQUIREMENTS = [
   'You must believe in a Supreme Being (no specific religion required)',
   'You must be of good moral character',
   'You must petition of your own free will — without persuasion or coercion',
-  'You must be a resident of Michigan for a minimum of 12 months and have a meaningful connection to the area',
+  'You must be a resident of Michigan for a minimum of 12 months and have a meaningful connection to the area',
 ]
 
 export default function HowToJoinPage() {
