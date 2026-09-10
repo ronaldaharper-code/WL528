@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { requireAdmin } from '@/lib/auth'
-import { format } from 'date-fns'
+import { formatCalendarDate } from '@/lib/utils'
 
 interface Params { params: Promise<{ id: string }> }
 
@@ -39,7 +39,7 @@ export async function GET(_req: NextRequest, { params }: Params) {
   for (const role of event.roles) {
     for (const shift of role.shifts) {
       const open      = Math.max(0, shift.slotsNeeded - shift.signups.length)
-      const dateStr   = format(new Date(shift.date), 'EEE MMM d yyyy')
+      const dateStr   = formatCalendarDate(shift.date, 'EEE MMM d yyyy')
       const shiftTime = [shift.shiftStart, shift.shiftEnd].filter(Boolean).join(' - ')
 
       if (shift.signups.length === 0) {

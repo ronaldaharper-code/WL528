@@ -1,8 +1,7 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { prisma } from '@/lib/prisma'
-import { formatDate } from '@/lib/utils'
-import { format } from 'date-fns'
+import { formatCalendarDate } from '@/lib/utils'
 import { RoleManager } from '@/components/admin/volunteer/RoleManager'
 import { DeleteButton } from '@/components/admin/DeleteButton'
 
@@ -41,8 +40,8 @@ export default async function AdminVolunteerEventPage({ params }: Props) {
   const totalSignups = allShifts.reduce((s, sh) => s + sh.signups.length, 0)
   const gapShifts    = allShifts.filter(sh => sh.signups.length < sh.slotsNeeded)
   const dateRange    = event.endDate
-    ? `${formatDate(event.startDate)} – ${formatDate(event.endDate)}`
-    : formatDate(event.startDate)
+    ? `${formatCalendarDate(event.startDate)} – ${formatCalendarDate(event.endDate)}`
+    : formatCalendarDate(event.startDate)
 
   return (
     <div className="space-y-8 max-w-4xl">
@@ -106,7 +105,7 @@ export default async function AdminVolunteerEventPage({ params }: Props) {
             {gapShifts.map(sh => {
               const role = event.roles.find(r => r.shifts.some(s => s.id === sh.id))
               const shiftLabel = [
-                format(new Date(sh.date), 'EEE, MMM d'),
+                formatCalendarDate(sh.date, 'EEE, MMM d'),
                 sh.shiftStart && sh.shiftEnd ? `${sh.shiftStart} – ${sh.shiftEnd}` : sh.shiftStart,
               ].filter(Boolean).join(' · ')
               return (
@@ -158,7 +157,7 @@ export default async function AdminVolunteerEventPage({ params }: Props) {
                     shift.signups.map(signup => (
                       <tr key={signup.id} className="hover:bg-stone-50">
                         <td className="px-4 py-3 font-medium text-navy-800">{role.name}</td>
-                        <td className="px-4 py-3 text-stone-600">{format(new Date(shift.date), 'EEE, MMM d')}</td>
+                        <td className="px-4 py-3 text-stone-600">{formatCalendarDate(shift.date, 'EEE, MMM d')}</td>
                         <td className="px-4 py-3 text-stone-500">
                           {shift.shiftStart && shift.shiftEnd
                             ? `${shift.shiftStart} – ${shift.shiftEnd}`

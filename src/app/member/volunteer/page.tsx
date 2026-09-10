@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { prisma } from '@/lib/prisma'
 import { auth } from '@/lib/auth'
-import { formatDate } from '@/lib/utils'
+import { formatCalendarDate } from '@/lib/utils'
 import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
@@ -54,8 +54,8 @@ export default async function MemberVolunteerPage() {
             const open         = totalSlots - totalSignups
             const mySignups    = allShifts.reduce((s, sh) => s + sh.signups.length, 0)
             const dateRange    = event.endDate
-              ? `${formatDate(event.startDate)} – ${formatDate(event.endDate)}`
-              : formatDate(event.startDate)
+              ? `${formatCalendarDate(event.startDate)} – ${formatCalendarDate(event.endDate)}`
+              : formatCalendarDate(event.startDate)
 
             return (
               <Link
