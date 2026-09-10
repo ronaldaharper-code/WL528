@@ -32,7 +32,7 @@ const LINK_GROUPS = [
   {
     category: 'Local Community',
     links: [
-      { label: 'City of Walled Lake', url: 'https://www.walledlake.org/', description: 'Official website of the City of Walled Lake, Michigan.' },
+      { label: 'City of Walled Lake', url: 'https://walledlake.us/', description: 'Official website of the City of Walled Lake, Michigan.' },
       { label: 'Commerce Township', url: 'https://www.commercetwp.com/', description: 'Commerce Charter Township, Oakland County.' },
     ],
   },
