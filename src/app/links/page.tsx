@@ -17,6 +17,9 @@ const LINK_GROUPS = [
   {
     category: 'Masonic Bodies & Appendant Orders',
     links: [
+      { label: 'Scottish Rite — Valley of Detroit', url: 'https://valleyofmichigan.org/', description: 'The Ancient Accepted Scottish Rite, Southern Jurisdiction.' },
+      { label: 'York Rite — Michigan Grand Council', url: 'http://www.rsm-mi.org/wp/', description: 'Royal and Select Masters of Michigan.' },
+      { label: 'Order of the Eastern Star — Michigan', url: 'https://www.mioes.org/', description: 'A Masonic-affiliated organization for men and women.' },
       { label: 'Shriners International', url: 'https://www.shrinersinternational.org/', description: 'Shriners Hospitals for Children and fraternal fellowship.' },
     ],
   },
