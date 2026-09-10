@@ -17,9 +17,6 @@ const LINK_GROUPS = [
   {
     category: 'Masonic Bodies & Appendant Orders',
     links: [
-      { label: 'Scottish Rite — Valley of Detroit', url: 'https://www.scottishrite-detroit.org/', description: 'The Ancient Accepted Scottish Rite, Southern Jurisdiction.' },
-      { label: 'York Rite — Michigan Grand Council', url: 'https://www.migrandcouncil.com/', description: 'Royal and Select Masters of Michigan.' },
-      { label: 'Order of the Eastern Star — Michigan', url: 'https://www.michiganoes.com/', description: 'A Masonic-affiliated organization for men and women.' },
       { label: 'Shriners International', url: 'https://www.shrinersinternational.org/', description: 'Shriners Hospitals for Children and fraternal fellowship.' },
     ],
   },
@@ -27,7 +24,6 @@ const LINK_GROUPS = [
     category: 'Masonic Education',
     links: [
       { label: 'Masonic Restoration Foundation', url: 'https://www.masonicrestorationfoundation.org/', description: 'Dedicated to the traditional practice of Freemasonry.' },
-      { label: 'The Midnight Freemasons', url: 'https://www.midnightfreemasons.org/', description: 'Masonic education, articles, and commentary.' },
     ],
   },
   {
