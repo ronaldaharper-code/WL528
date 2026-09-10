@@ -24,12 +24,6 @@ const LINK_GROUPS = [
     ],
   },
   {
-    category: 'Masonic Education',
-    links: [
-      { label: 'Masonic Restoration Foundation', url: 'https://www.masonicrestorationfoundation.org/', description: 'Dedicated to the traditional practice of Freemasonry.' },
-    ],
-  },
-  {
     category: 'Local Community',
     links: [
       { label: 'City of Walled Lake', url: 'https://walledlake.us/', description: 'Official website of the City of Walled Lake, Michigan.' },
